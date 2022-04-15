@@ -6,6 +6,18 @@ Aptly named because barnacles don't do a lot, are rough around the edges, and wi
 A similar GitHub project exists, [barnacle-rust](https://github.com/psysrc/barnacle-rust), which is intended to become an implementation of **barnacle** written in Rust.
 The Python implementation of **barnacle** is intended mostly for experimentation.
 
+## Build
+
+Run `pip install .` to build and install the `barnacle` Python module.
+
+## Usage
+
+Run `python barnacle <script> [<optional args>]` to run the Barnacle interpreter on the specified Barnacle script.
+
+Optional arguments:
+- `-l <level>` or `--log-level <level>`: Sets the interpreter [logging level](https://docs.python.org/3/library/logging.html#logging-levels) (default is `INFO`)
+- `--log-file <file>`: Redirects logs to the specified file instead of standard out
+
 ## Future Development Roadmap
 - v0.1: Tokenizer experimentation
 - v0.2: Parser experimentation
