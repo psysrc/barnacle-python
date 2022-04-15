@@ -3,7 +3,7 @@ An experimental interpreted programming language written in Python.
 
 Aptly named because barnacles don't do a lot, are rough around the edges, and will cause you pain if you work with them too much.
 
-A similar GitHub project exists, [barnacle-rust](), which is intended to become an implementation of **barnacle** written in Rust.
+A similar GitHub project exists, [barnacle-rust](https://github.com/psysrc/barnacle-rust), which is intended to become an implementation of **barnacle** written in Rust.
 The Python implementation of **barnacle** is intended mostly for experimentation.
 
 ## Future Development Roadmap
