@@ -1,5 +1,8 @@
+from hello import hello_world
+
+
 def main():
-    print("Hello World")
+    hello_world.hello()
 
 
 if __name__ == "__main__":
