@@ -1,3 +1,13 @@
 123 "Hello World"
 
 "Hi"
+
+/* This is a comment block
+It shouldn't matter what I put here
+Until the comment block ends */
+
+// Single-line comment
+
+// Comment with /* embedded block comment */
+
+"Hello"

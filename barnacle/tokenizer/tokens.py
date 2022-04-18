@@ -5,6 +5,12 @@ TOKEN_REGEXPS = {
     # Whitespace (ignore)
     "^\s": None,
 
+    # Block comments (ignore)
+    "^/\*(.|\n)*?\*/": None,
+
+    # Single-line comments (ignore)
+    "^//.*": None,
+
     # Integers
     "^[0-9]+": "INTEGER",
 
