@@ -2,6 +2,7 @@ TOKEN_REGEXPS = {
     # Key-value pairs represent a token regex and its corresponding token type
     # A token type of None means the pseudo-token should be ignored (e.g. whitespace or comments)
 
+    # ==================== Ignore ====================
     # Whitespace (ignore)
     "^\s": None,
 
@@ -11,9 +12,25 @@ TOKEN_REGEXPS = {
     # Single-line comments (ignore)
     "^//.*": None,
 
-    # Integers
-    "^[0-9]+": "INTEGER",
+    # ==================== Literals ====================
+    # Number literals
+    "^[0-9]+(\.[0-9]+)?": "NUMBER",
 
-    # Strings
+    # String literals
     "^\"[^\"]*\"": "STRING",
+
+    # ==================== Keywords ====================
+    # Keyword "LET"
+    "^LET ": "LET",
+
+    # Keyword "PRINT"
+    "^PRINT ": "PRINT",
+
+    # ==================== Operators ====================
+    # Assignment Operator
+    "^=": "ASSIGN_OP",
+
+    # ==================== Identifiers ====================
+    # Identifiers (function names, variables, classes, etc)
+    "^[a-z][a-z0-9_]+": "IDENTIFIER",
 }

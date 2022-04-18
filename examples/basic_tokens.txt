@@ -11,3 +11,10 @@ Until the comment block ends */
 // Comment with /* embedded block comment */
 
 "Hello"
+
+123.456213 9876 132.2455432 0.0 3
+
+LET my_var = 6
+LET hello = "Hello World"
+
+PRINT hello
