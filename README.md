@@ -25,5 +25,4 @@ Optional arguments:
 - v???: ???
 
 ## Special Thanks
-Thanks to Dmitry Soshnikov for his [YouTube playlist](https://www.youtube.com/playlist?list=PLGNbPb3dQJ_6aPNnlBvXGyNMlDtNTqN5I)
-on Parsing Algorithms!
+Thanks to [Dmitry Soshnikov](https://www.youtube.com/c/DmitrySoshnikov-education) for his YouTube videos on parsing!

@@ -1,5 +1,7 @@
 import logging
 
+from tokenizer import tokenizer as tkn
+
 
 def run(filename: str):
     """Runs the Barnacle interpreter on the specified file."""
@@ -10,8 +12,15 @@ def run(filename: str):
         logging.info(f"Running script '{filename}'")
         print(f"+++ BARNACLE RUN '{filename}' +++")
 
-        for line in script.readlines():
-            print(line)
+        source = script.read()
+        tokenizer = tkn.Tokenizer(source)
+
+        while True:
+            token = tokenizer.next_token()
+            if token is None:
+                break
+
+            print(token)
 
         print(f"--- BARNACLE END '{filename}' ---")
 
