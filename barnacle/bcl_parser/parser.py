@@ -12,7 +12,7 @@ class Parser:
     Performs syntactic analysis of the tokenized source code to produce an Abstract Syntax Tree (AST).
     The AST can then be interpreted by the Barnacle Interpreter class.
     """
-    
+
     def __init__(self, source):
         self.source = source
         self.tokenizer = tkn.Tokenizer(source)

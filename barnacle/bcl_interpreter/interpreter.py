@@ -11,7 +11,7 @@ class Interpreter:
     """
     The Barnacle Interpreter.
     """
-    
+
     def __init__(self):
         pass
 
