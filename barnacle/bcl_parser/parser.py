@@ -2,7 +2,6 @@
 parser.py: Implements the Parser class.
 """
 
-import string
 from bcl_tokenizer import tokenizer as tkn
 
 
@@ -90,7 +89,7 @@ class Parser:
             "type": "string_literal",
             "value": string[1:-1],  # Strip start and end quote characters
         }
-    
+
     def __node_numeric_literal(self) -> dict:
         number_str = self.__consume_token("NUMBER")["value"]
 
