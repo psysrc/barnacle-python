@@ -58,6 +58,7 @@ class Parser:
 
         A code block consists of zero or more `statement` nodes.
         """
+
         statements = []
 
         while self.token_lookahead is not None:
@@ -71,9 +72,13 @@ class Parser:
 
         A statement can be one of:
         -   a `print` node
+        -   a `var_declaration` node
         """
 
-        return self.__node_print()
+        if self.token_lookahead["type"] == "PRINT":
+            return self.__node_print()
+        elif self.token_lookahead["type"] == "LET":
+            return self.__node_var_declaration()
 
     def __node_print(self) -> dict:
         """
@@ -122,3 +127,35 @@ class Parser:
             "type": "numeric_literal",
             "value": number,
         }
+
+    def __node_var_declaration(self) -> dict:
+        """
+        Variable Declaration node: Represents a variable declaration and assignment.
+
+        A variable declaration consists of the token stream `LET IDENTIFIER ASSIGN_OP` and an `expression` node.
+        """
+
+        self.__consume_token("LET")
+        identifier = self.__consume_token("IDENTIFIER")["value"]
+        self.__consume_token("ASSIGN_OP")
+        expression = self.__node_expression()
+
+        return {
+            "type": "var_declaration",
+            "identifier": identifier,
+            "value": expression,
+        }
+
+    def __node_expression(self) -> dict:
+        """
+        Expression node: Represents an expression whose value can be calculated.
+        
+        An expression can be either:
+        -   a `numeric_literal` node
+        -   a `string_literal` node
+        """
+
+        if self.token_lookahead["type"] == "STRING":
+            return self.__node_string_literal()
+        elif self.token_lookahead["type"] == "NUMBER":
+            return self.__node_numeric_literal()
