@@ -1,8 +1,5 @@
 """
 tokenizer.py: Implements the Tokenizer class.
-
-The Tokenizer is responsible for the lexical analysis of the source code.
-It will produce a stream of tokens which can then undergo syntactic analysis.
 """
 
 import re
@@ -11,6 +8,13 @@ from . import tokens
 
 
 class Tokenizer:
+    """
+    The Barnacle Tokenizer.
+
+    Performs lexical analysis of the source code to produce a stream of tokens.
+    The tokens can then be parsed by the Barnacle Parser class.
+    """
+
     def __init__(self, source: str):
         self.source = source
         logging.debug("Tokenizer initialised")

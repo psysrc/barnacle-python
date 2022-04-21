@@ -1,6 +1,10 @@
+"""
+main.py: The entry point for the Barnacle command line interpreter.
+"""
+
 import logging
 import argparse
-from interpreter import interpreter
+from bcl_interpreter import interpreter as itp
 
 
 def main():
@@ -17,6 +21,7 @@ def main():
 
     logging.basicConfig(format="%(asctime)s|%(message)s", filename=args.log_file, level=args.log_level)
 
+    interpreter = itp.Interpreter()
     interpreter.run(args.script)
 
 
