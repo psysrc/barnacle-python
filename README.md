@@ -18,8 +18,10 @@ Optional arguments:
 - `-l <level>` or `--log-level <level>`: Sets the interpreter [logging level](https://docs.python.org/3/library/logging.html#logging-levels) (default is `INFO`)
 - `--log-file <file>`: Redirects logs to the specified file instead of standard out
 
-## Future Development Roadmap
+## Release History
 - v0.1: Tokenizer experimentation
+
+## Future Development Roadmap
 - v0.2: Parser experimentation
 - v0.3: Interpreter experimentation
 - v???: ???
