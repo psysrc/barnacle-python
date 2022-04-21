@@ -3,6 +3,7 @@ interpreter.py: Implements the Interpreter class.
 """
 
 import logging
+import json
 
 from bcl_parser import parser as prs
 
@@ -28,7 +29,7 @@ class Interpreter:
         print(f"+++ BARNACLE RUN '{filename}' +++")
 
         parser = prs.Parser(source)
-        parser.parse()
+        print(json.dumps(parser.parse(), indent=4))
 
         print(f"--- BARNACLE END '{filename}' ---")
         logging.info(f"Finished interpreting script")
