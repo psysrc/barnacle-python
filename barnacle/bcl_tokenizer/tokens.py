@@ -21,10 +21,10 @@ TOKEN_REGEXPS = {
 
     # ==================== Keywords ====================
     # Keyword "LET"
-    "^LET ": "LET",
+    "^let ": "LET",
 
     # Keyword "PRINT"
-    "^PRINT ": "PRINT",
+    "^print ": "PRINT",
 
     # ==================== Operators ====================
     # Assignment Operator

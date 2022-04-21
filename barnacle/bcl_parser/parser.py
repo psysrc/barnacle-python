@@ -79,7 +79,7 @@ class Parser:
         """
         Print node: Represents a basic print statement.
 
-        A print statement consists of the token stream `PRINT STRING`.
+        A print statement consists of the token `PRINT` and a `string_literal` node.
         """
 
         self.__consume_token("PRINT")
@@ -91,6 +91,12 @@ class Parser:
         }
 
     def __node_string_literal(self) -> dict:
+        """
+        String literal node: Represents a string literal.
+
+        A string literal consists of the token `STRING`.
+        """
+
         string = self.__consume_token("STRING")["value"]
 
         return {
@@ -99,6 +105,12 @@ class Parser:
         }
 
     def __node_numeric_literal(self) -> dict:
+        """
+        Numeric literal node: Represents a numeric literal.
+
+        A numeric literal consists of the token `NUMBER`.
+        """
+
         number_str = self.__consume_token("NUMBER")["value"]
 
         if "." in number_str:

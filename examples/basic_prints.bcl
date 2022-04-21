@@ -1,15 +1,15 @@
 /* This program prints a bunch of stuff */
 
 // E.g. this line prints the text "Hello World!"
-PRINT "Hello World!"
+print "Hello World!"
 
 // Print my name
-PRINT "My name is Sam!"
+print "My name is Sam!"
 
 
 
-PRINT "This is an example program that just prints stuff."
-PRINT "Not all that interesting, but does work! :)"
+print "This is an example program that just prints stuff."
+print "Not all that interesting, but does work! :)"
 
 // Quote Harry Potter
-PRINT "'Harry,' Dumbledore asked calmly, 'didyouputyournameinthegobletoffire?'"
+print "'Harry,' Dumbledore asked calmly, 'didyouputyournameinthegobletoffire?'"
