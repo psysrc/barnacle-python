@@ -44,18 +44,26 @@ class Parser:
         """
         Program node: Represents a Barnacle program.
 
-        A program consists of zero or more `statement` nodes.
+        A program consists of one `code block` node.
         """
 
+        return {
+            "type": "program",
+            "body": self.__node_code_block(),
+        }
+    
+    def __node_code_block(self) -> dict:
+        """
+        Code Block node: Represents a block of code.
+
+        A code block consists of zero or more `statement` nodes.
+        """
         statements = []
 
         while self.token_lookahead is not None:
             statements.append(self.__node_statement())
-
-        return {
-            "type": "program",
-            "statements": statements,
-        }
+        
+        return statements
 
     def __node_statement(self) -> dict:
         """
