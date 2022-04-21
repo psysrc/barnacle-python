@@ -74,10 +74,12 @@ class Parser:
         -   a `var_declaration` node
         """
 
-        if self.token_lookahead["type"] == "PRINT":
-            return self.__node_print()
-        elif self.token_lookahead["type"] == "LET":
-            return self.__node_var_declaration()
+        branches = {
+            "PRINT": self.__node_print,
+            "LET": self.__node_var_declaration,
+        }
+
+        return self.__construct_multibranch_node("statement", branches)
 
     def __node_print(self) -> dict:
         """
@@ -154,7 +156,30 @@ class Parser:
         -   a `string_literal` node
         """
 
-        if self.token_lookahead["type"] == "STRING":
-            return self.__node_string_literal()
-        elif self.token_lookahead["type"] == "NUMBER":
-            return self.__node_numeric_literal()
+        branches = {
+            "STRING": self.__node_string_literal,
+            "NUMBER": self.__node_numeric_literal,
+        }
+
+        return self.__construct_multibranch_node("expression", branches)
+
+    def __construct_multibranch_node(self, node_name: str, branches: dict) -> dict:
+        """
+        Constructs a multi-branch node.
+
+        If a node has two or more possible forms based on the lookahead token,
+        this method can help to construct its behaviour.
+
+        Parameters
+        ----------
+        `node_name` should be the name of the node being constructed.
+
+        `branches` should be a dictionary where the keys are token types and the value is a node function.
+        """
+
+        lookahead_type = self.token_lookahead["type"]
+
+        if lookahead_type in branches:
+            return branches[lookahead_type]()
+
+        raise SyntaxError(f"Unexpected token '{lookahead_type}' while parsing '{node_name}' node")
