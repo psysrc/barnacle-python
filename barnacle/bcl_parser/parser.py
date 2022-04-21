@@ -31,10 +31,9 @@ class Parser:
         if self.token_lookahead is None:
             raise SyntaxError(f"Unexpected end of program, expected '{expected_token}' token")
 
-        # TODO: Un-comment this block; it is important!
-        # if self.token_lookahead["type"] != expected_token:
-        #     actual_token_type = self.token_lookahead["type"]
-        #     raise RuntimeError(f"Unexpected token (expected '{expected_token}', got '{actual_token_type}')")
+        if self.token_lookahead["type"] != expected_token:
+            actual_token_type = self.token_lookahead["type"]
+            raise RuntimeError(f"Unexpected token (expected '{expected_token}', got '{actual_token_type}')")
 
         token = self.token_lookahead
         self.token_lookahead = self.tokenizer.next_token()
@@ -149,7 +148,7 @@ class Parser:
     def __node_expression(self) -> dict:
         """
         Expression node: Represents an expression whose value can be calculated.
-        
+
         An expression can be either:
         -   a `numeric_literal` node
         -   a `string_literal` node

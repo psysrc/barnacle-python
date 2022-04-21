@@ -9,7 +9,3 @@ print "My name is Sam!"
 let int_var = 5
 let float_var = 6.1
 let string_var = "Wow"
-
-print string_var
-
-print "That would be nice!"
