@@ -1,3 +1,10 @@
+/*  NOTE
+
+    This file does NOT contain valid Barnacle code.
+    It contains valid tokens only.
+    Therefore, you should not expect this file to be accepted by the Barnacle Parser.
+*/
+
 123 "Hello World"
 
 "Hi"

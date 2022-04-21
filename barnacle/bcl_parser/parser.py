@@ -2,6 +2,7 @@
 parser.py: Implements the Parser class.
 """
 
+import string
 from bcl_tokenizer import tokenizer as tkn
 
 
@@ -41,6 +42,12 @@ class Parser:
         return token
 
     def __node_program(self) -> dict:
+        """
+        Program node: Represents a Barnacle program.
+
+        A program consists of zero or more `statement` nodes.
+        """
+
         statements = []
 
         while self.token_lookahead is not None:
@@ -52,7 +59,47 @@ class Parser:
         }
 
     def __node_statement(self) -> dict:
+        """
+        Statement node: Represents a single executable statement.
+
+        A statement can be one of:
+        -   a `print` node
+        """
+
+        return self.__node_print()
+
+    def __node_print(self) -> dict:
+        """
+        Print node: Represents a basic print statement.
+
+        A print statement consists of the token stream `PRINT STRING`.
+        """
+
+        self.__consume_token("PRINT")
+        string_literal = self.__node_string_literal()
+
         return {
-            "type": "statement",
-            "body": self.__consume_token(None)["value"]
+            "type": "print",
+            "body": string_literal,
+        }
+
+    def __node_string_literal(self) -> dict:
+        string = self.__consume_token("STRING")["value"]
+
+        return {
+            "type": "string_literal",
+            "value": string[1:-1],  # Strip start and end quote characters
+        }
+    
+    def __node_numeric_literal(self) -> dict:
+        number_str = self.__consume_token("NUMBER")["value"]
+
+        if "." in number_str:
+            number = float(number_str)
+        else:
+            number = int(number_str)
+
+        return {
+            "type": "numeric_literal",
+            "value": number,
         }
