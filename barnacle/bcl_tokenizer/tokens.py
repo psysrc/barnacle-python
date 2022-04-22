@@ -20,11 +20,14 @@ TOKEN_REGEXPS = {
     "^\"[^\"]*\"": "STRING",
 
     # ==================== Keywords ====================
-    # Keyword "LET"
-    "^let ": "LET",
+    # Keyword "let"
+    "^let\s": "LET",
 
-    # Keyword "PRINT"
-    "^print ": "PRINT",
+    # Keyword "print"
+    "^print\s": "PRINT",
+
+    # Keyword "if"
+    "^if\s": "IF",
 
     # ==================== Operators ====================
     # Assignment Operator
@@ -33,4 +36,9 @@ TOKEN_REGEXPS = {
     # ==================== Identifiers ====================
     # Identifiers (function names, variables, classes, etc)
     "^[a-z][a-z0-9_]+": "IDENTIFIER",
+
+    # ==================== Miscellaneous ====================
+    # Code block delimiters
+    "^{": "START_CODE_BLOCK",
+    "^}": "END_CODE_BLOCK",
 }

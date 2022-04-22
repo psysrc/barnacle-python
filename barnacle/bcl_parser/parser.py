@@ -43,27 +43,40 @@ class Parser:
         """
         Program node: Represents a Barnacle program.
 
-        A program consists of one `code block` node.
-        """
-
-        return {
-            "type": "program",
-            "body": self.__node_code_block(),
-        }
-    
-    def __node_code_block(self) -> dict:
-        """
-        Code Block node: Represents a block of code.
-
-        A code block consists of zero or more `statement` nodes.
+        A program node consists of zero or more `statement` nodes.
         """
 
         statements = []
 
         while self.token_lookahead is not None:
             statements.append(self.__node_statement())
-        
-        return statements
+
+        return {
+            "type": "program",
+            "body": statements,
+        }
+
+    def __node_code_block(self) -> dict:
+        """
+        Code Block node: Represents a block of code.
+
+        A code block node consists of zero or more `statement` nodes,
+        surrounded by `START_CODE_BLOCK` and `END_CODE_BLOCK` tokens.
+        """
+
+        self.__consume_token("START_CODE_BLOCK")
+
+        statements = []
+
+        while self.token_lookahead["type"] != "END_CODE_BLOCK":
+            statements.append(self.__node_statement())
+
+        self.__consume_token("END_CODE_BLOCK")
+
+        return {
+            "type": "code_block",
+            "body": statements,
+        }
 
     def __node_statement(self) -> dict:
         """
@@ -72,11 +85,13 @@ class Parser:
         A statement can be one of:
         -   a `print` node
         -   a `var_declaration` node
+        -   a `conditional` node
         """
 
         branches = {
             "PRINT": self.__node_print,
             "LET": self.__node_var_declaration,
+            "IF": self.__node_conditional,
         }
 
         return self.__construct_multibranch_node("statement", branches)
@@ -183,3 +198,18 @@ class Parser:
             return branches[lookahead_type]()
 
         raise SyntaxError(f"Unexpected token '{lookahead_type}' while parsing '{node_name}' node")
+
+    def __node_conditional(self) -> dict:
+        """
+        Conditional node: Represents an 'if' statement followed by a code block.
+
+        A conditional node consists of at least the `IF` token, an expression node, and a code block node.
+        """
+
+        self.__consume_token("IF")
+
+        return {
+            "type": "conditional",
+            "expression": self.__node_expression(),
+            "on_true": self.__node_code_block(),
+        }
