@@ -61,17 +61,17 @@ class Parser:
         Code Block node: Represents a block of code.
 
         A code block node consists of zero or more `statement` nodes,
-        surrounded by `START_CODE_BLOCK` and `END_CODE_BLOCK` tokens.
+        surrounded by `{` and `}` tokens.
         """
 
-        self.__consume_token("START_CODE_BLOCK")
+        self.__consume_token("{")
 
         statements = []
 
-        while self.token_lookahead["type"] != "END_CODE_BLOCK":
+        while self.token_lookahead["type"] != "}":
             statements.append(self.__node_statement())
 
-        self.__consume_token("END_CODE_BLOCK")
+        self.__consume_token("}")
 
         return {
             "type": "code_block",
