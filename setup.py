@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
    name='barnacle',
-   version='0.2.0',
+   version='0.3.0',
    description='An experimental interpreted programming language written in Python',
    author='psysrc',
    author_email='https://github.com/psysrc',
