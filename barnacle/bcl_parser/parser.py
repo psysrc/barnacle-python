@@ -207,9 +207,11 @@ class Parser:
         """
 
         self.__consume_token("IF")
+        expression = self.__node_expression()
+        on_true_block = self.__node_code_block()
 
         return {
             "type": "conditional",
-            "expression": self.__node_expression(),
-            "on_true": self.__node_code_block(),
+            "expression": expression,
+            "on_true": on_true_block,
         }
