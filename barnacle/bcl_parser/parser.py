@@ -73,15 +73,9 @@ class Parser:
 
         self.__consume_token("}")
 
-        node = self.__construct_empty_code_block()
-        node["body"] = statements
-
-        return node
-
-    def __construct_empty_code_block(self) -> dict:
         return {
             "type": "code_block",
-            "body": [],
+            "body": statements,
         }
 
     def __node_statement(self) -> dict:
@@ -217,10 +211,14 @@ class Parser:
         expression = self.__node_expression()
         on_true_block = self.__node_code_block()
 
-        on_false_block = self.__construct_empty_code_block()
+        on_false_block = None
         if self.token_lookahead is not None and self.token_lookahead["type"] == "ELSE":
             self.__consume_token("ELSE")
-            on_false_block = self.__node_code_block()
+
+            if self.token_lookahead["type"] == "IF":
+                on_false_block = self.__node_conditional()
+            else:
+                on_false_block = self.__node_code_block()
 
         return {
             "type": "conditional",

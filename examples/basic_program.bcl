@@ -14,3 +14,13 @@ if "Test" {
 } else {
     print "False!"
 }
+
+if 1 {
+    print "1"
+} else if 2 {
+    print "2"
+} else if 3 {
+    print "3"
+} else {
+    print "default"
+}
