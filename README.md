@@ -3,9 +3,6 @@ An experimental interpreted programming language written in Python.
 
 Aptly named because barnacles don't do a lot, are rough around the edges, and will cause you pain if you work with them too much.
 
-A similar GitHub project exists, [barnacle-rust](https://github.com/psysrc/barnacle-rust), which is intended to become an implementation of **barnacle** written in Rust.
-The Python implementation of **barnacle** is intended mostly for experimentation.
-
 ## Build
 
 Run `pip install .` to build and install the `barnacle` Python module.
@@ -20,11 +17,12 @@ Optional arguments:
 
 ## Release History
 - v0.1: Tokenizer experimentation
+- v0.2: Parser experimentation
 
 ## Future Development Roadmap
-- v0.2: Parser experimentation
 - v0.3: Interpreter experimentation
-- v???: ???
+- v0.4: Unit testing
+- v0.5: ???
 
 ## Special Thanks
 Thanks to [Dmitry Soshnikov](https://www.youtube.com/c/DmitrySoshnikov-education) for his YouTube videos on parsing!
