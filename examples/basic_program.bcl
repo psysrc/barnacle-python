@@ -3,15 +3,14 @@
 // E.g. this line prints the text "Hello World!"
 print "Hello World!"
 
-// Print my name
-print "My name is Sam!"
-
 let int_var = 5
 let float_var = 6.1
 let string_var = "Wow"
 
 if "Test" {
     let subvar = 2
-    if 12 { print "WOW" }
+
     if 0 {/* nothing */}
+} else {
+    print "False!"
 }

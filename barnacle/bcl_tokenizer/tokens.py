@@ -29,6 +29,9 @@ TOKEN_REGEXPS = {
     # Keyword "if"
     "^if\s": "IF",
 
+    # Keyword "else"
+    "^else\s": "ELSE",
+
     # ==================== Operators ====================
     # Assignment Operator
     "^=": "ASSIGN_OP",
