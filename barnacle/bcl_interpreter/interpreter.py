@@ -13,23 +13,10 @@ class Interpreter:
     The Barnacle Interpreter.
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, source: str):
+        self.__ast = prs.Parser(source).parse()
+        logging.debug("Finished parsing source")
 
-    @staticmethod
-    def run(filename: str):
-        """Runs the Barnacle interpreter on the specified file."""
-
-        logging.debug(f"Opening file '{filename}'")
-
-        with open(filename, "r") as script:
-            source = script.read()
-
-        logging.info(f"Running script '{filename}'")
-        print(f"+++ BARNACLE RUN '{filename}' +++")
-
-        parser = prs.Parser(source)
-        print(json.dumps(parser.parse(), indent=4))
-
-        print(f"--- BARNACLE END '{filename}' ---")
-        logging.info(f"Finished interpreting script")
+    def run(self):
+        """Runs the Barnacle interpreter on the provided source."""
+        print(json.dumps(self.__ast, indent=4))
