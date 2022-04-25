@@ -23,6 +23,9 @@ TOKEN_REGEXPS = {
     # Keyword "let"
     "^let\s": "LET",
 
+    # Keyword "func"
+    "^func\s": "FUNC",
+
     # Keyword "print"
     "^print\s": "PRINT",
 
@@ -41,7 +44,14 @@ TOKEN_REGEXPS = {
     "^[a-z][a-z0-9_]+": "IDENTIFIER",
 
     # ==================== Miscellaneous ====================
-    # Parentheses and braces
+    # Braces
     "^{": "{",
     "^}": "}",
+
+    # Parentheses
+    "^\(": "(",
+    "^\)": ")",
+
+    # Commas
+    "^,": ",",
 }

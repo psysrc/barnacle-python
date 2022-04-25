@@ -85,12 +85,14 @@ class Parser:
         A statement can be one of:
         -   a `print` node
         -   a `var_declaration` node
+        -   a `func_declaration` node
         -   a `conditional` node
         """
 
         branches = {
             "PRINT": self.__node_print,
             "LET": self.__node_var_declaration,
+            "FUNC": self.__node_func_declaration,
             "IF": self.__node_conditional,
         }
 
@@ -201,9 +203,12 @@ class Parser:
 
     def __node_conditional(self) -> dict:
         """
-        Conditional node: Represents an 'if' statement followed by a code block.
+        Conditional node: Represents an 'if' statement followed by a code block, 0 or more 'else if' statements
+        each followed by a code block, and optionally an 'else' statement followed by a code block.
 
-        A conditional node consists of at least the `IF` token, an expression node, and a code block node.
+        A conditional node consists of at least the `IF` token, an `expression` node, and a `code_block` node.
+        It may be immediately followed by an `ELSE` token, which in turn will be immediately followed by either
+        another `conditional` node, or a `code_block` node.
         """
 
         self.__consume_token("IF")
@@ -225,4 +230,37 @@ class Parser:
             "expression": expression,
             "on_true": on_true_block,
             "on_false": on_false_block,
+        }
+
+    def __node_func_declaration(self) -> dict:
+        """
+        Function Declaration node: Represents a function declaration.
+
+        A function declaration consists of the token stream `FUNC IDENTIFIER ( ... )` and a `code_block` node,
+        where `...` consists of 0 or more `IDENTIFIER` tokens, separated by `,` tokens.
+        """
+
+        self.__consume_token("FUNC")
+
+        identifier = self.__consume_token("IDENTIFIER")["value"]
+
+        self.__consume_token("(")
+
+        parameters = []
+        if self.token_lookahead["type"] == "IDENTIFIER":
+            parameters.append(self.__consume_token("IDENTIFIER")["value"])
+
+            while self.token_lookahead["type"] == ",":
+                self.__consume_token(",")
+                parameters.append(self.__consume_token("IDENTIFIER")["value"])
+
+        self.__consume_token(")")
+
+        body = self.__node_code_block()
+
+        return {
+            "type": "func_declaration",
+            "identifier": identifier,
+            "parameters": parameters,
+            "body": body,
         }

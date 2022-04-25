@@ -1,7 +1,18 @@
 /* This program prints a bunch of stuff */
 
+func laugh() {
+    print "Ha"
+    print "Haha"
+    print "Hahaha"
+}
+
 // E.g. this line prints the text "Hello World!"
 print "Hello World!"
+
+func crazy(param1, param2, param3, param4) {
+    let local_var = "hi"
+    print "crazy!"
+}
 
 let int_var = 5
 let float_var = 6.1
