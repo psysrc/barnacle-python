@@ -10,8 +10,8 @@ from bcl_interpreter import interpreter as itp
 def interpret_file(script: str):
     logging.debug(f"Opening file '{script}'")
 
-    with open(script, "r") as script:
-        source = script.read()
+    with open(script, "r") as script_file:
+        source = script_file.read()
 
     logging.info(f"🐚 BARNACLE START '{script}' 🐚")
 
