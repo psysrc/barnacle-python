@@ -19,6 +19,9 @@ TOKEN_REGEXPS = {
     # String literals
     "^\"[^\"]*\"": "STRING",
 
+    # Boolean literals
+    "^\btrue\b|\bfalse\b": "BOOLEAN",
+
     # ==================== Keywords ====================
     # Keyword "let"
     "^let\s": "LET",

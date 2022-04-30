@@ -146,6 +146,21 @@ class Parser:
             "value": number,
         }
 
+    def __node_boolean_literal(self) -> dict:
+        """
+        Boolean literal node: Represents a boolean literal.
+
+        A boolean literal consists of the token `BOOLEAN`.
+        """
+
+        bool_str = self.__consume_token("BOOLEAN")["value"]
+        bool_val = bool_str == "true"
+
+        return {
+            "type": "boolean_literal",
+            "value": bool_val,
+        }
+
     def __node_var_declaration(self) -> dict:
         """
         Variable Declaration node: Represents a variable declaration and assignment.
@@ -171,11 +186,13 @@ class Parser:
         An expression can be either:
         -   a `numeric_literal` node
         -   a `string_literal` node
+        -   a `boolean_literal` node
         """
 
         branches = {
             "STRING": self.__node_string_literal,
             "NUMBER": self.__node_numeric_literal,
+            "BOOLEAN": self.__node_boolean_literal,
         }
 
         return self.__construct_multibranch_node("expression", branches)

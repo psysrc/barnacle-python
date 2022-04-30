@@ -57,3 +57,8 @@ class Interpreter:
         self.__validate_node(ast, "string_literal", {"value"})
 
         return ast["value"]
+
+    def __interpret_boolean_literal(self, ast: dict) -> bool:
+        self.__validate_node(ast, "boolean_literal", {"value"})
+
+        return ast["value"]

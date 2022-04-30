@@ -18,10 +18,10 @@ let int_var = 5
 let float_var = 6.1
 let string_var = "Wow"
 
-if "Test" {
+if true {
     let subvar = 2
 
-    if 0 {/* nothing */}
+    if false {/* nothing */}
 } else {
     print "False!"
 }

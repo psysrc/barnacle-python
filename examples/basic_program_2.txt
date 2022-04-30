@@ -1,0 +1,7 @@
+print "Hi there!"
+
+if true {
+    print "The expression is TRUE"
+} else {
+    print "The expression is FALSE"
+}
