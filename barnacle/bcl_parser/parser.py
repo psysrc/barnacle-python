@@ -135,11 +135,7 @@ class Parser:
         """
 
         number_str = self.__consume_token("NUMBER")["value"]
-
-        if "." in number_str:
-            number = float(number_str)
-        else:
-            number = int(number_str)
+        number = float(number_str) if "." in number_str else int(number_str)
 
         return {
             "type": "numeric_literal",
