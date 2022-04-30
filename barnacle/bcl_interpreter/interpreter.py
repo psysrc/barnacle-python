@@ -37,7 +37,7 @@ class Interpreter:
             raise RuntimeError(f"Node does not contain the expected keys (expected '{expected_keys}', got '{set(ast.keys())}')")
 
     def __interpret_program(self, ast: dict):
-        self.__validate_node(ast, "program", {"type", "body"})
+        self.__validate_node(ast, "program", {"body"})
 
         for statement in ast["body"]:
             self.__interpret_statement(statement)
@@ -47,13 +47,13 @@ class Interpreter:
         self.__interpret_print(ast)
 
     def __interpret_print(self, ast: dict):
-        self.__validate_node(ast, "print", {"type", "body"})
+        self.__validate_node(ast, "print", {"body"})
 
         string = self.__interpret_string_literal(ast["body"])
 
         print(string)
 
     def __interpret_string_literal(self, ast: dict) -> str:
-        self.__validate_node(ast, "string_literal", {"type", "value"})
+        self.__validate_node(ast, "string_literal", {"value"})
 
         return ast["value"]
