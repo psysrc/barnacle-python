@@ -124,12 +124,14 @@ class Interpreter:
         if bool(expression):
             logging.debug("Interpreting conditional 'on_true' node")
             self.__interpret_code_block(ast["on_true"])
-        elif ast["on_false"] is not None:
+        elif (on_false_ast := ast["on_false"]) is not None:
             logging.debug("Interpreting conditional 'on_false' node")
-            if ast["on_false"]["type"] == "conditional":
-                self.__interpret_conditional(ast["on_false"])
+            self.__validate_node_has_type(on_false_ast)
+
+            if on_false_ast["type"] == "conditional":
+                self.__interpret_conditional(on_false_ast)
             else:
-                self.__interpret_code_block(ast["on_false"])
+                self.__interpret_code_block(on_false_ast)
 
     def __interpret_code_block(self, ast: dict):
         logging.debug("Interpreting 'code_block' node")
