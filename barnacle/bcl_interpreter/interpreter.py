@@ -21,15 +21,26 @@ class Interpreter:
         """Runs the Barnacle interpreter on the provided source."""
         self.__interpret_program(self.__ast)
 
+    def __validate_node_has_type(self, ast: dict):
+        """
+        Validates that the AST node has a `type` key.
+        """
+
+        if "type" not in ast.keys():
+            raise RuntimeError("Node has no 'type' key")
+
     def __validate_node(self, ast: dict, expected_type: str, expected_keys: set):
         """
         Validates that the AST node has the expected type and contains the expected keys.
 
         An AST node should always have a `type` key, so this does not need to be provided when calling this function.
         """
+
+        self.__validate_node_has_type(ast)
+
         expected_keys = expected_keys.union({"type"})
 
-        if "type" in ast.keys() and ast["type"] != expected_type:
+        if ast["type"] != expected_type:
             actual_type = ast["type"]
             raise RuntimeError(f"Node has unexpected type (expected '{expected_type}', got '{actual_type}')")
 
@@ -43,8 +54,12 @@ class Interpreter:
             self.__interpret_statement(statement)
 
     def __interpret_statement(self, ast: dict):
-        # TODO: Implement this method properly
-        self.__interpret_print(ast)
+        branches = {
+            "print": self.__interpret_print,
+            "conditional": self.__interpret_conditional,
+        }
+
+        self.__construct_multibranch_interpret(ast, "statement", branches)
 
     def __interpret_print(self, ast: dict):
         self.__validate_node(ast, "print", {"body"})
@@ -53,12 +68,55 @@ class Interpreter:
 
         print(string)
 
-    def __interpret_string_literal(self, ast: dict) -> str:
+    def __interpret_string_literal(self, ast: dict):
         self.__validate_node(ast, "string_literal", {"value"})
 
         return ast["value"]
 
-    def __interpret_boolean_literal(self, ast: dict) -> bool:
+    def __interpret_numeric_literal(self, ast: dict):
+        self.__validate_node(ast, "numeric_literal", {"value"})
+
+        return ast["value"]
+
+    def __interpret_boolean_literal(self, ast: dict):
         self.__validate_node(ast, "boolean_literal", {"value"})
 
         return ast["value"]
+
+    def __interpret_expression(self, ast: dict):
+        branches = {
+            "string_literal": self.__interpret_string_literal,
+            "numeric_literal": self.__interpret_numeric_literal,
+            "boolean_literal": self.__interpret_boolean_literal,
+        }
+
+        return self.__construct_multibranch_interpret(ast, "expression", branches)
+
+    def __construct_multibranch_interpret(self, ast, interpret_name, branches):
+        self.__validate_node_has_type(ast)
+
+        node_type = ast["type"]
+
+        if node_type in branches:
+            return branches[node_type](ast)
+
+        raise RuntimeError(f"Unexpected node type '{node_type}' while interpreting '{interpret_name}'")
+
+    def __interpret_conditional(self, ast: dict):
+        self.__validate_node(ast, "conditional", {"expression", "on_true", "on_false"})
+
+        expression = self.__interpret_expression(ast["expression"])
+
+        if bool(expression):
+            self.__interpret_code_block(ast["on_true"])
+        elif ast["on_false"] is not None:
+            if ast["on_false"]["type"] == "conditional":
+                self.__interpret_conditional(ast["on_false"])
+            else:
+                self.__interpret_code_block(ast["on_false"])
+
+    def __interpret_code_block(self, ast: dict):
+        self.__validate_node(ast, "code_block", {"body"})
+
+        for statement in ast["body"]:
+            self.__interpret_statement(statement)

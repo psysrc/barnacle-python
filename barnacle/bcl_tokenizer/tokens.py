@@ -1,6 +1,7 @@
 TOKEN_REGEXPS = {
     # Key-value pairs represent a token regex and its corresponding token type
     # A token type of None means the pseudo-token should be ignored (e.g. whitespace or comments)
+    # Order is important! Even if multiple regexes would match a token, the higher one in this dict takes precedence.
 
     # ==================== Ignore ====================
     # Whitespace (ignore)
@@ -20,7 +21,7 @@ TOKEN_REGEXPS = {
     "^\"[^\"]*\"": "STRING",
 
     # Boolean literals
-    "^\btrue\b|\bfalse\b": "BOOLEAN",
+    "^true\s|^false\s": "BOOLEAN",
 
     # ==================== Keywords ====================
     # Keyword "let"
