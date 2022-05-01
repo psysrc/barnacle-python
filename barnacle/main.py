@@ -4,21 +4,49 @@ main.py: The entry point for the Barnacle command line interpreter.
 
 import logging
 import argparse
+import json
+from bcl_tokenizer import tokenizer as tkn
+from bcl_parser import parser as prs
 from bcl_interpreter import interpreter as itp
 
 
-def interpret_file(script: str):
-    logging.debug(f"Opening file '{script}'")
+def get_source_from_file(script: str) -> str:
+    logging.info(f"🐚 Reading Script '{script}' 🐚")
 
     with open(script, "r") as script_file:
         source = script_file.read()
 
-    logging.info(f"🐚 BARNACLE START '{script}' 🐚")
+    return source
+
+
+def output_tokens(source: str):
+    logging.info(f"🐚 Tokenizer Start 🐚")
+
+    tokenizer = tkn.Tokenizer(source)
+
+    while (token := tokenizer.next_token()):
+        print(token)
+
+    logging.info(f"🐚 Tokenizer End 🐚")
+
+
+def output_ast(source: str):
+    logging.info(f"🐚 Parser Start 🐚")
+
+    parser = prs.Parser(source)
+    ast = parser.parse()
+    print(json.dumps(ast, indent=4))
+
+    logging.info(f"🐚 Parser End 🐚")
+
+
+def interpret_file(source: str):
+    logging.info(f"🐚 Interpreter Start 🐚")
 
     interpreter = itp.Interpreter(source)
     interpreter.run()
 
-    logging.info(f"🐚 BARNACLE END '{script}' 🐚")
+    logging.info(f"🐚 Interpreter End 🐚")
 
 
 def main():
@@ -27,15 +55,27 @@ def main():
     cmd_desc = "Barnacle Interpreter"
     arg_parser = argparse.ArgumentParser(description=cmd_desc)
 
-    arg_parser.add_argument("script", help="Barnacle script to execute")
-    arg_parser.add_argument("-l", "--log-level", help="Logging level", default="INFO")
-    arg_parser.add_argument("--log-file", help="File to write interpreter logs to")
+    arg_parser.add_argument("script", help="Barnacle script to interpret")
+    arg_parser.add_argument("-l", "--log-level", help="Logging level (default INFO)", default="INFO")
+    arg_parser.add_argument("--log-file", help="Optional file to write logs to")
+    arg_parser.add_argument("--show-tokens", help="Output the tokenization of the script", action="store_true")
+    arg_parser.add_argument("--show-ast", help="Output the parsed AST of the script", action="store_true")
+    arg_parser.add_argument("--no-run", help="Do not interpret the script", action="store_true")
 
     args = arg_parser.parse_args()
 
     logging.basicConfig(format="%(asctime)s|%(message)s", filename=args.log_file, level=args.log_level)
 
-    interpret_file(args.script)
+    source = get_source_from_file(args.script)
+
+    if args.show_tokens:
+        output_tokens(source)
+
+    if args.show_ast:
+        output_ast(source)
+
+    if not args.no_run:
+        interpret_file(source)
 
 
 
