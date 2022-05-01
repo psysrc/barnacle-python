@@ -12,6 +12,12 @@ Aptly named because barnacles don't do a lot, are rough around the edges, and wi
 4. Install dependencies with `pip install -U -r requirements.txt`.
 5. Run `pip install .` to build and install the `barnacle` Python module.
 
+## Pylint
+
+1. Install pylint with `pip install pylint`.
+2. Set `PYTHONPATH` with ``export PYTHONPATH=`pwd`/barnacle``.
+3. Run pylint with `pylint barnacle/`.
+
 ## Usage
 
 Run `python barnacle <script> [<optional args>]` to run the Barnacle interpreter on the specified Barnacle script.
