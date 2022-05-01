@@ -20,7 +20,7 @@ Positional arguments:
 
 Optional arguments:
 - `-l <level>` or `--log-level <level>`: Set the interpreter [logging level](https://docs.python.org/3/library/logging.html#logging-levels) (default is `INFO`).
-- `--log-file <file>`: Redirect logs to the specified file instead of standard out.
+- `--log-file <file>`: Redirect logs to the specified file instead of standard error.
 - `--show-tokens`: Output the tokenized stream for the provided script.
 - `--show-ast`: Output the Abstract Syntax Tree (AST) for the provided script.
 - `--no-run`: Do not interpret the script (useful when combined with `--show-tokens` and/or `--show-ast`).

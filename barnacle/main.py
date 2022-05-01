@@ -66,7 +66,7 @@ def main():
 
     arg_parser.add_argument("script", help="Barnacle script to interpret (if '-', read from stdin)")
     arg_parser.add_argument("-l", "--log-level", help="Logging level (default INFO)", default="INFO")
-    arg_parser.add_argument("--log-file", help="Redirect logs to the provided file instead of standard out")
+    arg_parser.add_argument("--log-file", help="Redirect logs to the provided file instead of standard error")
     arg_parser.add_argument("--show-tokens", help="Output the tokenization of the script", action="store_true")
     arg_parser.add_argument("--show-ast", help="Output the parsed AST of the script", action="store_true")
     arg_parser.add_argument("--no-run", help="Do not interpret the script", action="store_true")
