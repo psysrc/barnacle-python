@@ -4,8 +4,8 @@ interpreter.py: Implements the Interpreter class.
 
 import logging
 
-from bcl_parser import parser as prs
 from bcl_interpreter import environment as env
+from bcl_parser import parser as prs
 
 
 class Interpreter:
@@ -50,7 +50,9 @@ class Interpreter:
 
         if set(ast.keys()) != expected_keys:
             logging.debug(f"Node does not contain the expected keys: {ast}")
-            raise RuntimeError(f"Node does not contain the expected keys (expected '{expected_keys}', got '{set(ast.keys())}')")
+            raise RuntimeError(
+                f"Node does not contain the expected keys (expected '{expected_keys}', got '{set(ast.keys())}')"
+            )
 
     def __interpret_program(self, ast: dict):
         logging.debug("Interpreting 'program' node")

@@ -2,8 +2,9 @@
 tokenizer.py: Implements the Tokenizer class.
 """
 
-import re
 import logging
+import re
+
 from . import tokens
 
 
@@ -28,13 +29,13 @@ class Tokenizer:
 
             if match:
                 token_value = match.group()
-                self.source = self.source[len(token_value):]
+                self.source = self.source[len(token_value) :]
 
                 if token_type:
                     logging.debug(f"Tokenizer matched token '{token_value}' of type '{token_type}'")
 
                     return {
-                        "type":  token_type,
+                        "type": token_type,
                         "value": token_value,
                     }
 

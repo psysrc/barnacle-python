@@ -2,13 +2,14 @@
 main.py: The entry point for the Barnacle command line interpreter.
 """
 
-import logging
 import argparse
 import json
+import logging
 import sys
-from bcl_tokenizer import tokenizer as tkn
-from bcl_parser import parser as prs
+
 from bcl_interpreter import interpreter as itp
+from bcl_parser import parser as prs
+from bcl_tokenizer import tokenizer as tkn
 
 
 def get_source_from_stdin() -> str:
@@ -33,7 +34,7 @@ def output_tokens(source: str):
 
     tokenizer = tkn.Tokenizer(source)
 
-    while (token := tokenizer.next_token()):
+    while token := tokenizer.next_token():
         print(token)
 
     logging.info("🐚 Tokenizer End 🐚")
@@ -85,7 +86,6 @@ def main():
 
     if not args.no_run:
         interpret_file(source)
-
 
 
 if __name__ == "__main__":
