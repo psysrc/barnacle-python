@@ -21,8 +21,9 @@ Optional arguments:
 
 ## Future Development Roadmap
 - v0.3: Interpreter experimentation
-- v0.4: Unit testing
-- v0.5: ???
+- v0.4: Command line features
+- v0.5: Unit testing
+- v0.6: ???
 
 ## Special Thanks
 Thanks to [Dmitry Soshnikov](https://www.youtube.com/c/DmitrySoshnikov-education) for his YouTube videos on parsing!
