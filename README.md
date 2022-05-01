@@ -18,9 +18,9 @@ Optional arguments:
 ## Release History
 - v0.1: Tokenizer experimentation
 - v0.2: Parser experimentation
+- v0.3: Interpreter experimentation
 
 ## Future Development Roadmap
-- v0.3: Interpreter experimentation
 - v0.4: Command line features
 - v0.5: Unit testing
 - v0.6: ???
