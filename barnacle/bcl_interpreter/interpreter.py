@@ -39,7 +39,7 @@ class Interpreter:
 
         self.__validate_node_has_type(ast)
 
-        expected_keys = expected_keys.union({"type"})
+        expected_keys.add("type")
 
         if ast["type"] != expected_type:
             actual_type = ast["type"]
