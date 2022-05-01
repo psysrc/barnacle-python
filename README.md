@@ -6,17 +6,26 @@ Aptly named because barnacles don't do a lot, are rough around the edges, and wi
 
 ## Build
 
+### Standard build
+
 1. Create a Python3 virtual environment with `python3 -m venv <venv name>`.
 2. Activate the newly created virtual environment with `source <venv name>/bin/activate`.
 3. Update pip with `pip install -U pip`.
 4. Install dependencies with `pip install -U -r requirements.txt`.
 5. Run `pip install .` to build and install the `barnacle` Python module.
 
-## Pylint
+### Developer build
 
-1. Install pylint with `pip install pylint`.
-2. Set `PYTHONPATH` with ``export PYTHONPATH=`pwd`/barnacle``.
-3. Run pylint with `pylint barnacle/`.
+Follow the "Standard build" instructions above, except when installing dependencies use `requirements-dev.txt` instead of `requirements.txt`.
+
+#### Pylint Usage
+
+1. Set `PYTHONPATH` with ``export PYTHONPATH=`pwd`/barnacle``.
+2. Run pylint with `pylint barnacle/`.
+
+#### Black Usage
+
+1. Run black with `black .`.
 
 ## Usage
 
