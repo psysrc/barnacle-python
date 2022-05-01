@@ -20,6 +20,12 @@ class Parser:
         self.token_lookahead = self.tokenizer.next_token()
 
     def parse(self) -> dict:
+        """
+        Parse the source and return the AST.
+
+        If parsing fails at any point, a SyntaxError will be raised.
+        """
+
         return self.__node_program()
 
     def __consume_token(self, expected_token: str) -> dict:

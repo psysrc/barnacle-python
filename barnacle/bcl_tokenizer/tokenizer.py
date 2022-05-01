@@ -21,6 +21,14 @@ class Tokenizer:
         logging.debug("Tokenizer initialised")
 
     def next_token(self) -> dict:
+        """
+        Find and return the next token in the source stream.
+
+        When the end of the stream is reached, None is returned.
+
+        If no token can be found, a SyntaxError is raised.
+        """
+
         if not self.has_more_tokens():
             return None
 
@@ -32,17 +40,18 @@ class Tokenizer:
                 self.source = self.source[len(token_value) :]
 
                 if token_type:
-                    logging.debug(f"Tokenizer matched token '{token_value}' of type '{token_type}'")
+                    logging.debug("Tokenizer matched token '%s' of type '%s'", token_value, token_type)
 
                     return {
                         "type": token_type,
                         "value": token_value,
                     }
 
-                else:
-                    return self.next_token()
+                return self.next_token()
 
         raise SyntaxError(f"Unknown syntax near characters '{self.source[:10]}'")
 
     def has_more_tokens(self) -> bool:
+        """Returns whether there are any more tokens in the source stream."""
+
         return bool(self.source)

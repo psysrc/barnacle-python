@@ -13,6 +13,8 @@ from bcl_tokenizer import tokenizer as tkn
 
 
 def get_source_from_stdin() -> str:
+    """Read the script source from standard input."""
+
     logging.info("🐚 Reading Script from STDIN 🐚")
 
     source = sys.stdin.read()
@@ -21,15 +23,19 @@ def get_source_from_stdin() -> str:
 
 
 def get_source_from_file(script: str) -> str:
-    logging.info(f"🐚 Reading Script '{script}' 🐚")
+    """Read the script source from the specified file."""
 
-    with open(script, "r") as script_file:
+    logging.info("🐚 Reading Script '%s' 🐚", script)
+
+    with open(script, "r", encoding="utf-8") as script_file:
         source = script_file.read()
 
     return source
 
 
 def output_tokens(source: str):
+    """Output the tokenization of the source."""
+
     logging.info("🐚 Tokenizer Start 🐚")
 
     tokenizer = tkn.Tokenizer(source)
@@ -41,6 +47,8 @@ def output_tokens(source: str):
 
 
 def output_ast(source: str):
+    """Output the AST of the source."""
+
     logging.info("🐚 Parser Start 🐚")
 
     parser = prs.Parser(source)
@@ -51,6 +59,8 @@ def output_ast(source: str):
 
 
 def interpret_file(source: str):
+    """Interpret the source."""
+
     logging.info("🐚 Interpreter Start 🐚")
 
     interpreter = itp.Interpreter(source)

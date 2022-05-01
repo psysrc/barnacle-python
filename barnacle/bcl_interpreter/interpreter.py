@@ -29,7 +29,7 @@ class Interpreter:
         """
 
         if "type" not in ast.keys():
-            logging.debug(f"Node has no 'type' key: {ast}")
+            logging.debug("Node has no 'type' key: %s", ast)
             raise RuntimeError("Node has no 'type' key")
 
     def __validate_node(self, ast: dict, expected_type: str, expected_keys: set):
@@ -45,11 +45,11 @@ class Interpreter:
 
         if ast["type"] != expected_type:
             actual_type = ast["type"]
-            logging.debug(f"Node has unexpected type: {ast}")
+            logging.debug("Node has unexpected type: %s", ast)
             raise RuntimeError(f"Node has unexpected type (expected '{expected_type}', got '{actual_type}')")
 
         if set(ast.keys()) != expected_keys:
-            logging.debug(f"Node does not contain the expected keys: {ast}")
+            logging.debug("Node does not contain the expected keys: %s", ast)
             raise RuntimeError(
                 f"Node does not contain the expected keys (expected '{expected_keys}', got '{set(ast.keys())}')"
             )
@@ -117,7 +117,7 @@ class Interpreter:
         if node_type in branches:
             return branches[node_type](ast)
 
-        logging.debug(f"Unexpected node type while interpreting '{interpret_name}' node: {ast}")
+        logging.debug("Unexpected node type while interpreting '%s' node: %s", interpret_name, ast)
         raise RuntimeError(f"Unexpected node type '{node_type}' while interpreting '{interpret_name}'")
 
     def __interpret_conditional(self, ast: dict):
