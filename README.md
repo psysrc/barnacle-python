@@ -27,6 +27,10 @@ Follow the "Standard build" instructions above, except when installing dependenc
 
 1. Run black with `black .`.
 
+#### isort Usage
+
+1. Run isort with `isort .`.
+
 ## Usage
 
 Run `python barnacle <script> [<optional args>]` to run the Barnacle interpreter on the specified Barnacle script.
