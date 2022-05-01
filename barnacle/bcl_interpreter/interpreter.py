@@ -3,7 +3,6 @@ interpreter.py: Implements the Interpreter class.
 """
 
 import logging
-import json
 
 from bcl_parser import parser as prs
 from bcl_interpreter import environment as env
