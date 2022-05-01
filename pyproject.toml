@@ -4,6 +4,11 @@ line-length = 120
 [tool.isort]
 profile = "black"
 
+[tool.pylint.messages_control]
+disable = [
+    "no-self-use"
+]
+
 [tool.pylint.format]
 max-line-length = 120
 
