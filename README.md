@@ -57,6 +57,7 @@ Examples:
 - v0.2.0: Parser experimentation
 - v0.3.0: Interpreter experimentation
 - v0.4.0: Command line features
+  - v0.4.1: Pylint, Black and isort
 
 ## Future Development
 
