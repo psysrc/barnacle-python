@@ -1,43 +1,11 @@
-print "Hi there!"
+print "Declaring 'my_var'"
+let my_var = "Hello Environment!"
+print "Declared!"
 
-if true { print "True" }
+print "Declaring 'new_var'"
+let new_var = 12
+print "Declared!"
 
-if false { print "False" }
-
-if true {
-    print "True"
-} else {
-    print "False"
-}
-
-if false {
-    print "False"
-} else {
-    print "True"
-}
-
-if false {
-    print "False"
-} else if false {
-    print "False"
-} else if true {
-    print "True"
-} else {
-    print "False"
-}
-
-if true {
-    if true { print "True" }
-    if false { print "False" }
-} else {
-    if true { print "False" }
-    if false { print "False" }
-}
-
-if false {
-    if true { print "False" }
-    if false { print "False" }
-} else {
-    if true { print "True" }
-    if false { print "False" }
-}
+print "Declaring 'my_var' again... should throw a RuntimeError"
+let my_var = 22.22
+print "Declared! That seems wrong..."

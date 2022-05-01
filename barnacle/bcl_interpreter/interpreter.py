@@ -6,6 +6,7 @@ import logging
 import json
 
 from bcl_parser import parser as prs
+from bcl_interpreter import environment as env
 
 
 class Interpreter:
@@ -16,6 +17,8 @@ class Interpreter:
     def __init__(self, source: str):
         self.__ast = prs.Parser(source).parse()
         logging.debug("Finished parsing source")
+
+        self.global_env = env.Environment()
 
     def run(self):
         """Runs the Barnacle interpreter on the provided source."""
@@ -63,6 +66,7 @@ class Interpreter:
         branches = {
             "print": self.__interpret_print,
             "conditional": self.__interpret_conditional,
+            "var_declaration": self.__interpret_var_declaration,
         }
 
         self.__construct_multibranch_interpret(ast, "statement", branches)
@@ -139,3 +143,9 @@ class Interpreter:
 
         for statement in ast["body"]:
             self.__interpret_statement(statement)
+
+    def __interpret_var_declaration(self, ast: dict):
+        logging.debug("Interpreting 'var_declaration' node")
+        self.__validate_node(ast, "var_declaration", {"identifier", "value"})
+
+        self.global_env.new_variable(ast["identifier"], ast["value"])
