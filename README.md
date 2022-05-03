@@ -21,7 +21,7 @@ Follow the "Standard build" instructions above, except when installing dependenc
 #### Pylint Usage
 
 1. Set `PYTHONPATH` with ``export PYTHONPATH=`pwd`/barnacle``.
-2. Run pylint with `pylint barnacle/`.
+2. Run pylint with `pylint barnacle/ test_barnacle/`.
 
 #### Black Usage
 
@@ -30,6 +30,11 @@ Follow the "Standard build" instructions above, except when installing dependenc
 #### isort Usage
 
 1. Run isort with `isort .`.
+
+#### Pytest Usage
+
+1. Set `PYTHONPATH` with ``export PYTHONPATH=`pwd`/barnacle``.
+2. Run pytest with `pytest`.
 
 ## Usage
 
