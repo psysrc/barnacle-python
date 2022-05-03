@@ -29,7 +29,7 @@ class Tokenizer:
         If no token can be found, a SyntaxError is raised.
         """
 
-        if not self.has_more_tokens():
+        if self.end_of_stream():
             return None
 
         for regexp, token_type in tokens.TOKEN_REGEXPS.items():
@@ -51,7 +51,12 @@ class Tokenizer:
 
         raise SyntaxError(f"Unknown syntax near characters '{self.source[:10]}'")
 
-    def has_more_tokens(self) -> bool:
-        """Returns whether there are any more tokens in the source stream."""
+    def end_of_stream(self) -> bool:
+        """
+        Returns whether the end of the stream has been reached.
 
-        return bool(self.source)
+        If this returns True, `next_token()` will always return None.
+        Note that `next_token()` can still return None even if this method returns False.
+        """
+
+        return not bool(self.source)
