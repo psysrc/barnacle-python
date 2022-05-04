@@ -109,3 +109,10 @@ def test_number_literals():
     __verify_token_type("-87.69", "NUMBER")
     __verify_token_type("-9832.7745756892246", "NUMBER")
     __verify_token_type("-000287650.0002865832000", "NUMBER")
+
+
+def test_boolean_literals():
+    """Handling boolean literals."""
+
+    __verify_token_type("true", "BOOLEAN")
+    __verify_token_type("false", "BOOLEAN")
