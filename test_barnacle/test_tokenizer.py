@@ -5,6 +5,17 @@ test_tokenizer.py: Unit tests for the bcl_tokenizer submodule.
 from bcl_tokenizer import tokenizer as tkn
 
 
+def __verify_first_token(source: str, expected_type: str, expected_value: str):
+    """Verify that the first token produced by the tokenized source has the expected type and value."""
+
+    tokenizer = tkn.Tokenizer(source)
+
+    assert not tokenizer.end_of_stream()
+
+    actual_first_token = tokenizer.next_token()
+    assert actual_first_token == {"type": expected_type, "value": expected_value}
+
+
 def __verify_token(source: str, expected_token: dict):
     """Verify that the source produces exactly one token which matches the expected token when tokenized."""
 
@@ -20,7 +31,7 @@ def __verify_token(source: str, expected_token: dict):
     assert actual_token == expected_token
 
 
-def __verify_token_type(source: str, expected_token_type: str):
+def __verify_token_basic(source: str, expected_token_type: str):
     """
     Verify that the source produces exactly one token which, when tokenized:
 
@@ -89,39 +100,39 @@ def test_comments():
 def test_number_literals():
     """Handling number literals."""
 
-    __verify_token_type("0", "NUMBER")
-    __verify_token_type("1", "NUMBER")
-    __verify_token_type("6", "NUMBER")
-    __verify_token_type("10", "NUMBER")
-    __verify_token_type("11", "NUMBER")
-    __verify_token_type("00", "NUMBER")
-    __verify_token_type("00000", "NUMBER")
-    __verify_token_type("05", "NUMBER")
-    __verify_token_type("024", "NUMBER")
-    __verify_token_type("298754", "NUMBER")
-    __verify_token_type("105", "NUMBER")
-    __verify_token_type("76485658457485", "NUMBER")
-    __verify_token_type("3286592", "NUMBER")
+    __verify_token_basic("0", "NUMBER")
+    __verify_token_basic("1", "NUMBER")
+    __verify_token_basic("6", "NUMBER")
+    __verify_token_basic("10", "NUMBER")
+    __verify_token_basic("11", "NUMBER")
+    __verify_token_basic("00", "NUMBER")
+    __verify_token_basic("00000", "NUMBER")
+    __verify_token_basic("05", "NUMBER")
+    __verify_token_basic("024", "NUMBER")
+    __verify_token_basic("298754", "NUMBER")
+    __verify_token_basic("105", "NUMBER")
+    __verify_token_basic("76485658457485", "NUMBER")
+    __verify_token_basic("3286592", "NUMBER")
 
-    __verify_token_type("-1", "NUMBER")
-    __verify_token_type("-0", "NUMBER")
-    __verify_token_type("-13", "NUMBER")
-    __verify_token_type("-835623", "NUMBER")
-    __verify_token_type("-65987265795785", "NUMBER")
+    __verify_token_basic("-1", "NUMBER")
+    __verify_token_basic("-0", "NUMBER")
+    __verify_token_basic("-13", "NUMBER")
+    __verify_token_basic("-835623", "NUMBER")
+    __verify_token_basic("-65987265795785", "NUMBER")
 
-    __verify_token_type("1.1", "NUMBER")
-    __verify_token_type("1.0", "NUMBER")
-    __verify_token_type("0.1", "NUMBER")
-    __verify_token_type("0.0", "NUMBER")
-    __verify_token_type("87.69", "NUMBER")
-    __verify_token_type("9832.7745756892246", "NUMBER")
-    __verify_token_type("000287650.0002865832000", "NUMBER")
+    __verify_token_basic("1.1", "NUMBER")
+    __verify_token_basic("1.0", "NUMBER")
+    __verify_token_basic("0.1", "NUMBER")
+    __verify_token_basic("0.0", "NUMBER")
+    __verify_token_basic("87.69", "NUMBER")
+    __verify_token_basic("9832.7745756892246", "NUMBER")
+    __verify_token_basic("000287650.0002865832000", "NUMBER")
 
-    __verify_token_type("-0.1", "NUMBER")
-    __verify_token_type("-0.0", "NUMBER")
-    __verify_token_type("-87.69", "NUMBER")
-    __verify_token_type("-9832.7745756892246", "NUMBER")
-    __verify_token_type("-000287650.0002865832000", "NUMBER")
+    __verify_token_basic("-0.1", "NUMBER")
+    __verify_token_basic("-0.0", "NUMBER")
+    __verify_token_basic("-87.69", "NUMBER")
+    __verify_token_basic("-9832.7745756892246", "NUMBER")
+    __verify_token_basic("-000287650.0002865832000", "NUMBER")
 
     __verify_not_token_type("b1", "NUMBER")
     __verify_not_token_type("B1", "NUMBER")
@@ -137,10 +148,20 @@ def test_number_literals():
 def test_boolean_literals():
     """Handling boolean literals."""
 
-    __verify_token_type("true", "BOOLEAN")
-    __verify_token_type("false", "BOOLEAN")
+    __verify_token_basic("true", "BOOLEAN")
+    __verify_token_basic("false", "BOOLEAN")
 
     __verify_not_token_type("truey", "BOOLEAN")
-    __verify_not_token_type("falsey", "BOOLEAN")
     __verify_not_token_type("true9", "BOOLEAN")
-    __verify_not_token_type("false5", "BOOLEAN")
+    __verify_not_token_type("tru evt", "BOOLEAN")
+    __verify_not_token_type("falsey", "BOOLEAN")
+    __verify_not_token_type("fal sed", "BOOLEAN")
+
+    __verify_first_token("true{", "BOOLEAN", "true")
+    __verify_first_token("true}", "BOOLEAN", "true")
+    __verify_first_token("true(", "BOOLEAN", "true")
+    __verify_first_token("true)", "BOOLEAN", "true")
+    __verify_first_token("false{", "BOOLEAN", "false")
+    __verify_first_token("false}", "BOOLEAN", "false")
+    __verify_first_token("false(", "BOOLEAN", "false")
+    __verify_first_token("false)", "BOOLEAN", "false")
