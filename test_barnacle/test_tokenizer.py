@@ -31,6 +31,19 @@ def __verify_token_type(source: str, expected_token_type: str):
     __verify_token(source, {"type": expected_token_type, "value": source})
 
 
+def __verify_not_token_type(source: str, unexpected_token_type: str):
+    """Verify that the source does NOT produce the provided token type when tokenized."""
+
+    tokenizer = tkn.Tokenizer(source)
+
+    try:
+        while token := tokenizer.next_token():
+            assert token["type"] != unexpected_token_type, token
+
+    except SyntaxError:
+        pass
+
+
 def test_empty():
     """Handling an empty source string."""
 
@@ -109,6 +122,16 @@ def test_number_literals():
     __verify_token_type("-87.69", "NUMBER")
     __verify_token_type("-9832.7745756892246", "NUMBER")
     __verify_token_type("-000287650.0002865832000", "NUMBER")
+
+    __verify_not_token_type("b1", "NUMBER")
+    __verify_not_token_type("B1", "NUMBER")
+    __verify_not_token_type("1b", "NUMBER")
+    __verify_not_token_type("1B", "NUMBER")
+    __verify_not_token_type("i6", "NUMBER")
+    __verify_not_token_type("l8", "NUMBER")
+    __verify_not_token_type("L8", "NUMBER")
+    __verify_not_token_type("u3", "NUMBER")
+    __verify_not_token_type("U3", "NUMBER")
 
 
 def test_boolean_literals():

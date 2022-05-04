@@ -15,7 +15,7 @@ TOKEN_REGEXPS = {
     r"^//.*": None,
     # ==================== Literals ====================
     # Number literals
-    r"^-?[0-9]+(\.[0-9]+)?": "NUMBER",
+    r"^-?[0-9]+(\.[0-9]+)?\b": "NUMBER",
     # String literals
     r'^"[^"]*"': "STRING",
     # Boolean literals
