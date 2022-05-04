@@ -139,3 +139,8 @@ def test_boolean_literals():
 
     __verify_token_type("true", "BOOLEAN")
     __verify_token_type("false", "BOOLEAN")
+
+    __verify_not_token_type("truey", "BOOLEAN")
+    __verify_not_token_type("falsey", "BOOLEAN")
+    __verify_not_token_type("true9", "BOOLEAN")
+    __verify_not_token_type("false5", "BOOLEAN")
