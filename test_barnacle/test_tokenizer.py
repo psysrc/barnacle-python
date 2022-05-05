@@ -145,6 +145,30 @@ def test_number_literals():
     __verify_not_token_type("U3", "NUMBER")
 
 
+def test_string_literals():
+    """Handling string literals."""
+
+    __verify_token_basic('""', "STRING")
+    __verify_token_basic('"Hi"', "STRING")
+    __verify_token_basic('"Hello World!"', "STRING")
+    __verify_token_basic('"Whoops\nI\nDid\nIt\nAgain"', "STRING")
+    __verify_token_basic('"Whoops\r\nI\r\nDid\r\nIt\r\nAgain\r\n(Windows)"', "STRING")
+    __verify_token_basic('"A comment looks like /* this */"', "STRING")
+    __verify_token_basic('"A comment looks like // this"', "STRING")
+    __verify_token_basic('"12"', "STRING")
+    __verify_token_basic('"14.09"', "STRING")
+
+    __verify_not_token_type("''", "STRING")
+    __verify_not_token_type("'Hi'", "STRING")
+    __verify_not_token_type("'Hello World!'", "STRING")
+    __verify_not_token_type("Hi", "STRING")
+    __verify_not_token_type('"Where is the other quote mark?', "STRING")
+
+    __verify_first_token('"Big F"\n', "STRING", '"Big F"')
+    __verify_first_token('"Big F"\r\n', "STRING", '"Big F"')
+    __verify_first_token('"Big F" ', "STRING", '"Big F"')
+
+
 def test_boolean_literals():
     """Handling boolean literals."""
 
@@ -161,7 +185,13 @@ def test_boolean_literals():
     __verify_first_token("true}", "BOOLEAN", "true")
     __verify_first_token("true(", "BOOLEAN", "true")
     __verify_first_token("true)", "BOOLEAN", "true")
+    __verify_first_token("true ", "BOOLEAN", "true")
+    __verify_first_token("true\n", "BOOLEAN", "true")
+    __verify_first_token("true\r\n", "BOOLEAN", "true")
     __verify_first_token("false{", "BOOLEAN", "false")
     __verify_first_token("false}", "BOOLEAN", "false")
     __verify_first_token("false(", "BOOLEAN", "false")
     __verify_first_token("false)", "BOOLEAN", "false")
+    __verify_first_token("false ", "BOOLEAN", "false")
+    __verify_first_token("false\n", "BOOLEAN", "false")
+    __verify_first_token("false\r\n", "BOOLEAN", "false")
