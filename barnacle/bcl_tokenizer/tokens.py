@@ -22,21 +22,21 @@ TOKEN_REGEXPS = {
     r"^true\b|^false\b": "BOOLEAN",
     # ==================== Keywords ====================
     # Keyword "let"
-    r"^let\s": "LET",
+    r"^let\b": "LET",
     # Keyword "func"
-    r"^func\s": "FUNC",
+    r"^func\b": "FUNC",
     # Keyword "print"
-    r"^print\s": "PRINT",
+    r"^print\b": "PRINT",
     # Keyword "if"
-    r"^if\s": "IF",
+    r"^if\b": "IF",
     # Keyword "else"
-    r"^else\s": "ELSE",
+    r"^else\b": "ELSE",
     # ==================== Operators ====================
-    # Assignment Operator
-    r"^=": "ASSIGN_OP",
+    # Equals Operator
+    r"^=": "=",
     # ==================== Identifiers ====================
     # Identifiers (function names, variables, classes, etc)
-    r"^[a-z][a-z0-9_]+": "IDENTIFIER",
+    r"^[a-z][a-z0-9_]+\b": "IDENTIFIER",
     # ==================== Miscellaneous ====================
     # Braces
     r"^{": "{",

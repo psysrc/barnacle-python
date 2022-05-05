@@ -195,3 +195,13 @@ def test_boolean_literals():
     __verify_first_token("false ", "BOOLEAN", "false")
     __verify_first_token("false\n", "BOOLEAN", "false")
     __verify_first_token("false\r\n", "BOOLEAN", "false")
+
+
+def test_keyword_let():
+    """Handling the LET keyword."""
+
+    __verify_token_basic("let", "LET")
+
+    __verify_not_token_type("letty", "LET")
+
+    __verify_first_token("let ", "LET", "let")

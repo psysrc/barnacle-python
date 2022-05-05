@@ -167,12 +167,12 @@ class Parser:
         """
         Variable Declaration node: Represents a variable declaration and assignment.
 
-        A variable declaration consists of the token stream `LET IDENTIFIER ASSIGN_OP` and an `expression` node.
+        A variable declaration consists of the token stream `LET IDENTIFIER =` and an `expression` node.
         """
 
         self.__consume_token("LET")
         identifier = self.__consume_token("IDENTIFIER")["value"]
-        self.__consume_token("ASSIGN_OP")
+        self.__consume_token("=")
         expression = self.__node_expression()
 
         return {
