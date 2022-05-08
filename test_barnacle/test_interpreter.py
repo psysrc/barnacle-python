@@ -143,6 +143,48 @@ def test_if_consecutive(capsys):
         expected_stdout="1\n2\n4\n",
     )
 
+
+def test_if_expressions(capsys):
+    """Handling different expression types within 'if' statements."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        if "Non-empty string" { print "1" }
+        if "" { print "2" }
+        """,
+        expected_stdout="1\n",
+    )
+
+    __validate_stdout(
+        capsys,
+        source="""
+        if 1 { print "1" }
+        if 6 { print "2" }
+        if 0 { print "3" }
+
+        if 1.1 { print "4" }
+        if 0.0 { print "5" }
+        """,
+        expected_stdout="1\n2\n4\n",
+    )
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let var1 = true
+        if var1 { print "1" } else { print "2" }
+
+        let var2 = ""
+        if var2 { print "3" } else { print "4"}
+
+        let var3 = 3.3
+        if var3 { print "5" } else { print "6" }
+        """,
+        expected_stdout="1\n4\n5\n",
+    )
+
+
 def test_variables(capsys):
     """Handling basic variables."""
 
