@@ -63,12 +63,12 @@ Examples:
 - v0.3.0: Interpreter experimentation
 - v0.4.0: Command line features
   - v0.4.1: Pylint, Black and isort
+- v0.5.0: Pytest unit testing, variables as expressions
 
 ## Future Development
 
 Note that this is in no particular order.
 
-- Unit testing
 - Scoped declarations for variables and functions
 - String manipulation
 - String expressions
