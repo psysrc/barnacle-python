@@ -2,6 +2,7 @@
 test_interpreter.py: Unit tests for the bcl_interpreter submodule.
 """
 
+import pytest
 from bcl_interpreter import interpreter as itp
 
 
@@ -14,6 +15,15 @@ def __validate_stdout(capsys, *, source: str, expected_stdout: str):
     actual_stdout, _ = capsys.readouterr()
 
     assert actual_stdout == expected_stdout
+
+
+def __expect_runtime_error(*, source: str):
+    """Validates that the provided source causes a RuntimeError."""
+
+    interpreter = itp.Interpreter(source)
+
+    with pytest.raises(RuntimeError):
+        interpreter.run()
 
 
 def test_empty():
@@ -269,8 +279,8 @@ def test_if_expressions(capsys):
     )
 
 
-def test_variables(capsys):
-    """Handling basic variables."""
+def test_variable_declaration(capsys):
+    """Handling basic variable declarations."""
 
     __validate_stdout(
         capsys,
@@ -290,4 +300,31 @@ def test_variables(capsys):
         print var3
         """,
         expected_stdout="Hello Matt\n",
+    )
+
+    __expect_runtime_error(
+        source="""
+        let var1 = "Hello"
+        let var1 = "World"
+        """
+    )
+
+
+@pytest.mark.xfail(reason="Not yet implemented")
+def test_variable_redefinition(capsys):
+    """Handling basic variable redefinition."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let variable = 987
+        print variable
+
+        variable = false
+        print variable
+
+        variable = "MUSE"
+        print variable
+        """,
+        expected_stdout="987\nfalse\nMUSE\n",
     )
