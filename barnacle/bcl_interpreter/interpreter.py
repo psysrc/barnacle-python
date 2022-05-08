@@ -76,7 +76,7 @@ class Interpreter:
         logging.debug("Interpreting 'print' node")
         self.__validate_node(ast, "print", {"body"})
 
-        string = self.__interpret_string_literal(ast["body"])
+        string = self.__interpret_expression(ast["body"])
 
         print(string)
 
@@ -105,6 +105,7 @@ class Interpreter:
             "string_literal": self.__interpret_string_literal,
             "numeric_literal": self.__interpret_numeric_literal,
             "boolean_literal": self.__interpret_boolean_literal,
+            "identifier": self.__interpret_variable,
         }
 
         return self.__construct_multibranch_interpret(ast, "expression", branches)
@@ -149,4 +150,20 @@ class Interpreter:
         logging.debug("Interpreting 'var_declaration' node")
         self.__validate_node(ast, "var_declaration", {"identifier", "value"})
 
-        self.global_env.new_variable(ast["identifier"], ast["value"])
+        variable_name = self.__interpret_identifier_node(ast["identifier"])
+        variable_value = self.__interpret_expression(ast["value"])
+
+        self.global_env.new_variable(variable_name, variable_value)
+
+    def __interpret_identifier_node(self, ast: dict):
+        logging.debug("Interpreting 'identifier' node")
+        self.__validate_node(ast, "identifier", {"name"})
+
+        return ast["name"]
+
+    def __interpret_variable(self, ast: dict):
+        logging.debug("Interpreting 'variable' node")
+
+        variable_name = self.__interpret_identifier_node(ast)
+
+        return self.global_env.get_variable(variable_name)

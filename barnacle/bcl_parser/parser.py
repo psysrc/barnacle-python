@@ -108,15 +108,15 @@ class Parser:
         """
         Print node: Represents a basic print statement.
 
-        A print statement consists of the token `PRINT` and a `string_literal` node.
+        A print statement consists of the token `PRINT` and an `expression` node.
         """
 
         self.__consume_token("PRINT")
-        string_literal = self.__node_string_literal()
+        body = self.__node_expression()
 
         return {
             "type": "print",
-            "body": string_literal,
+            "body": body,
         }
 
     def __node_string_literal(self) -> dict:
@@ -163,15 +163,30 @@ class Parser:
             "value": bool_val,
         }
 
+    def __node_identifier(self) -> dict:
+        """
+        Identifier node: Represents an identifier (e.g. a function name or a variable name).
+
+        An identifier consists of the token stream `IDENTIFIER`.
+        """
+
+        identifier = self.__consume_token("IDENTIFIER")["value"]
+
+        return {
+            "type": "identifier",
+            "name": identifier,
+        }
+
     def __node_var_declaration(self) -> dict:
         """
         Variable Declaration node: Represents a variable declaration and assignment.
 
-        A variable declaration consists of the token stream `LET IDENTIFIER =` and an `expression` node.
+        A variable declaration consists of the stream `LET identifier = expression`,
+        where `LET` and `=` are tokens, and `identifier` and `expression` are nodes.
         """
 
         self.__consume_token("LET")
-        identifier = self.__consume_token("IDENTIFIER")["value"]
+        identifier = self.__node_identifier()
         self.__consume_token("=")
         expression = self.__node_expression()
 
@@ -189,12 +204,14 @@ class Parser:
         -   a `numeric_literal` node
         -   a `string_literal` node
         -   a `boolean_literal` node
+        -   an `identifier` node
         """
 
         branches = {
             "STRING": self.__node_string_literal,
             "NUMBER": self.__node_numeric_literal,
             "BOOLEAN": self.__node_boolean_literal,
+            "IDENTIFIER": self.__node_identifier,
         }
 
         return self.__construct_multibranch_node("expression", branches)
@@ -255,23 +272,25 @@ class Parser:
         """
         Function Declaration node: Represents a function declaration.
 
-        A function declaration consists of the token stream `FUNC IDENTIFIER ( ... )` and a `code_block` node,
-        where `...` consists of 0 or more `IDENTIFIER` tokens, separated by `,` tokens.
+        A function declaration consists of the stream `FUNC identifier ( ... ) code_block`,
+        where `FUNC`, `(` and `)` are tokens,
+        and `identifier` and `code_block` are nodes,
+        and `...` consists of 0 or more `identifier` nodes separated by `,` tokens.
         """
 
         self.__consume_token("FUNC")
 
-        identifier = self.__consume_token("IDENTIFIER")["value"]
+        identifier = self.__node_identifier()
 
         self.__consume_token("(")
 
         parameters = []
         if self.token_lookahead["type"] == "IDENTIFIER":
-            parameters.append(self.__consume_token("IDENTIFIER")["value"])
+            parameters.append(self.__node_identifier())
 
             while self.token_lookahead["type"] == ",":
                 self.__consume_token(",")
-                parameters.append(self.__consume_token("IDENTIFIER")["value"])
+                parameters.append(self.__node_identifier())
 
         self.__consume_token(")")
 

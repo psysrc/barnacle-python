@@ -52,3 +52,16 @@ class Environment:
             raise RuntimeError(f"Tried to remove variable '{identifier}' which has not been declared")
 
         self.variables.pop(identifier)
+
+    def get_variable(self, identifier):
+        """
+        Fetches the value of an existing variable in this environment.
+
+        If the variable does not exist, a RuntimeError is raised.
+        """
+
+        logging.debug("Getting variable '%s' from environment", identifier)
+        if identifier not in self.variables:
+            raise RuntimeError(f"Tried to get variable '{identifier}' which has not been declared")
+
+        return self.variables[identifier]

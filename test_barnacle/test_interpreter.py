@@ -142,3 +142,26 @@ def test_if_consecutive(capsys):
         """,
         expected_stdout="1\n2\n4\n",
     )
+
+def test_variables(capsys):
+    """Handling basic variables."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let my_var = "Hello Duckie"
+        print my_var
+        """,
+        expected_stdout="Hello Duckie\n",
+    )
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let var1 = "Hello Matt"
+        let var2 = var1
+        let var3 = var2
+        print var3
+        """,
+        expected_stdout="Hello Matt\n",
+    )
