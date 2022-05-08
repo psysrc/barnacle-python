@@ -4,7 +4,7 @@ interpreter.py: Implements the Interpreter class.
 
 import logging
 
-from bcl_interpreter import environment as env
+from bcl_interpreter.environment import Environment
 from bcl_parser import parser as prs
 
 
@@ -17,11 +17,12 @@ class Interpreter:
         self.__ast = prs.Parser(source).parse()
         logging.debug("Finished parsing source")
 
-        self.global_env = env.Environment()
-
     def run(self):
         """Runs the Barnacle interpreter on the provided source."""
-        self.__interpret_program(self.__ast)
+
+        global_env = Environment()
+
+        self.__interpret_program(global_env, self.__ast)
 
     def __validate_node_has_type(self, ast: dict):
         """
@@ -54,14 +55,14 @@ class Interpreter:
                 f"Node does not contain the expected keys (expected '{expected_keys}', got '{set(ast.keys())}')"
             )
 
-    def __interpret_program(self, ast: dict):
+    def __interpret_program(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'program' node")
         self.__validate_node(ast, "program", {"body"})
 
         for statement in ast["body"]:
-            self.__interpret_statement(statement)
+            self.__interpret_statement(env, statement)
 
-    def __interpret_statement(self, ast: dict):
+    def __interpret_statement(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'statement' node")
 
         branches = {
@@ -72,38 +73,38 @@ class Interpreter:
             "code_block": self.__interpret_code_block,
         }
 
-        self.__construct_multibranch_interpret(ast, "statement", branches)
+        self.__construct_multibranch_interpret(env, ast, "statement", branches)
 
-    def __interpret_print(self, ast: dict):
+    def __interpret_print(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'print' node")
         self.__validate_node(ast, "print", {"body"})
 
-        expression = self.__interpret_expression(ast["body"])
+        expression = self.__interpret_expression(env, ast["body"])
 
         if isinstance(expression, bool):
             expression = "true" if expression else "false"
 
         print(expression)
 
-    def __interpret_string_literal(self, ast: dict):
+    def __interpret_string_literal(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'string_literal' node")
         self.__validate_node(ast, "string_literal", {"value"})
 
         return ast["value"]
 
-    def __interpret_numeric_literal(self, ast: dict):
+    def __interpret_numeric_literal(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'numeric_literal' node")
         self.__validate_node(ast, "numeric_literal", {"value"})
 
         return ast["value"]
 
-    def __interpret_boolean_literal(self, ast: dict):
+    def __interpret_boolean_literal(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'boolean_literal' node")
         self.__validate_node(ast, "boolean_literal", {"value"})
 
         return ast["value"]
 
-    def __interpret_expression(self, ast: dict):
+    def __interpret_expression(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'expression' node")
 
         branches = {
@@ -113,71 +114,73 @@ class Interpreter:
             "identifier": self.__interpret_variable,
         }
 
-        return self.__construct_multibranch_interpret(ast, "expression", branches)
+        return self.__construct_multibranch_interpret(env, ast, "expression", branches)
 
-    def __construct_multibranch_interpret(self, ast, interpret_name, branches):
+    def __construct_multibranch_interpret(self, env: Environment, ast: dict, interpret_name: str, branches: dict):
         self.__validate_node_has_type(ast)
 
         node_type = ast["type"]
 
         if node_type in branches:
-            return branches[node_type](ast)
+            return branches[node_type](env, ast)
 
         logging.debug("Unexpected node type while interpreting '%s' node: %s", interpret_name, ast)
         raise RuntimeError(f"Unexpected node type '{node_type}' while interpreting '{interpret_name}'")
 
-    def __interpret_conditional(self, ast: dict):
+    def __interpret_conditional(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'conditional' node")
         self.__validate_node(ast, "conditional", {"expression", "on_true", "on_false"})
 
-        expression = self.__interpret_expression(ast["expression"])
+        expression = self.__interpret_expression(env, ast["expression"])
 
         if bool(expression):
             logging.debug("Interpreting conditional 'on_true' node")
-            self.__interpret_code_block(ast["on_true"])
+            self.__interpret_code_block(env, ast["on_true"])
         elif (on_false_ast := ast["on_false"]) is not None:
             logging.debug("Interpreting conditional 'on_false' node")
             self.__validate_node_has_type(on_false_ast)
 
             if on_false_ast["type"] == "conditional":
-                self.__interpret_conditional(on_false_ast)
+                self.__interpret_conditional(env, on_false_ast)
             else:
-                self.__interpret_code_block(on_false_ast)
+                self.__interpret_code_block(env, on_false_ast)
 
-    def __interpret_code_block(self, ast: dict):
+    def __interpret_code_block(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'code_block' node")
         self.__validate_node(ast, "code_block", {"body"})
 
-        for statement in ast["body"]:
-            self.__interpret_statement(statement)
+        new_env = Environment(env)
 
-    def __interpret_var_declaration(self, ast: dict):
+        for statement in ast["body"]:
+            self.__interpret_statement(new_env, statement)
+
+    def __interpret_var_declaration(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'var_declaration' node")
         self.__validate_node(ast, "var_declaration", {"identifier", "value"})
 
-        variable_name = self.__interpret_identifier_node(ast["identifier"])
-        variable_value = self.__interpret_expression(ast["value"])
+        variable_name = self.__interpret_identifier_node(env, ast["identifier"])
+        variable_value = self.__interpret_expression(env, ast["value"])
 
-        self.global_env.new_variable(variable_name, variable_value)
+        env.new_variable(variable_name, variable_value)
 
-    def __interpret_var_assignment(self, ast: dict):
+    def __interpret_var_assignment(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'var_assignment' node")
         self.__validate_node(ast, "var_assignment", {"identifier", "value"})
 
-        variable_name = self.__interpret_identifier_node(ast["identifier"])
-        variable_value = self.__interpret_expression(ast["value"])
+        variable_name = self.__interpret_identifier_node(env, ast["identifier"])
+        variable_value = self.__interpret_expression(env, ast["value"])
 
-        self.global_env.update_variable(variable_name, variable_value)
+        env.update_variable(variable_name, variable_value)
 
-    def __interpret_identifier_node(self, ast: dict):
+    def __interpret_identifier_node(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'identifier' node")
         self.__validate_node(ast, "identifier", {"name"})
 
         return ast["name"]
 
-    def __interpret_variable(self, ast: dict):
+    def __interpret_variable(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'variable' node")
 
-        variable_name = self.__interpret_identifier_node(ast)
+        variable_name = self.__interpret_identifier_node(env, ast)
 
-        return self.global_env.get_variable(variable_name)
+        return env.get_variable(variable_name)

@@ -407,3 +407,39 @@ def test_code_blocks(capsys):
         """,
         expected_stdout="Madness\n",
     )
+
+
+def test_variable_scoping(capsys):
+    """Handling variables within different scopes."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let variable = "Out"
+        print variable
+
+        {
+            variable = "In"
+            print variable
+        }
+
+        print variable
+        """,
+        expected_stdout="Out\nIn\nIn\n",
+    )
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let variable = "Out"
+        print variable
+
+        {
+            let variable = "In"
+            print variable
+        }
+
+        print variable
+        """,
+        expected_stdout="Out\nIn\nOut\n",
+    )
