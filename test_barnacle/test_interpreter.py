@@ -42,6 +42,56 @@ def test_hello_world(capsys):
     __validate_stdout(capsys, source='print "Hello World!"', expected_stdout="Hello World!\n")
 
 
+def test_print(capsys):
+    """Handling basic print statements."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        print "Hello World!"
+        """,
+        expected_stdout="Hello World!\n",
+    )
+
+    __validate_stdout(
+        capsys,
+        source="""
+        print "Policies"
+        print "Have"
+        print "Risen"
+        """,
+        expected_stdout="Policies\nHave\nRisen\n",
+    )
+
+    __validate_stdout(
+        capsys,
+        source="""
+        print true
+        print false
+        """,
+        expected_stdout="true\nfalse\n",
+    )
+
+    __validate_stdout(
+        capsys,
+        source="""
+        print 00
+        print 935
+        print -75
+        """,
+        expected_stdout="0\n935\n-75\n",
+    )
+
+    __validate_stdout(
+        capsys,
+        source="""
+        print 05.090
+        print -3.76
+        """,
+        expected_stdout="5.09\n-3.76\n",
+    )
+
+
 def test_if_basic(capsys):
     """Handling a basic 'if' statement."""
 

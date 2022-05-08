@@ -77,9 +77,12 @@ class Interpreter:
         logging.debug("Interpreting 'print' node")
         self.__validate_node(ast, "print", {"body"})
 
-        string = self.__interpret_expression(ast["body"])
+        expression = self.__interpret_expression(ast["body"])
 
-        print(string)
+        if isinstance(expression, bool):
+            expression = "true" if expression else "false"
+
+        print(expression)
 
     def __interpret_string_literal(self, ast: dict):
         logging.debug("Interpreting 'string_literal' node")
