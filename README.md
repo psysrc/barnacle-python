@@ -51,10 +51,10 @@ Optional arguments:
 - `--no-run`: Do not interpret the script (useful when combined with `--show-tokens` and/or `--show-ast`).
 
 Examples:
-- `python barnacle examples/hello_world.bcl`
-- `cat examples/hello_world.bcl | python barnacle -`
+- `python barnacle /example/hello_world.bcl`
+- `cat /example/hello_world.bcl | python barnacle -`
 - `python barnacle -` (type code on the fly, to finish use `^D`)
-- `python barnacle examples/basic_program.bcl --show-ast --no-run`
+- `python barnacle /example/hello_world.bcl --show-ast --no-run`
 
 ## Release History
 
@@ -75,6 +75,7 @@ Note that this is in no particular order.
 - Mathematical operations
 - Mathematical expressions
 - Function definitions & calling
+- Console input
 
 ## Special Thanks
 
