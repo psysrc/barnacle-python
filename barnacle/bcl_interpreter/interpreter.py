@@ -68,6 +68,7 @@ class Interpreter:
             "print": self.__interpret_print,
             "conditional": self.__interpret_conditional,
             "var_declaration": self.__interpret_var_declaration,
+            "var_assignment": self.__interpret_var_assignment,
         }
 
         self.__construct_multibranch_interpret(ast, "statement", branches)
@@ -154,6 +155,15 @@ class Interpreter:
         variable_value = self.__interpret_expression(ast["value"])
 
         self.global_env.new_variable(variable_name, variable_value)
+
+    def __interpret_var_assignment(self, ast: dict):
+        logging.debug("Interpreting 'var_assignment' node")
+        self.__validate_node(ast, "var_assignment", {"identifier", "value"})
+
+        variable_name = self.__interpret_identifier_node(ast["identifier"])
+        variable_value = self.__interpret_expression(ast["value"])
+
+        self.global_env.update_variable(variable_name, variable_value)
 
     def __interpret_identifier_node(self, ast: dict):
         logging.debug("Interpreting 'identifier' node")

@@ -306,25 +306,30 @@ def test_variable_declaration(capsys):
         source="""
         let var1 = "Hello"
         let var1 = "World"
-        """
+        """,
     )
 
 
-@pytest.mark.xfail(reason="Not yet implemented")
 def test_variable_redefinition(capsys):
     """Handling basic variable redefinition."""
+
+    __expect_runtime_error(
+        source="""
+        variable = "MUSE"
+        """,
+    )
 
     __validate_stdout(
         capsys,
         source="""
-        let variable = 987
+        let variable = "Take"
         print variable
 
-        variable = false
+        variable = "A"
         print variable
 
-        variable = "MUSE"
+        variable = "Bow"
         print variable
         """,
-        expected_stdout="987\nfalse\nMUSE\n",
+        expected_stdout="Take\nA\nBow\n",
     )

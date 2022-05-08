@@ -93,6 +93,7 @@ class Parser:
         -   a `var_declaration` node
         -   a `func_declaration` node
         -   a `conditional` node
+        -   a `var_assignment` node
         """
 
         branches = {
@@ -100,6 +101,7 @@ class Parser:
             "LET": self.__node_var_declaration,
             "FUNC": self.__node_func_declaration,
             "IF": self.__node_conditional,
+            "IDENTIFIER": self.__node_var_assignment,
         }
 
         return self.__construct_multibranch_node("statement", branches)
@@ -192,6 +194,24 @@ class Parser:
 
         return {
             "type": "var_declaration",
+            "identifier": identifier,
+            "value": expression,
+        }
+
+    def __node_var_assignment(self) -> dict:
+        """
+        Variable Assignment node: Represents a variable assignment.
+
+        A variable assignment consists of the stream `identifier = expression`,
+        where `identifier` and `expression` are nodes.
+        """
+
+        identifier = self.__node_identifier()
+        self.__consume_token("=")
+        expression = self.__node_expression()
+
+        return {
+            "type": "var_assignment",
             "identifier": identifier,
             "value": expression,
         }
