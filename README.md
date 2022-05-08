@@ -70,7 +70,6 @@ Examples:
 
 Note that this is in no particular order.
 
-- Scoped declarations for functions
 - String manipulation
 - String expressions
 - Mathematical operations
