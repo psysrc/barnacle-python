@@ -128,6 +128,90 @@ def test_if_chained(capsys):
     )
 
 
+def test_if_nested(capsys):
+    """Handling nested 'if' statements."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        if true {
+            if true {
+                print "1"
+            } else {
+                print "2"
+            }
+        } else {
+            if true {
+                print "3"
+            } else {
+                print "4"
+            }
+        }
+        """,
+        expected_stdout="1\n",
+    )
+
+    __validate_stdout(
+        capsys,
+        source="""
+        if true {
+            if false {
+                print "1"
+            } else {
+                print "2"
+            }
+        } else {
+            if true {
+                print "3"
+            } else {
+                print "4"
+            }
+        }
+        """,
+        expected_stdout="2\n",
+    )
+
+    __validate_stdout(
+        capsys,
+        source="""
+        if false {
+            if true {
+                print "1"
+            } else {
+                print "2"
+            }
+        } else {
+            if true {
+                print "3"
+            } else {
+                print "4"
+            }
+        }
+        """,
+        expected_stdout="3\n",
+    )
+
+    __validate_stdout(
+        capsys,
+        source="""
+        if false {
+            if true {
+                print "1"
+            } else {
+                print "2"
+            }
+        } else {
+            if false {
+                print "3"
+            } else {
+                print "4"
+            }
+        }
+        """,
+        expected_stdout="4\n",
+    )
+
+
 def test_if_consecutive(capsys):
     """Handling consecutive 'if' statements."""
 
