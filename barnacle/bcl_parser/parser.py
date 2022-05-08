@@ -156,7 +156,7 @@ class Parser:
         """
 
         bool_str = self.__consume_token("BOOLEAN")["value"]
-        bool_val = bool_str == "true "
+        bool_val = bool_str == "true"
 
         return {
             "type": "boolean_literal",
