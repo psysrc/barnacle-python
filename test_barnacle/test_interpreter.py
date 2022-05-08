@@ -359,6 +359,12 @@ def test_variable_declaration(capsys):
         """,
     )
 
+    __expect_runtime_error(
+        source="""
+        print variable
+        """,
+    )
+
 
 def test_variable_redefinition(capsys):
     """Handling basic variable redefinition."""
