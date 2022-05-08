@@ -389,3 +389,21 @@ def test_variable_redefinition(capsys):
         """,
         expected_stdout="Take\nA\nBow\n",
     )
+
+
+def test_code_blocks(capsys):
+    """Handling code blocks."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let variable = "Starlight"
+
+        {
+            variable = "Madness"
+        }
+
+        print variable
+        """,
+        expected_stdout="Madness\n",
+    )

@@ -69,6 +69,7 @@ class Interpreter:
             "conditional": self.__interpret_conditional,
             "var_declaration": self.__interpret_var_declaration,
             "var_assignment": self.__interpret_var_assignment,
+            "code_block": self.__interpret_code_block,
         }
 
         self.__construct_multibranch_interpret(ast, "statement", branches)

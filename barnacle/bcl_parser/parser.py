@@ -94,6 +94,7 @@ class Parser:
         -   a `func_declaration` node
         -   a `conditional` node
         -   a `var_assignment` node
+        -   a `code_block` node
         """
 
         branches = {
@@ -102,6 +103,7 @@ class Parser:
             "FUNC": self.__node_func_declaration,
             "IF": self.__node_conditional,
             "IDENTIFIER": self.__node_var_assignment,
+            "{": self.__node_code_block,
         }
 
         return self.__construct_multibranch_node("statement", branches)
