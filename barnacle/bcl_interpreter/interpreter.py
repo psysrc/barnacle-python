@@ -86,19 +86,19 @@ class Interpreter:
 
         print(expression)
 
-    def __interpret_string_literal(self, env: Environment, ast: dict):
+    def __interpret_string_literal(self, _: Environment, ast: dict):
         logging.debug("Interpreting 'string_literal' node")
         self.__validate_node(ast, "string_literal", {"value"})
 
         return ast["value"]
 
-    def __interpret_numeric_literal(self, env: Environment, ast: dict):
+    def __interpret_numeric_literal(self, _: Environment, ast: dict):
         logging.debug("Interpreting 'numeric_literal' node")
         self.__validate_node(ast, "numeric_literal", {"value"})
 
         return ast["value"]
 
-    def __interpret_boolean_literal(self, env: Environment, ast: dict):
+    def __interpret_boolean_literal(self, _: Environment, ast: dict):
         logging.debug("Interpreting 'boolean_literal' node")
         self.__validate_node(ast, "boolean_literal", {"value"})
 
@@ -172,7 +172,7 @@ class Interpreter:
 
         env.update_variable(variable_name, variable_value)
 
-    def __interpret_identifier_node(self, env: Environment, ast: dict):
+    def __interpret_identifier_node(self, _: Environment, ast: dict):
         logging.debug("Interpreting 'identifier' node")
         self.__validate_node(ast, "identifier", {"name"})
 

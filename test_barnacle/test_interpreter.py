@@ -419,13 +419,15 @@ def test_variable_scoping(capsys):
         print variable
 
         {
+            print variable
+
             variable = "In"
             print variable
         }
 
         print variable
         """,
-        expected_stdout="Out\nIn\nIn\n",
+        expected_stdout="Out\nOut\nIn\nIn\n",
     )
 
     __validate_stdout(
@@ -435,11 +437,84 @@ def test_variable_scoping(capsys):
         print variable
 
         {
+            print variable
+
             let variable = "In"
             print variable
         }
 
         print variable
         """,
-        expected_stdout="Out\nIn\nOut\n",
+        expected_stdout="Out\nOut\nIn\nOut\n",
+    )
+
+    __expect_runtime_error(
+        source="""
+        {
+            let variable = "In"
+        }
+
+        print variable
+        """
+    )
+
+    __expect_runtime_error(
+        source="""
+        {
+            let variable = "First"
+        }
+
+        {
+            variable = "Second"
+        }
+        """
+    )
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let var1 = 1
+        let var2 = 2
+
+        if true {
+            var1 = 100
+        } else {
+            var2 = 200
+        }
+
+        print var1
+        print var2
+        """,
+        expected_stdout="100\n2\n",
+    )
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let variable = 1
+
+        {
+            let variable = 2
+
+            {
+                variable = 3
+                print variable
+            }
+
+            print variable
+        }
+
+        print variable
+        """,
+        expected_stdout="3\n3\n1\n",
+    )
+
+    __expect_runtime_error(
+        source="""
+        if false {
+            let variable = "The Dark Side"
+        }
+
+        print variable
+        """
     )
