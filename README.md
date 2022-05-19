@@ -64,7 +64,7 @@ Examples:
 - v0.4.0: Command line features
   - v0.4.1: Pylint, Black and isort
 - v0.5.0: Pytest unit testing, variables as expressions
-- vT.B.D: Scoped variable declarations, variable re-assignment
+- v0.6.0: Scoped variable declarations, variable re-assignment
 
 ## Future Development
 
