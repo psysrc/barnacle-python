@@ -71,6 +71,7 @@ class Interpreter:
             "var_declaration": self.__interpret_var_declaration,
             "var_assignment": self.__interpret_var_assignment,
             "code_block": self.__interpret_code_block,
+            "while": self.__interpret_while_loop,
         }
 
         self.__construct_multibranch_interpret(env, ast, "statement", branches)
@@ -184,3 +185,13 @@ class Interpreter:
         variable_name = self.__interpret_identifier_node(env, ast)
 
         return env.get_variable(variable_name)
+
+    def __interpret_while_loop(self, env: Environment, ast: dict):
+        logging.debug("Interpreting 'while' node")
+        self.__validate_node(ast, "while", {"expression", "body"})
+
+        conditional_value = self.__interpret_expression(env, ast["expression"])
+
+        while conditional_value:
+            self.__interpret_code_block(env, ast["body"])
+            conditional_value = self.__interpret_expression(env, ast["expression"])

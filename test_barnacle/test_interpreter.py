@@ -518,3 +518,56 @@ def test_variable_scoping(capsys):
         print variable
         """
     )
+
+
+def test_while_loop_no_runs(capsys):
+    """Handling a while loop that never runs."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        while false {
+            print "No"
+        }
+        """,
+        expected_stdout="",
+    )
+
+
+def test_while_loop_runs_once(capsys):
+    """Handling a while loop that runs once."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let expression = true
+
+        while expression {
+            print "Run"
+            expression = false
+        }
+        """,
+        expected_stdout="Run\n",
+    )
+
+
+def test_while_loop_runs_twice(capsys):
+    """Handling a while loop that runs twice."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let expression1 = true
+        let expression2 = true
+
+        while expression1 {
+            print "Run"
+            if expression2 {
+                expression2 = false
+            } else {
+                expression1 = false
+            }
+        }
+        """,
+        expected_stdout="Run\nRun\n",
+    )

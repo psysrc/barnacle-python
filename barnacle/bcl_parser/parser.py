@@ -95,6 +95,7 @@ class Parser:
         -   a `conditional` node
         -   a `var_assignment` node
         -   a `code_block` node
+        -   a `while` node
         """
 
         branches = {
@@ -104,9 +105,27 @@ class Parser:
             "IF": self.__node_conditional,
             "IDENTIFIER": self.__node_var_assignment,
             "{": self.__node_code_block,
+            "WHILE": self.__node_while_loop,
         }
 
         return self.__construct_multibranch_node("statement", branches)
+
+    def __node_while_loop(self) -> dict:
+        """
+        While loop node: Represents a 'while' loop.
+
+        A while loop consists of the 'WHILE' token, an expression, and a code block.
+        """
+
+        self.__consume_token("WHILE")
+        expression = self.__node_expression()
+        body = self.__node_code_block()
+
+        return {
+            "type": "while",
+            "expression": expression,
+            "body": body,
+        }
 
     def __node_print(self) -> dict:
         """

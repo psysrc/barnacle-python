@@ -65,6 +65,7 @@ Examples:
   - v0.4.1: Pylint, Black and isort
 - v0.5.0: Pytest unit testing, variables as expressions
 - v0.6.0: Scoped variable declarations, variable re-assignment
+- v0.7.0: While loops
 
 ## Future Development
 

@@ -110,3 +110,39 @@ print "Third line!!"
             ],
         },
     )
+
+
+def test_while_true_print():
+    """Handling WHILE statements."""
+
+    __verify_ast(
+        source="""
+while true {
+    print "While True Do"
+}
+""",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "while",
+                    "expression": {
+                        "type": "boolean_literal",
+                        "value": True,
+                    },
+                    "body": {
+                        "type": "code_block",
+                        "body": [
+                            {
+                                "type": "print",
+                                "body": {
+                                    "type": "string_literal",
+                                    "value": "While True Do",
+                                },
+                            },
+                        ],
+                    },
+                },
+            ],
+        },
+    )

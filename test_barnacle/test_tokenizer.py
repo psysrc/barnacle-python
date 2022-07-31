@@ -205,3 +205,13 @@ def test_keyword_let():
     __verify_not_token_type("letty", "LET")
 
     __verify_first_token("let ", "LET", "let")
+
+
+def test_keyword_while():
+    """Handling the WHILE keyword."""
+
+    __verify_token_basic("while", "WHILE")
+
+    __verify_not_token_type("whiley", "WHILE")
+
+    __verify_first_token("while ", "WHILE", "while")
