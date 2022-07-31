@@ -5,9 +5,7 @@ line-length = 120
 profile = "black"
 
 [tool.pylint.messages_control]
-disable = [
-    "no-self-use"
-]
+disable = []
 
 [tool.pylint.format]
 max-line-length = 120
