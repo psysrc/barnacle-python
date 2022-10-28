@@ -146,3 +146,27 @@ while true {
             ],
         },
     )
+
+
+def test_basic_variable_declaration():
+    """Handling basic variable declarations."""
+
+    __verify_ast(
+        source="let x = 5",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "numeric_literal",
+                        "value": 5,
+                    },
+                }
+            ],
+        },
+    )
