@@ -170,3 +170,99 @@ def test_basic_variable_declaration():
             ],
         },
     )
+
+
+def test_additive_expressions():
+    """Handling additive expressions."""
+
+    __verify_ast(
+        source="let x = 5 + 5",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "+",
+                        "left": {
+                            "type": "numeric_literal",
+                            "value": 5,
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 5,
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+    __verify_ast(
+        source="let x = 1.2 + 2.1",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "+",
+                        "left": {
+                            "type": "numeric_literal",
+                            "value": 1.2,
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 2.1,
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+    __verify_ast(
+        source="let x = 1 + 2 + 3",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "+",
+                        "left": {
+                            "type": "binary_expression",
+                            "operator": "+",
+                            "left": {
+                                "type": "numeric_literal",
+                                "value": 1,
+                            },
+                            "right": {
+                                "type": "numeric_literal",
+                                "value": 2,
+                            },
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 3,
+                        },
+                    },
+                }
+            ],
+        },
+    )

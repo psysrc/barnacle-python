@@ -250,12 +250,35 @@ class Parser:
 
         branches = {
             "STRING": self.__node_string_literal,
-            "NUMBER": self.__node_numeric_literal,
+            "NUMBER": self.__node_additive_expression,
             "BOOLEAN": self.__node_boolean_literal,
             "IDENTIFIER": self.__node_identifier,
         }
 
         return self.__construct_multibranch_node("expression", branches)
+
+    def __node_additive_expression(self) -> dict:
+        """
+        Additive expression node: Represents an expression of addition or subtraction to be calculated.
+
+        These expressions are left-associative, meaning `1 + 2 + 3` is calculated as `(1 + 2) + 3`.
+        """
+
+        this_expression = self.__node_numeric_literal()
+
+        while (next_token := self.token_lookahead) is not None and next_token["type"] in ["+"]:
+            operator = self.__consume_token(next_token["type"])["value"]
+
+            right_operand = self.__node_numeric_literal()
+
+            this_expression = {
+                "type": "binary_expression",
+                "operator": operator,
+                "left": this_expression,
+                "right": right_operand
+            }
+
+        return this_expression
 
     def __construct_multibranch_node(self, node_name: str, branches: dict) -> dict:
         """
