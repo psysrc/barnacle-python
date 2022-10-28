@@ -36,6 +36,8 @@ TOKEN_REGEXPS = {
     # ==================== Operators ====================
     # Equals Operator
     r"^=": "=",
+    # Plus Operator
+    r"^\+": "+",
     # ==================== Identifiers ====================
     # Identifiers (function names, variables, classes, etc)
     r"^[a-z][a-z0-9_]*\b": "IDENTIFIER",

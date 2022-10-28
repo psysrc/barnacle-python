@@ -216,6 +216,7 @@ def test_keyword_while():
 
     __verify_first_token("while ", "WHILE", "while")
 
+
 def test_identifiers():
     """Handling identifiers."""
 
@@ -238,3 +239,13 @@ def test_identifiers():
     __verify_not_token_type("print", "IDENTIFIER")
     __verify_not_token_type("while", "IDENTIFIER")
     __verify_not_token_type("if", "IDENTIFIER")
+
+
+def test_operator_plus():
+    """Handling the + operator."""
+
+    __verify_token_basic("+", "+")
+
+    __verify_first_token("+ ", "+", "+")
+    __verify_first_token("+ 6", "+", "+")
+    __verify_first_token('+ "World"', "+", "+")
