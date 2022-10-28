@@ -215,3 +215,20 @@ def test_keyword_while():
     __verify_not_token_type("whiley", "WHILE")
 
     __verify_first_token("while ", "WHILE", "while")
+
+def test_identifiers():
+    """Handling identifiers."""
+
+    __verify_token_basic("my_variable", "IDENTIFIER")
+    __verify_token_basic("some_2nd_variable", "IDENTIFIER")
+    __verify_token_basic("unreadablebutvalid", "IDENTIFIER")
+
+    __verify_not_token_type("CONST_VALUE", "IDENTIFIER")
+    __verify_not_token_type("no_uppercase_Letters", "IDENTIFIER")
+
+    __verify_not_token_type("true", "IDENTIFIER")
+    __verify_not_token_type("false", "IDENTIFIER")
+    __verify_not_token_type("let", "IDENTIFIER")
+    __verify_not_token_type("print", "IDENTIFIER")
+    __verify_not_token_type("while", "IDENTIFIER")
+    __verify_not_token_type("if", "IDENTIFIER")
