@@ -222,9 +222,15 @@ def test_identifiers():
     __verify_token_basic("my_variable", "IDENTIFIER")
     __verify_token_basic("some_2nd_variable", "IDENTIFIER")
     __verify_token_basic("unreadablebutvalid", "IDENTIFIER")
+    __verify_token_basic("i", "IDENTIFIER")
+    __verify_token_basic("j", "IDENTIFIER")
+    __verify_token_basic("x", "IDENTIFIER")
 
     __verify_not_token_type("CONST_VALUE", "IDENTIFIER")
     __verify_not_token_type("no_uppercase_Letters", "IDENTIFIER")
+
+    __verify_not_token_type("_no_starting_underscores", "IDENTIFIER")
+    __verify_not_token_type("1_no_starting_numbers", "IDENTIFIER")
 
     __verify_not_token_type("true", "IDENTIFIER")
     __verify_not_token_type("false", "IDENTIFIER")
