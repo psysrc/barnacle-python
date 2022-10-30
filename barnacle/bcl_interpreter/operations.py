@@ -40,7 +40,7 @@ def __remove_trailing_substring(left: str, right: str) -> str:
 
     if not left.endswith(right):
         raise RuntimeError(
-            f"Error subtracting strings: Trailing substring '{right}' does not exist in the primary string"
+            f"Error subtracting strings: Trailing substring '{right}' does not exist in the primary string '{left}'"
         )
 
     return left[0 : -len(right)]
