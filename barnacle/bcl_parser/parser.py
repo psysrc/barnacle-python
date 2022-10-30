@@ -260,7 +260,11 @@ class Parser:
         return self.__construct_multibranch_node("expression", branches)
 
     def __node_left_associative_expression(self, operator_tokens: List[str], sub_expression_parser: Callable) -> dict:
-        """Represents a left-associative expression with the given operator tokens and a sub-expression parser."""
+        """
+        Represents a left-associative expression with the given operator tokens and a sub-expression parser.
+
+        Left-associative means e.g. `1 + 2 + 3` is calculated as `(1 + 2) + 3`.
+        """
 
         this_expression = sub_expression_parser()
 
@@ -279,20 +283,13 @@ class Parser:
         return this_expression
 
     def __node_additive_expression(self) -> dict:
-        """
-        Additive expression node: Represents an expression of addition or subtraction to be calculated.
-
-        These expressions are left-associative, meaning `1 + 2 + 3` is calculated as `(1 + 2) + 3`.
-        """
+        """Additive expression node: Represents an expression of addition or subtraction to be calculated."""
 
         additive_operator_tokens = ["+", "-"]
         return self.__node_left_associative_expression(additive_operator_tokens, self.__node_multiplicative_expression)
 
     def __node_multiplicative_expression(self) -> dict:
-        """Multiplicative expression node: Represents an expression of multiplication or division to be calculated.
-
-        These expressions are left-associative, meaning `1 * 2 * 3` is calculated as `(1 * 2) * 3`.
-        """
+        """Multiplicative expression node: Represents an expression of multiplication or division to be calculated."""
 
         multiplicative_operator_tokens = ["*", "/"]
         return self.__node_left_associative_expression(multiplicative_operator_tokens, self.__node_numeric_literal)
