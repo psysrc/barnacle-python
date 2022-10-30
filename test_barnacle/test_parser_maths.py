@@ -794,3 +794,127 @@ def test_nested_parenthesised_expressions():
             ],
         },
     )
+
+
+def test_add_integer_to_variable():
+    """Handling integer addition involving a variable."""
+
+    verify_ast(
+        source="let x = 2 + z",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "+",
+                        "left": {
+                            "type": "numeric_literal",
+                            "value": 2,
+                        },
+                        "right": {
+                            "type": "identifier",
+                            "name": "z",
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+    verify_ast(
+        source="let x = z + 2",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "+",
+                        "left": {
+                            "type": "identifier",
+                            "name": "z",
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 2,
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_addition_two_variables():
+    """Handling addition of two variables of indeterminate type."""
+
+    verify_ast(
+        source="let x = z + y",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "+",
+                        "left": {
+                            "type": "identifier",
+                            "name": "z",
+                        },
+                        "right": {
+                            "type": "identifier",
+                            "name": "y",
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_multiplication_two_variables():
+    """Handling multiplication of two variables of indeterminate type."""
+
+    verify_ast(
+        source="let x = z * y",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "*",
+                        "left": {
+                            "type": "identifier",
+                            "name": "z",
+                        },
+                        "right": {
+                            "type": "identifier",
+                            "name": "y",
+                        },
+                    },
+                }
+            ],
+        },
+    )

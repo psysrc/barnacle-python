@@ -240,25 +240,9 @@ class Parser:
         }
 
     def __node_expression(self) -> dict:
-        """
-        Expression node: Represents an expression whose value can be calculated.
+        """Expression node: Represents an expression whose value can be calculated."""
 
-        An expression can be either:
-        -   a `numeric_literal` node
-        -   a `string_literal` node
-        -   a `boolean_literal` node
-        -   an `identifier` node
-        """
-
-        branches = {
-            "STRING": self.__node_string_literal,
-            "NUMBER": self.__node_additive_expression,
-            "BOOLEAN": self.__node_boolean_literal,
-            "IDENTIFIER": self.__node_identifier,
-            "(": self.__node_additive_expression,
-        }
-
-        return self.__construct_multibranch_node("expression", branches)
+        return self.__node_additive_expression()
 
     def __node_parenthesised_expression(self) -> dict:
         """Represents an expression within parentheses."""
@@ -275,7 +259,19 @@ class Parser:
         if self.token_lookahead["type"] == "(":
             return self.__node_parenthesised_expression()
 
-        return self.__node_numeric_literal()
+        return self.__node_value()
+
+    def __node_value(self) -> dict:
+        """Represents a single value, either a literal or variable of indeterminate type."""
+
+        branches = {
+            "STRING": self.__node_string_literal,
+            "NUMBER": self.__node_numeric_literal,
+            "BOOLEAN": self.__node_boolean_literal,
+            "IDENTIFIER": self.__node_identifier,
+        }
+
+        return self.__construct_multibranch_node("value", branches)
 
     def __node_binary_expression(self, operator_tokens: List[str], sub_expression_parser: Callable) -> dict:
         """
