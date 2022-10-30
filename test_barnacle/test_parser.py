@@ -215,8 +215,8 @@ def test_basic_variable_declaration():
     )
 
 
-def test_additive_expressions():
-    """Handling additive expressions (expressions involving the plus '+' or subtract '-' operator)."""
+def test_add_two_integer_literals():
+    """Handling addition of two integer literals."""
 
     __verify_ast(
         source="let x = 5 + 5",
@@ -246,6 +246,10 @@ def test_additive_expressions():
         },
     )
 
+
+def test_add_two_float_literals():
+    """Handling addition of two float literals."""
+
     __verify_ast(
         source="let x = 1.2 + 2.1",
         expected_ast={
@@ -273,6 +277,10 @@ def test_additive_expressions():
             ],
         },
     )
+
+
+def test_add_three_integer_literals():
+    """Handling addition of three integer literals."""
 
     __verify_ast(
         source="let x = 1 + 2 + 3",
@@ -310,6 +318,10 @@ def test_additive_expressions():
         },
     )
 
+
+def test_subtraction_two_integer_literals():
+    """Handling subtraction of two integer literals."""
+
     __verify_ast(
         source="let x = 5 - 5",
         expected_ast={
@@ -338,6 +350,10 @@ def test_additive_expressions():
         },
     )
 
+
+def test_subtraction_two_float_literals():
+    """Handling subtraction of two float literals."""
+
     __verify_ast(
         source="let x = 2.1 - 1.2",
         expected_ast={
@@ -365,6 +381,10 @@ def test_additive_expressions():
             ],
         },
     )
+
+
+def test_subtraction_then_addition_is_left_associative_integer_literals():
+    """Handling subtraction and addition of three integer literals, ensuring it is left-associative."""
 
     __verify_ast(
         source="let x = 1 - 2 + 3",
@@ -401,6 +421,10 @@ def test_additive_expressions():
             ],
         },
     )
+
+
+def test_addition_then_subtraction_is_left_associative_integer_literals():
+    """Handling addition and subtraction of three integer literals, ensuring it is left-associative."""
 
     __verify_ast(
         source="let x = 1 + 2 - 3",
