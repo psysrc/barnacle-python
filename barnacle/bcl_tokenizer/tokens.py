@@ -40,6 +40,10 @@ TOKEN_REGEXPS = {
     r"^\+": "+",
     # Subtract Operator
     r"^-": "-",
+    # Multiply Operator
+    r"^\*": "*",
+    # Divide Operator
+    r"^/": "/",
     # ==================== Identifiers ====================
     # Identifiers (function names, variables, classes, etc)
     r"^[a-z][a-z0-9_]*\b": "IDENTIFIER",

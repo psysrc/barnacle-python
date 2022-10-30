@@ -259,3 +259,21 @@ def test_operator_subtract():
     __verify_first_token("- ", "-", "-")
     __verify_first_token("- 2", "-", "-")
     __verify_first_token('- "World"', "-", "-")
+
+
+def test_operator_multiply():
+    """Handling the * operator."""
+
+    __verify_token_basic("*", "*")
+
+    __verify_first_token("* ", "*", "*")
+    __verify_first_token("* 6", "*", "*")
+
+
+def test_operator_divide():
+    """Handling the / operator."""
+
+    __verify_token_basic("/", "/")
+
+    __verify_first_token("/ ", "/", "/")
+    __verify_first_token("/ 2", "/", "/")
