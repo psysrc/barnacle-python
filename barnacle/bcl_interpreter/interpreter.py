@@ -7,6 +7,8 @@ import logging
 from bcl_interpreter.environment import Environment
 from bcl_parser import parser as prs
 
+from .operations import calculate_binary_operation
+
 
 class Interpreter:
     """
@@ -126,20 +128,8 @@ class Interpreter:
         right_value = self.__interpret_expression(env, ast["right"])
         operator = ast["operator"]
 
-        result = self.__calculate_binary_expression(left=left_value, right=right_value, operator=operator)
+        result = calculate_binary_operation(operator=operator, left=left_value, right=right_value)
         return result
-
-    def __calculate_binary_expression(self, left, right, operator: str):
-        if operator == "+":
-            return left + right
-        if operator == "-":
-            return left - right
-        if operator == "*":
-            return left * right
-        if operator == "/":
-            return left / right
-
-        raise ValueError(f"Unexpected operator '{operator}' in binary expression '{left} {operator} {right}'")
 
     def __construct_multibranch_interpret(self, env: Environment, ast: dict, interpret_name: str, branches: dict):
         self.__validate_node_has_type(ast)

@@ -740,3 +740,83 @@ def test_division_has_precedence_over_subtraction(capsys):
         """,
         expected_stdout="-1.0\n",
     )
+
+
+def test_string_concatenation_string_literals(capsys):
+    """Handling string concatenation with two string literals."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = "Hello" + " World"
+        print x
+        """,
+        expected_stdout="Hello World\n",
+    )
+
+
+def test_string_concatenation_string_literal_and_variable(capsys):
+    """Handling string concatenation with two string literals."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = "Hi"
+        let y = x + " Dad"
+        print y
+        """,
+        expected_stdout="Hi Dad\n",
+    )
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = " Mum"
+        let y = "Hi" + x
+        print y
+        """,
+        expected_stdout="Hi Mum\n",
+    )
+
+
+def test_string_concatenation_two_variables(capsys):
+    """Handling string concatenation with two variables."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = "Good"
+        let y = " Morning"
+        let z = x + y
+        print z
+        """,
+        expected_stdout="Good Morning\n",
+    )
+
+
+def test_string_truncation_literal_and_variable(capsys):
+    """Handling string truncation with a string literal and a variable."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = "AlphaBetaGamma"
+        let y = x - "Gamma"
+        print y
+        """,
+        expected_stdout="AlphaBeta\n",
+    )
+
+
+def test_bad_string_truncation():
+    """Handling bad string truncation."""
+
+    interpreter = itp.Interpreter(
+        """
+        let x = "AlphaBetaGamma"
+        let y = x - "Zeta"
+        """
+    )
+
+    with pytest.raises(RuntimeError):
+        interpreter.run()
