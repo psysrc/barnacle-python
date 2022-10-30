@@ -383,8 +383,44 @@ def test_subtraction_two_float_literals():
     )
 
 
-def test_subtraction_then_addition_is_left_associative_integer_literals():
-    """Handling subtraction and addition of three integer literals, ensuring it is left-associative."""
+def test_addition_and_subtraction_is_left_associative_integer_literals():
+    """Handling addition and subtraction of three integer literals, ensuring they are both left-associative."""
+
+    __verify_ast(
+        source="let x = 1 + 2 - 3",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "-",
+                        "left": {
+                            "type": "binary_expression",
+                            "operator": "+",
+                            "left": {
+                                "type": "numeric_literal",
+                                "value": 1,
+                            },
+                            "right": {
+                                "type": "numeric_literal",
+                                "value": 2,
+                            },
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 3,
+                        },
+                    },
+                }
+            ],
+        },
+    )
 
     __verify_ast(
         source="let x = 1 - 2 + 3",
@@ -423,11 +459,355 @@ def test_subtraction_then_addition_is_left_associative_integer_literals():
     )
 
 
-def test_addition_then_subtraction_is_left_associative_integer_literals():
-    """Handling addition and subtraction of three integer literals, ensuring it is left-associative."""
+def test_multiplication_two_integer_literals():
+    """Handling multiplication of two integer literals."""
 
     __verify_ast(
-        source="let x = 1 + 2 - 3",
+        source="let x = 2 * 2",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "*",
+                        "left": {
+                            "type": "numeric_literal",
+                            "value": 2,
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 2,
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_multiplication_two_float_literals():
+    """Handling multiplication of two float literals."""
+
+    __verify_ast(
+        source="let x = 2.5 * 2.5",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "*",
+                        "left": {
+                            "type": "numeric_literal",
+                            "value": 2.5,
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 2.5,
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_multiplication_integer_and_float_literals():
+    """Handling multiplication of an integer literal and a float literal."""
+
+    __verify_ast(
+        source="let x = 2 * 2.5",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "*",
+                        "left": {
+                            "type": "numeric_literal",
+                            "value": 2,
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 2.5,
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_division_two_integer_literals():
+    """Handling division of two integer literals."""
+
+    __verify_ast(
+        source="let x = 2 / 2",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "/",
+                        "left": {
+                            "type": "numeric_literal",
+                            "value": 2,
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 2,
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_division_two_float_literals():
+    """Handling division of two float literals."""
+
+    __verify_ast(
+        source="let x = 2.5 / 2.5",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "/",
+                        "left": {
+                            "type": "numeric_literal",
+                            "value": 2.5,
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 2.5,
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_division_integer_and_float_literals():
+    """Handling division of an integer literal and a float literal."""
+
+    __verify_ast(
+        source="let x = 2.5 / 2",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "/",
+                        "left": {
+                            "type": "numeric_literal",
+                            "value": 2.5,
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 2,
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_multiplication_and_division_is_left_associative_integer_literals():
+    """Handling multiplication and division of three integer literals, ensuring they are both left-associative."""
+
+    __verify_ast(
+        source="let x = 1 * 2 / 3",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "/",
+                        "left": {
+                            "type": "binary_expression",
+                            "operator": "*",
+                            "left": {
+                                "type": "numeric_literal",
+                                "value": 1,
+                            },
+                            "right": {
+                                "type": "numeric_literal",
+                                "value": 2,
+                            },
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 3,
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+    __verify_ast(
+        source="let x = 1 / 2 * 3",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "*",
+                        "left": {
+                            "type": "binary_expression",
+                            "operator": "/",
+                            "left": {
+                                "type": "numeric_literal",
+                                "value": 1,
+                            },
+                            "right": {
+                                "type": "numeric_literal",
+                                "value": 2,
+                            },
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 3,
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_multiplication_has_higher_precedence_than_addition():
+    """Handling expressions with both multiplication and addition, ensuring the multiplication takes precedence."""
+
+    __verify_ast(
+        source="let x = 1 * 2 + 3",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "+",
+                        "left": {
+                            "type": "binary_expression",
+                            "operator": "*",
+                            "left": {
+                                "type": "numeric_literal",
+                                "value": 1,
+                            },
+                            "right": {
+                                "type": "numeric_literal",
+                                "value": 2,
+                            },
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 3,
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+    __verify_ast(
+        source="let x = 1 + 2 * 3",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "+",
+                        "left": {
+                            "type": "numeric_literal",
+                            "value": 1,
+                        },
+                        "right": {
+                            "type": "binary_expression",
+                            "operator": "*",
+                            "left": {
+                                "type": "numeric_literal",
+                                "value": 2,
+                            },
+                            "right": {
+                                "type": "numeric_literal",
+                                "value": 3,
+                            },
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_division_has_higher_precedence_than_subtraction():
+    """Handling expressions with both division and subtraction, ensuring the division takes precedence."""
+
+    __verify_ast(
+        source="let x = 1 / 2 - 3",
         expected_ast={
             "type": "program",
             "body": [
@@ -442,7 +822,7 @@ def test_addition_then_subtraction_is_left_associative_integer_literals():
                         "operator": "-",
                         "left": {
                             "type": "binary_expression",
-                            "operator": "+",
+                            "operator": "/",
                             "left": {
                                 "type": "numeric_literal",
                                 "value": 1,
@@ -455,6 +835,42 @@ def test_addition_then_subtraction_is_left_associative_integer_literals():
                         "right": {
                             "type": "numeric_literal",
                             "value": 3,
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+    __verify_ast(
+        source="let x = 1 - 2 / 3",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "-",
+                        "left": {
+                            "type": "numeric_literal",
+                            "value": 1,
+                        },
+                        "right": {
+                            "type": "binary_expression",
+                            "operator": "/",
+                            "left": {
+                                "type": "numeric_literal",
+                                "value": 2,
+                            },
+                            "right": {
+                                "type": "numeric_literal",
+                                "value": 3,
+                            },
                         },
                     },
                 }

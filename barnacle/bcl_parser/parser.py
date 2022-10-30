@@ -2,6 +2,8 @@
 parser.py: Implements the Parser class.
 """
 
+from typing import Callable, List
+
 from bcl_tokenizer import tokenizer as tkn
 
 
@@ -257,19 +259,15 @@ class Parser:
 
         return self.__construct_multibranch_node("expression", branches)
 
-    def __node_additive_expression(self) -> dict:
-        """
-        Additive expression node: Represents an expression of addition or subtraction to be calculated.
+    def __node_left_associative_expression(self, tokens: List[str], sub_expression_parser: Callable) -> dict:
+        """Represents a left-associative expression with the given allowed tokens and a sub-expression parser."""
 
-        These expressions are left-associative, meaning `1 + 2 + 3` is calculated as `(1 + 2) + 3`.
-        """
+        this_expression = sub_expression_parser()
 
-        this_expression = self.__node_numeric_literal()
-
-        while (next_token := self.token_lookahead) is not None and next_token["type"] in ["+", "-"]:
+        while (next_token := self.token_lookahead) is not None and next_token["type"] in tokens:
             operator = self.__consume_token(next_token["type"])["value"]
 
-            right_operand = self.__node_numeric_literal()
+            right_operand = sub_expression_parser()
 
             this_expression = {
                 "type": "binary_expression",
@@ -279,6 +277,25 @@ class Parser:
             }
 
         return this_expression
+
+    def __node_additive_expression(self) -> dict:
+        """
+        Additive expression node: Represents an expression of addition or subtraction to be calculated.
+
+        These expressions are left-associative, meaning `1 + 2 + 3` is calculated as `(1 + 2) + 3`.
+        """
+
+        additive_operator_tokens = ["+", "-"]
+        return self.__node_left_associative_expression(additive_operator_tokens, self.__node_multiplicative_expression)
+
+    def __node_multiplicative_expression(self) -> dict:
+        """Multiplicative expression node: Represents an expression of multiplication or division to be calculated.
+
+        These expressions are left-associative, meaning `1 * 2 * 3` is calculated as `(1 * 2) * 3`.
+        """
+
+        multiplicative_operator_tokens = ["*", "/"]
+        return self.__node_left_associative_expression(multiplicative_operator_tokens, self.__node_numeric_literal)
 
     def __construct_multibranch_node(self, node_name: str, branches: dict) -> dict:
         """
