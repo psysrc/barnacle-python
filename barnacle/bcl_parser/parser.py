@@ -259,12 +259,12 @@ class Parser:
 
         return self.__construct_multibranch_node("expression", branches)
 
-    def __node_left_associative_expression(self, tokens: List[str], sub_expression_parser: Callable) -> dict:
-        """Represents a left-associative expression with the given allowed tokens and a sub-expression parser."""
+    def __node_left_associative_expression(self, operator_tokens: List[str], sub_expression_parser: Callable) -> dict:
+        """Represents a left-associative expression with the given operator tokens and a sub-expression parser."""
 
         this_expression = sub_expression_parser()
 
-        while (next_token := self.token_lookahead) is not None and next_token["type"] in tokens:
+        while (next_token := self.token_lookahead) is not None and next_token["type"] in operator_tokens:
             operator = self.__consume_token(next_token["type"])["value"]
 
             right_operand = sub_expression_parser()
