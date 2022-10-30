@@ -266,7 +266,7 @@ class Parser:
 
         this_expression = self.__node_numeric_literal()
 
-        while (next_token := self.token_lookahead) is not None and next_token["type"] in ["+"]:
+        while (next_token := self.token_lookahead) is not None and next_token["type"] in ["+", "-"]:
             operator = self.__consume_token(next_token["type"])["value"]
 
             right_operand = self.__node_numeric_literal()
