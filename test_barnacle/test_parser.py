@@ -877,3 +877,127 @@ def test_division_has_higher_precedence_than_subtraction():
             ],
         },
     )
+
+
+def test_parentheses_have_precedence_over_everything():
+    """Handling expressions with parentheses, ensuring the expression in the parentheses takes precedence."""
+
+    __verify_ast(
+        source="let x = 1 / (2 - 3)",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "/",
+                        "left": {
+                            "type": "numeric_literal",
+                            "value": 1,
+                        },
+                        "right": {
+                            "type": "binary_expression",
+                            "operator": "-",
+                            "left": {
+                                "type": "numeric_literal",
+                                "value": 2,
+                            },
+                            "right": {
+                                "type": "numeric_literal",
+                                "value": 3,
+                            },
+                        },
+                    },
+                },
+            ],
+        },
+    )
+
+    __verify_ast(
+        source="let x = (1 / 2) - 3",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "-",
+                        "left": {
+                            "type": "binary_expression",
+                            "operator": "/",
+                            "left": {
+                                "type": "numeric_literal",
+                                "value": 1,
+                            },
+                            "right": {
+                                "type": "numeric_literal",
+                                "value": 2,
+                            },
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 3,
+                        },
+                    },
+                },
+            ],
+        },
+    )
+
+
+def test_nested_parenthesised_expressions():
+    """Handling parenthesised expressions inside of parenthesised expressions."""
+
+    __verify_ast(
+        source="let x = (3 - (1 / 2)) * 4",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "x",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "*",
+                        "left": {
+                            "type": "binary_expression",
+                            "operator": "-",
+                            "left": {
+                                "type": "numeric_literal",
+                                "value": 3,
+                            },
+                            "right": {
+                                "type": "binary_expression",
+                                "operator": "/",
+                                "left": {
+                                    "type": "numeric_literal",
+                                    "value": 1,
+                                },
+                                "right": {
+                                    "type": "numeric_literal",
+                                    "value": 2,
+                                },
+                            },
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 4,
+                        },
+                    },
+                },
+            ],
+        },
+    )

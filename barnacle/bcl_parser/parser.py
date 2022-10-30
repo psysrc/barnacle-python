@@ -255,9 +255,27 @@ class Parser:
             "NUMBER": self.__node_additive_expression,
             "BOOLEAN": self.__node_boolean_literal,
             "IDENTIFIER": self.__node_identifier,
+            "(": self.__node_additive_expression,
         }
 
         return self.__construct_multibranch_node("expression", branches)
+
+    def __node_parenthesised_expression(self) -> dict:
+        """Represents an expression within parentheses."""
+
+        self.__consume_token("(")
+        expression = self.__node_expression()
+        self.__consume_token(")")
+
+        return expression
+
+    def __node_primary_expression(self) -> dict:
+        """Represents the highest-possible precedence expression, either a value or a parenthesised expression."""
+
+        if self.token_lookahead["type"] == "(":
+            return self.__node_parenthesised_expression()
+
+        return self.__node_numeric_literal()
 
     def __node_left_associative_expression(self, operator_tokens: List[str], sub_expression_parser: Callable) -> dict:
         """
@@ -292,7 +310,7 @@ class Parser:
         """Multiplicative expression node: Represents an expression of multiplication or division to be calculated."""
 
         multiplicative_operator_tokens = ["*", "/"]
-        return self.__node_left_associative_expression(multiplicative_operator_tokens, self.__node_numeric_literal)
+        return self.__node_left_associative_expression(multiplicative_operator_tokens, self.__node_primary_expression)
 
     def __construct_multibranch_node(self, node_name: str, branches: dict) -> dict:
         """
