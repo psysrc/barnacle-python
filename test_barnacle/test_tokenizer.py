@@ -249,3 +249,13 @@ def test_operator_plus():
     __verify_first_token("+ ", "+", "+")
     __verify_first_token("+ 6", "+", "+")
     __verify_first_token('+ "World"', "+", "+")
+
+
+def test_operator_subtract():
+    """Handling the - operator."""
+
+    __verify_token_basic("-", "-")
+
+    __verify_first_token("- ", "-", "-")
+    __verify_first_token("- 2", "-", "-")
+    __verify_first_token('- "World"', "-", "-")
