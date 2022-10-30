@@ -277,7 +277,7 @@ class Parser:
 
         return self.__node_numeric_literal()
 
-    def __node_left_associative_expression(self, operator_tokens: List[str], sub_expression_parser: Callable) -> dict:
+    def __node_binary_expression(self, operator_tokens: List[str], sub_expression_parser: Callable) -> dict:
         """
         Represents a left-associative expression with the given operator tokens and a sub-expression parser.
 
@@ -304,13 +304,13 @@ class Parser:
         """Additive expression node: Represents an expression of addition or subtraction to be calculated."""
 
         additive_operator_tokens = ["+", "-"]
-        return self.__node_left_associative_expression(additive_operator_tokens, self.__node_multiplicative_expression)
+        return self.__node_binary_expression(additive_operator_tokens, self.__node_multiplicative_expression)
 
     def __node_multiplicative_expression(self) -> dict:
         """Multiplicative expression node: Represents an expression of multiplication or division to be calculated."""
 
         multiplicative_operator_tokens = ["*", "/"]
-        return self.__node_left_associative_expression(multiplicative_operator_tokens, self.__node_primary_expression)
+        return self.__node_binary_expression(multiplicative_operator_tokens, self.__node_primary_expression)
 
     def __construct_multibranch_node(self, node_name: str, branches: dict) -> dict:
         """
