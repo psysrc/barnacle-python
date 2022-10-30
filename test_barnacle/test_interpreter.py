@@ -571,3 +571,68 @@ def test_while_loop_runs_twice(capsys):
         """,
         expected_stdout="Run\nRun\n",
     )
+
+
+def test_sum_two_integers(capsys):
+    """Handling addition of two integers."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = 1 + 2
+        print x
+        """,
+        expected_stdout="3\n",
+    )
+
+
+def test_sum_three_integers(capsys):
+    """Handling addition of two integers."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = 1 + 2 + 3
+        print x
+        """,
+        expected_stdout="6\n",
+    )
+
+
+def test_sum_two_floats(capsys):
+    """Handling addition of two floats."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = 1.125 + 2.25
+        print x
+        """,
+        expected_stdout="3.375\n",
+    )
+
+
+def test_sum_three_floats(capsys):
+    """Handling addition of two floats."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = 1.125 + 2.125 + 3.25
+        print x
+        """,
+        expected_stdout="6.5\n",
+    )
+
+
+def test_sum_integer_and_float(capsys):
+    """Handling addition of an integer and a float."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = 6 + 1.25
+        print x
+        """,
+        expected_stdout="7.25\n",
+    )

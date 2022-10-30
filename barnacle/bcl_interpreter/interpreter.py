@@ -113,9 +113,27 @@ class Interpreter:
             "numeric_literal": self.__interpret_numeric_literal,
             "boolean_literal": self.__interpret_boolean_literal,
             "identifier": self.__interpret_variable,
+            "binary_expression": self.__interpret_binary_expression,
         }
 
         return self.__construct_multibranch_interpret(env, ast, "expression", branches)
+
+    def __interpret_binary_expression(self, env: Environment, ast: dict):
+        logging.debug("Interpreting 'binary_expression' node")
+        self.__validate_node(ast, "binary_expression", {"left", "right", "operator"})
+
+        left_value = self.__interpret_expression(env, ast["left"])
+        right_value = self.__interpret_expression(env, ast["right"])
+        operator = ast["operator"]
+
+        result = self.__calculate_binary_expression(left=left_value, right=right_value, operator=operator)
+        return result
+
+    def __calculate_binary_expression(self, left, right, operator: str):
+        if operator == "+":
+            return left + right
+
+        raise ValueError(f"Unexpected operator '{operator}' in binary expression '{left} {operator} {right}'")
 
     def __construct_multibranch_interpret(self, env: Environment, ast: dict, interpret_name: str, branches: dict):
         self.__validate_node_has_type(ast)
