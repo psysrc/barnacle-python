@@ -53,7 +53,7 @@ Optional arguments:
 Examples:
 - `python barnacle /example/hello_world.bcl`
 - `cat /example/hello_world.bcl | python barnacle -`
-- `python barnacle -` (type code on the fly, to finish use `^D`)
+- `python barnacle -` (type code directly, to execute use `^D`)
 - `python barnacle /example/hello_world.bcl --show-ast --no-run`
 
 ## Release History
@@ -66,17 +66,19 @@ Examples:
 - v0.5.0: Pytest unit testing, variables as expressions
 - v0.6.0: Scoped variable declarations, variable re-assignment
 - v0.7.0: While loops
+- v0.8.0: Mathematical expressions and operations, string concatenation and subtraction
 
 ## Future Development
 
-Note that this is in no particular order.
+Note that these are in no particular order.
 
-- String manipulation
-- String expressions
-- Mathematical operations
-- Mathematical expressions
-- Function definitions & calling
+- Boolean logic (and, or, xor, not)
+- Comparison operators (<, >, <=, >=, !=, ==)
+- Function definitions and function calling
 - Console input
+- Do While loops
+- For loops
+- File I/O
 
 ## Special Thanks
 
