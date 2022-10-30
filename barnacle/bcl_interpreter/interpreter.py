@@ -132,6 +132,8 @@ class Interpreter:
     def __calculate_binary_expression(self, left, right, operator: str):
         if operator == "+":
             return left + right
+        if operator == "-":
+            return left - right
 
         raise ValueError(f"Unexpected operator '{operator}' in binary expression '{left} {operator} {right}'")
 

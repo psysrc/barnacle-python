@@ -636,3 +636,42 @@ def test_sum_integer_and_float(capsys):
         """,
         expected_stdout="7.25\n",
     )
+
+
+def test_subtract_two_integers(capsys):
+    """Handling subtraction of two integers."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = 6 - 1
+        print x
+        """,
+        expected_stdout="5\n",
+    )
+
+
+def test_subtract_two_floats(capsys):
+    """Handling subtraction of two floats."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = 6.75 - 1.25
+        print x
+        """,
+        expected_stdout="5.5\n",
+    )
+
+
+def test_subtract_three_numbers(capsys):
+    """Handling subtraction of three numbers (floats/integers)."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = 6 - 1 - 2.5
+        print x
+        """,
+        expected_stdout="2.5\n",
+    )
