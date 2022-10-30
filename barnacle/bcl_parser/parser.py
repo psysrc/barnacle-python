@@ -275,7 +275,7 @@ class Parser:
                 "type": "binary_expression",
                 "operator": operator,
                 "left": this_expression,
-                "right": right_operand
+                "right": right_operand,
             }
 
         return this_expression
