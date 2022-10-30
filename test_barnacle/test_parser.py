@@ -43,8 +43,8 @@ def test_empty():
     )
 
 
-def test_print():
-    """Handling print statements."""
+def test_empty_print():
+    """Handling a print statement with an empty string literal."""
 
     __verify_ast(
         source='print ""',
@@ -61,6 +61,11 @@ def test_print():
             ],
         },
     )
+
+
+def test_print_hello_world():
+    """Handling a print statement with a Hello World string literal."""
+
     __verify_ast(
         source='print "Hello World!"',
         expected_ast={
@@ -76,6 +81,10 @@ def test_print():
             ],
         },
     )
+
+
+def test_print_three_times():
+    """Handling three onsecutive print statements with string literals."""
 
     __verify_ast(
         source="""
@@ -105,6 +114,40 @@ print "Third line!!"
                     "body": {
                         "type": "string_literal",
                         "value": "Third line!!",
+                    },
+                },
+            ],
+        },
+    )
+
+
+def test_print_with_variable():
+    """Handling a print statement with a string variable."""
+
+    __verify_ast(
+        source="""
+        let str = "Hello World!"
+        print str
+        """,
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "str",
+                    },
+                    "value": {
+                        "type": "string_literal",
+                        "value": "Hello World!",
+                    },
+                },
+                {
+                    "type": "print",
+                    "body": {
+                        "type": "identifier",
+                        "name": "str",
                     },
                 },
             ],
