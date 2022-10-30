@@ -134,6 +134,10 @@ class Interpreter:
             return left + right
         if operator == "-":
             return left - right
+        if operator == "*":
+            return left * right
+        if operator == "/":
+            return left / right
 
         raise ValueError(f"Unexpected operator '{operator}' in binary expression '{left} {operator} {right}'")
 

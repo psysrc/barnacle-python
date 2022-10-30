@@ -675,3 +675,68 @@ def test_subtract_three_numbers(capsys):
         """,
         expected_stdout="2.5\n",
     )
+
+
+def test_multiply_two_integers(capsys):
+    """Handling subtraction of two integers."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = 6 * 2
+        print x
+        """,
+        expected_stdout="12\n",
+    )
+
+
+def test_multiply_two_floats(capsys):
+    """Handling subtraction of two floats."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = 2.5 * 2.5
+        print x
+        """,
+        expected_stdout="6.25\n",
+    )
+
+
+def test_multiply_two_numbers(capsys):
+    """Handling subtraction of two numbers (floats/integers)."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = 6 * 1.5
+        print x
+        """,
+        expected_stdout="9.0\n",
+    )
+
+
+def test_multiplication_has_precedence_over_addition(capsys):
+    """Handling multiplication and addition in the same expression."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = 6 * 2 + 4
+        print x
+        """,
+        expected_stdout="16\n",
+    )
+
+
+def test_division_has_precedence_over_subtraction(capsys):
+    """Handling division and subtraction in the same expression."""
+
+    __validate_stdout(
+        capsys,
+        source="""
+        let x = 6 / 2 - 4
+        print x
+        """,
+        expected_stdout="-1.0\n",
+    )
