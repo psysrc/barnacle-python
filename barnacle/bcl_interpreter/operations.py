@@ -29,8 +29,11 @@ def calculate_binary_operation(operator: str, left: Any, right: Any) -> Any:
         case ("-", str(), str()):
             return __remove_trailing_substring(left=left, right=right)
 
+        case ("==", l, r) if type(l) == type(r):
+            return left == right
+
     raise RuntimeError(
-        f"Operator '{operator}' does not support provided the operand types "
+        f"Operator '{operator}' does not support the provided operand types "
         f"'{type(left).__name__}' and '{type(right).__name__}'"
     )
 
