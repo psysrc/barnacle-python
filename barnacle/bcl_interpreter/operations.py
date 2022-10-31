@@ -8,11 +8,18 @@ This includes mathematical operators such as +, -, *, / and boolean operators li
 from typing import Any
 
 
+class OperationNotSupported(RuntimeError):
+    """Exception thrown when an unsupported operation is attempted."""
+
+
 def calculate_binary_operation(operator: str, left: Any, right: Any) -> Any:
     """
     Perform an operation on two operands.
     Raises an exception if the given operation and operands are not supported.
     """
+
+    # Lots of return statements here because it works well with the match-case
+    # pylint: disable=too-many-return-statements
 
     match (operator, left, right):
         case ("==", l, r) if type(l) == type(r):
@@ -34,8 +41,7 @@ def calculate_binary_operation(operator: str, left: Any, right: Any) -> Any:
         case ("/", int() | float(), int() | float()):
             return left / right
 
-
-    raise RuntimeError(
+    raise OperationNotSupported(
         f"Operator '{operator}' does not support the provided operand types "
         f"'{type(left).__name__}' and '{type(right).__name__}'"
     )

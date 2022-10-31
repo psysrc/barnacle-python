@@ -4,6 +4,7 @@ test_interpreter.py: Unit tests for the bcl_interpreter submodule.
 
 import pytest
 from bcl_interpreter import interpreter as itp
+from bcl_interpreter.operations import OperationNotSupported
 
 
 def __validate_stdout(capsys, *, source: str, expected_stdout: str):
@@ -17,12 +18,12 @@ def __validate_stdout(capsys, *, source: str, expected_stdout: str):
     assert actual_stdout == expected_stdout
 
 
-def __expect_runtime_error(*, source: str):
-    """Validates that the provided source causes a RuntimeError."""
+def __expect_error(*, source: str, exception: Exception):
+    """Validates that the provided source causes a specific exception."""
 
     interpreter = itp.Interpreter(source)
 
-    with pytest.raises(RuntimeError):
+    with pytest.raises(exception):
         interpreter.run()
 
 
@@ -352,27 +353,30 @@ def test_variable_declaration(capsys):
         expected_stdout="Hello Matt\n",
     )
 
-    __expect_runtime_error(
+    __expect_error(
         source="""
         let var1 = "Hello"
         let var1 = "World"
         """,
+        exception=RuntimeError,
     )
 
-    __expect_runtime_error(
+    __expect_error(
         source="""
         print variable
         """,
+        exception=RuntimeError,
     )
 
 
 def test_variable_redefinition(capsys):
     """Handling basic variable redefinition."""
 
-    __expect_runtime_error(
+    __expect_error(
         source="""
         variable = "MUSE"
         """,
+        exception=RuntimeError,
     )
 
     __validate_stdout(
@@ -448,17 +452,18 @@ def test_variable_scoping(capsys):
         expected_stdout="Out\nOut\nIn\nOut\n",
     )
 
-    __expect_runtime_error(
+    __expect_error(
         source="""
         {
             let variable = "In"
         }
 
         print variable
-        """
+        """,
+        exception=RuntimeError,
     )
 
-    __expect_runtime_error(
+    __expect_error(
         source="""
         {
             let variable = "First"
@@ -467,7 +472,8 @@ def test_variable_scoping(capsys):
         {
             variable = "Second"
         }
-        """
+        """,
+        exception=RuntimeError,
     )
 
     __validate_stdout(
@@ -509,14 +515,15 @@ def test_variable_scoping(capsys):
         expected_stdout="3\n3\n1\n",
     )
 
-    __expect_runtime_error(
+    __expect_error(
         source="""
         if false {
             let variable = "The Dark Side"
         }
 
         print variable
-        """
+        """,
+        exception=RuntimeError,
     )
 
 
@@ -811,15 +818,13 @@ def test_string_truncation_literal_and_variable(capsys):
 def test_bad_string_truncation():
     """Handling bad string truncation."""
 
-    interpreter = itp.Interpreter(
-        """
+    __expect_error(
+        source="""
         let x = "AlphaBetaGamma"
         let y = x - "Zeta"
-        """
+        """,
+        exception=RuntimeError,
     )
-
-    with pytest.raises(RuntimeError):
-        interpreter.run()
 
 
 def test_equality_string_and_variable(capsys):
@@ -947,24 +952,20 @@ def test_equality_two_variables(capsys):
 def test_equality_two_variables_different_types(capsys):
     """Handling equality between two variables containing different types."""
 
-    interpreter = itp.Interpreter(
-        """
+    __expect_error(
+        source="""
         let x = "Alpha"
         let y = 7
         let eq = x == y
-        """
+        """,
+        exception=OperationNotSupported,
     )
 
-    with pytest.raises(RuntimeError):
-        interpreter.run()
-
-    interpreter = itp.Interpreter(
-        """
+    __expect_error(
+        source="""
         let x = false
         let y = 7.8
         let eq = x == y
-        """
+        """,
+        exception=OperationNotSupported,
     )
-
-    with pytest.raises(RuntimeError):
-        interpreter.run()
