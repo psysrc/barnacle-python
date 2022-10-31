@@ -1,5 +1,5 @@
 """
-test_parser_maths.py: Unit tests for the mathematics of the bcl_parser submodule.
+Unit tests for the arithmetic operators of the bcl_parser submodule.
 """
 
 from .parser_helpers import verify_ast

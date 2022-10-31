@@ -299,7 +299,7 @@ class Parser:
     def __node_additive_expression(self) -> dict:
         """Additive expression node: Represents an expression of addition or subtraction to be calculated."""
 
-        additive_operator_tokens = ["+", "-"]
+        additive_operator_tokens = ["+", "-", "=="]
         return self.__node_binary_expression(additive_operator_tokens, self.__node_multiplicative_expression)
 
     def __node_multiplicative_expression(self) -> dict:
