@@ -38,3 +38,67 @@ def test_equality_integer_literals():
             ],
         },
     )
+
+
+def test_equality_two_variables():
+    """Handling equality of two variables."""
+
+    verify_ast(
+        source="let eq = x == y",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "eq",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "==",
+                        "left": {
+                            "type": "identifier",
+                            "name": "x",
+                        },
+                        "right": {
+                            "type": "identifier",
+                            "name": "y",
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_equality_variable_and_string_literal():
+    """Handling equality of a variable and a string literal."""
+
+    verify_ast(
+        source='let ok = ret == "200 OK"',
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "ok",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "==",
+                        "left": {
+                            "type": "identifier",
+                            "name": "ret",
+                        },
+                        "right": {
+                            "type": "string_literal",
+                            "value": "200 OK",
+                        },
+                    },
+                }
+            ],
+        },
+    )
