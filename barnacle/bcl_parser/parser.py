@@ -242,7 +242,7 @@ class Parser:
     def __node_expression(self) -> dict:
         """Expression node: Represents an expression whose value can be calculated."""
 
-        return self.__node_additive_expression()
+        return self.__node_low_precedence_operator_expression()
 
     def __node_parenthesised_expression(self) -> dict:
         """Represents an expression within parentheses."""
@@ -296,17 +296,23 @@ class Parser:
 
         return this_expression
 
-    def __node_additive_expression(self) -> dict:
-        """Additive expression node: Represents an expression of addition or subtraction to be calculated."""
+    def __node_low_precedence_operator_expression(self) -> dict:
+        """Represents an expression to be calculated containing low-precedence operators."""
 
-        additive_operator_tokens = ["+", "-", "=="]
-        return self.__node_binary_expression(additive_operator_tokens, self.__node_multiplicative_expression)
+        operator_tokens = ["+", "-", "=="]
+        return self.__node_binary_expression(operator_tokens, self.__node_medium_precedence_operator_expression)
 
-    def __node_multiplicative_expression(self) -> dict:
-        """Multiplicative expression node: Represents an expression of multiplication or division to be calculated."""
+    def __node_medium_precedence_operator_expression(self) -> dict:
+        """Represents an expression to be calculated containing medium-precedence operators."""
 
-        multiplicative_operator_tokens = ["*", "/"]
-        return self.__node_binary_expression(multiplicative_operator_tokens, self.__node_primary_expression)
+        operator_tokens = ["*", "/"]
+        return self.__node_binary_expression(operator_tokens, self.__node_high_precedence_operator_expression)
+
+    def __node_high_precedence_operator_expression(self) -> dict:
+        """Represents an expression to be calculated containing high-precedence operators."""
+
+        operator_tokens = []
+        return self.__node_binary_expression(operator_tokens, self.__node_primary_expression)
 
     def __construct_multibranch_node(self, node_name: str, branches: dict) -> dict:
         """
