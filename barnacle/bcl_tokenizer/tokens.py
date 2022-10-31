@@ -34,7 +34,9 @@ TOKEN_REGEXPS = {
     # Keyword "while"
     r"^while\b": "WHILE",
     # ==================== Operators ====================
-    # Equals Operator
+    # Equality Operator
+    r"^==": "==",
+    # Assignment Operator
     r"^=": "=",
     # Plus Operator
     r"^\+": "+",
