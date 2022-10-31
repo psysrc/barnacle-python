@@ -15,22 +15,25 @@ def calculate_binary_operation(operator: str, left: Any, right: Any) -> Any:
     """
 
     match (operator, left, right):
+        case ("==", l, r) if type(l) == type(r):
+            return left == right
+
         case ("+", int() | float(), int() | float()):
             return left + right
-        case ("-", int() | float(), int() | float()):
-            return left - right
-        case ("*", int() | float(), int() | float()):
-            return left * right
-        case ("/", int() | float(), int() | float()):
-            return left / right
-
         case ("+", str(), str()):
             return left + right
+
+        case ("-", int() | float(), int() | float()):
+            return left - right
         case ("-", str(), str()):
             return __remove_trailing_substring(left=left, right=right)
 
-        case ("==", l, r) if type(l) == type(r):
-            return left == right
+        case ("*", int() | float(), int() | float()):
+            return left * right
+
+        case ("/", int() | float(), int() | float()):
+            return left / right
+
 
     raise RuntimeError(
         f"Operator '{operator}' does not support the provided operand types "
