@@ -1,5 +1,5 @@
 """
-parser.py: Implements the Parser class.
+Implements the Parser class.
 """
 
 from typing import Callable, List

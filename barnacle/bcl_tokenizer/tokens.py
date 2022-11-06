@@ -1,5 +1,5 @@
 """
-tokens.py: Contains the TOKEN_REGEXPS dictionary.
+Contains the TOKEN_REGEXPS dictionary.
 """
 
 TOKEN_REGEXPS = {

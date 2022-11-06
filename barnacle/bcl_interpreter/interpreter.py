@@ -1,5 +1,5 @@
 """
-interpreter.py: Implements the Interpreter class.
+Implements the Interpreter class.
 """
 
 import logging

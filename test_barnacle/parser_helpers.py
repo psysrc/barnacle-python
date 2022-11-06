@@ -1,5 +1,5 @@
 """
-parser_helpers.py: Implements helper functions for the bcl_parser unit tests.
+Implements helper functions for the bcl_parser unit tests.
 """
 
 from bcl_parser import parser as prs

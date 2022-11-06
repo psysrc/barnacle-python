@@ -1,5 +1,5 @@
 """
-main.py: The entry point for the Barnacle command line interpreter.
+The entry point for the Barnacle command line interpreter.
 """
 
 import argparse

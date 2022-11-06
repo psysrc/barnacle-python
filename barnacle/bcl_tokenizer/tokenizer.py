@@ -1,5 +1,5 @@
 """
-tokenizer.py: Implements the Tokenizer class.
+Implements the Tokenizer class.
 """
 
 import logging

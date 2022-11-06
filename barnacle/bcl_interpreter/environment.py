@@ -1,5 +1,5 @@
 """
-environment.py: Implements the Environment class.
+Implements the Environment class.
 """
 
 import logging

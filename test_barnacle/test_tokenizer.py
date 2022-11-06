@@ -1,5 +1,5 @@
 """
-test_tokenizer.py: Unit tests for the bcl_tokenizer submodule.
+Unit tests for the bcl_tokenizer submodule.
 """
 
 from bcl_tokenizer import tokenizer as tkn

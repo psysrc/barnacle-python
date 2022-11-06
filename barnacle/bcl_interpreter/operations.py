@@ -1,5 +1,5 @@
 """
-operations.py: Supported operators and their operands for Barnacle.
+Supported operators and their operands for Barnacle.
 
 This includes mathematical operators such as +, -, *, / and boolean operators like `not` and `or`.
 """

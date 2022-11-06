@@ -1,5 +1,5 @@
 """
-test_parser.py: Unit tests for the basic (non-maths) behaviour of the bcl_parser submodule.
+Unit tests for the basic (non-maths) behaviour of the bcl_parser submodule.
 """
 
 from .parser_helpers import verify_ast
