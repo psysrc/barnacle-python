@@ -149,3 +149,147 @@ def test_equality_two_variables_different_types():
         """,
         exception=OperationNotSupported,
     )
+
+
+def test_inequality_string_and_variable(capsys):
+    """Handling inequality between a variable and a string literal."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = "Alpha"
+        let eq = x != "Alpha"
+        print eq
+        """,
+        expected_stdout="false\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = "Alpha"
+        let eq = x != "Beta"
+        print eq
+        """,
+        expected_stdout="true\n",
+    )
+
+
+def test_inequality_bool_and_variable(capsys):
+    """Handling inequality between a variable and a boolean literal."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = true
+        let eq = x != true
+        print eq
+        """,
+        expected_stdout="false\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = true
+        let eq = x != false
+        print eq
+        """,
+        expected_stdout="true\n",
+    )
+
+
+def test_inequality_integer_and_variable(capsys):
+    """Handling inequality between a variable and an integer literal."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 12
+        let eq = x != 12
+        print eq
+        """,
+        expected_stdout="false\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 12
+        let eq = x != 4
+        print eq
+        """,
+        expected_stdout="true\n",
+    )
+
+
+def test_inequality_float_and_variable(capsys):
+    """Handling inequality between a variable and a float literal."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 12.3
+        let eq = x != 12.3
+        print eq
+        """,
+        expected_stdout="false\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 12.3
+        let eq = x != 9.1
+        print eq
+        """,
+        expected_stdout="true\n",
+    )
+
+
+def test_inequality_two_variables(capsys):
+    """Handling inequality between two variables."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = "Alpha"
+        let y = "Alpha"
+        let eq = x != y
+        print eq
+        """,
+        expected_stdout="false\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = "Alpha"
+        let y = "Beta"
+        let eq = x != y
+        print eq
+        """,
+        expected_stdout="true\n",
+    )
+
+
+def test_inequality_two_variables_different_types():
+    """Handling inequality between two variables containing different types."""
+
+    expect_error(
+        source="""
+        let x = "Alpha"
+        let y = 7
+        let eq = x != y
+        """,
+        exception=OperationNotSupported,
+    )
+
+    expect_error(
+        source="""
+        let x = false
+        let y = 7.8
+        let eq = x != y
+        """,
+        exception=OperationNotSupported,
+    )

@@ -25,6 +25,9 @@ def calculate_binary_operation(operator: str, left: Any, right: Any) -> Any:
         case ("==", left_expr, right_expr) if type(left_expr) == type(right_expr):  # pylint: disable=C0123,E0601
             return left == right
 
+        case ("!=", left_expr, right_expr) if type(left_expr) == type(right_expr):  # pylint: disable=C0123,E0601
+            return left != right
+
         case ("+", int() | float(), int() | float()):
             return left + right
         case ("+", str(), str()):
