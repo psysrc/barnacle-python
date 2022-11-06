@@ -949,7 +949,7 @@ def test_equality_two_variables(capsys):
     )
 
 
-def test_equality_two_variables_different_types(capsys):
+def test_equality_two_variables_different_types():
     """Handling equality between two variables containing different types."""
 
     __expect_error(

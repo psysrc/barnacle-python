@@ -136,7 +136,7 @@ def test_inequality_integer_literals():
     )
 
 
-def test_equality_two_variables():
+def test_inequality_two_variables():
     """Handling inequality of two variables."""
 
     verify_ast(
@@ -168,7 +168,7 @@ def test_equality_two_variables():
     )
 
 
-def test_equality_variable_and_string_literal():
+def test_inequality_variable_and_string_literal():
     """Handling inequality of a variable and a string literal."""
 
     verify_ast(

@@ -22,7 +22,7 @@ def calculate_binary_operation(operator: str, left: Any, right: Any) -> Any:
     # pylint: disable=too-many-return-statements
 
     match (operator, left, right):
-        case ("==", l, r) if type(l) == type(r):
+        case ("==", left_expr, right_expr) if type(left_expr) == type(right_expr):  # pylint: disable=C0123,E0601
             return left == right
 
         case ("+", int() | float(), int() | float()):
