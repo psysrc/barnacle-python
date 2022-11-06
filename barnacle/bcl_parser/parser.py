@@ -299,7 +299,7 @@ class Parser:
     def __node_low_precedence_operator_expression(self) -> dict:
         """Represents an expression to be calculated containing low-precedence operators."""
 
-        operator_tokens = ["+", "-", "=="]
+        operator_tokens = ["+", "-", "==", "!="]
         return self.__node_binary_expression(operator_tokens, self.__node_medium_precedence_operator_expression)
 
     def __node_medium_precedence_operator_expression(self) -> dict:
