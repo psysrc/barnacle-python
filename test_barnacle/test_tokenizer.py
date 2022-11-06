@@ -344,3 +344,28 @@ def test_operator_less_than_or_equal():
 
     __verify_not_token_type("<", "<=")
     __verify_not_token_type("= 5 <", "<=")
+
+
+def test_operator_more_than():
+    """Handling the > operator."""
+
+    __verify_token_basic(">", ">")
+
+    __verify_first_token("> ", ">", ">")
+    __verify_first_token("> 2", ">", ">")
+
+    __verify_not_token_type(">=", ">")
+    __verify_not_token_type(">= ", ">")
+    __verify_not_token_type(">= 5", ">")
+
+
+def test_operator_more_than_or_equal():
+    """Handling the >= operator."""
+
+    __verify_token_basic(">=", ">=")
+
+    __verify_first_token(">= ", ">=", ">=")
+    __verify_first_token(">= 2", ">=", ">=")
+
+    __verify_not_token_type(">", ">=")
+    __verify_not_token_type("= 5 >", ">=")

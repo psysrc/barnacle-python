@@ -42,6 +42,10 @@ TOKEN_REGEXPS = {
     r"^<=": "<=",
     # Less Than Operator
     r"^<": "<",
+    # More Than Or Equal Operator
+    r"^>=": ">=",
+    # More Than Operator
+    r"^>": ">",
     # Assignment Operator
     r"^=": "=",
     # Plus Operator
