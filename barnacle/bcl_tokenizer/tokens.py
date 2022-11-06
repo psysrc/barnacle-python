@@ -38,6 +38,10 @@ TOKEN_REGEXPS = {
     r"^==": "==",
     # Inequality Operator
     r"^!=": "!=",
+    # Less Than Or Equal Operator
+    r"^<=": "<=",
+    # Less Than Operator
+    r"^<": "<",
     # Assignment Operator
     r"^=": "=",
     # Plus Operator
