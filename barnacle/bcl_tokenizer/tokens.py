@@ -36,6 +36,8 @@ TOKEN_REGEXPS = {
     # ==================== Operators ====================
     # Equality Operator
     r"^==": "==",
+    # Inequality Operator
+    r"^!=": "!=",
     # Assignment Operator
     r"^=": "=",
     # Plus Operator

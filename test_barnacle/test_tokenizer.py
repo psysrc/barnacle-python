@@ -305,3 +305,17 @@ def test_operator_equality():
     __verify_not_token_type("=", "==")
     __verify_not_token_type("= ", "==")
     __verify_not_token_type("= 5", "==")
+
+
+def test_operator_inequality():
+    """Handling the != operator."""
+
+    __verify_token_basic("!=", "!=")
+
+    __verify_first_token("!= ", "!=", "!=")
+    __verify_first_token("!= 2", "!=", "!=")
+    __verify_first_token('!= "World"', "!=", "!=")
+
+    __verify_not_token_type("=", "!=")
+    __verify_not_token_type("= ", "!=")
+    __verify_not_token_type("= 5", "!=")
