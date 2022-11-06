@@ -1,30 +1,10 @@
 """
-test_interpreter.py: Unit tests for the bcl_interpreter submodule.
+Unit tests for the basic functionality of the bcl_interpreter submodule.
 """
 
-import pytest
 from bcl_interpreter import interpreter as itp
-from bcl_interpreter.operations import OperationNotSupported
 
-
-def __validate_stdout(capsys, *, source: str, expected_stdout: str):
-    """Validates that the provided source produces the expected standard output."""
-
-    interpreter = itp.Interpreter(source)
-    interpreter.run()
-
-    actual_stdout, _ = capsys.readouterr()
-
-    assert actual_stdout == expected_stdout
-
-
-def __expect_error(*, source: str, exception: Exception):
-    """Validates that the provided source causes a specific exception."""
-
-    interpreter = itp.Interpreter(source)
-
-    with pytest.raises(exception):
-        interpreter.run()
+from .interpreter_helpers import expect_error, validate_stdout
 
 
 def test_empty():
@@ -40,13 +20,13 @@ def test_empty():
 def test_hello_world(capsys):
     """Handling a Hello World program."""
 
-    __validate_stdout(capsys, source='print "Hello World!"', expected_stdout="Hello World!\n")
+    validate_stdout(capsys, source='print "Hello World!"', expected_stdout="Hello World!\n")
 
 
 def test_print(capsys):
     """Handling basic print statements."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         print "Hello World!"
@@ -54,7 +34,7 @@ def test_print(capsys):
         expected_stdout="Hello World!\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         print "Policies"
@@ -64,7 +44,7 @@ def test_print(capsys):
         expected_stdout="Policies\nHave\nRisen\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         print true
@@ -73,7 +53,7 @@ def test_print(capsys):
         expected_stdout="true\nfalse\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         print 00
@@ -83,7 +63,7 @@ def test_print(capsys):
         expected_stdout="0\n935\n-75\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         print 05.090
@@ -96,7 +76,7 @@ def test_print(capsys):
 def test_if_basic(capsys):
     """Handling a basic 'if' statement."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         if true {
@@ -108,7 +88,7 @@ def test_if_basic(capsys):
         expected_stdout="True\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         if false {
@@ -124,7 +104,7 @@ def test_if_basic(capsys):
 def test_if_chained(capsys):
     """Testing chained 'if' statements."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         if true {
@@ -140,7 +120,7 @@ def test_if_chained(capsys):
         expected_stdout="1\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         if false {
@@ -156,7 +136,7 @@ def test_if_chained(capsys):
         expected_stdout="2\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         if false {
@@ -172,7 +152,7 @@ def test_if_chained(capsys):
         expected_stdout="3\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         if false {
@@ -192,7 +172,7 @@ def test_if_chained(capsys):
 def test_if_nested(capsys):
     """Handling nested 'if' statements."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         if true {
@@ -212,7 +192,7 @@ def test_if_nested(capsys):
         expected_stdout="1\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         if true {
@@ -232,7 +212,7 @@ def test_if_nested(capsys):
         expected_stdout="2\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         if false {
@@ -252,7 +232,7 @@ def test_if_nested(capsys):
         expected_stdout="3\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         if false {
@@ -276,7 +256,7 @@ def test_if_nested(capsys):
 def test_if_consecutive(capsys):
     """Handling consecutive 'if' statements."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         if true { print "1" }
@@ -292,7 +272,7 @@ def test_if_consecutive(capsys):
 def test_if_expressions(capsys):
     """Handling different expression types within 'if' statements."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         if "Non-empty string" { print "1" }
@@ -301,7 +281,7 @@ def test_if_expressions(capsys):
         expected_stdout="1\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         if 1 { print "1" }
@@ -314,7 +294,7 @@ def test_if_expressions(capsys):
         expected_stdout="1\n2\n4\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let var1 = true
@@ -333,7 +313,7 @@ def test_if_expressions(capsys):
 def test_variable_declaration(capsys):
     """Handling basic variable declarations."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let my_var = "Hello Duckie"
@@ -342,7 +322,7 @@ def test_variable_declaration(capsys):
         expected_stdout="Hello Duckie\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let var1 = "Hello Matt"
@@ -353,7 +333,7 @@ def test_variable_declaration(capsys):
         expected_stdout="Hello Matt\n",
     )
 
-    __expect_error(
+    expect_error(
         source="""
         let var1 = "Hello"
         let var1 = "World"
@@ -361,7 +341,7 @@ def test_variable_declaration(capsys):
         exception=RuntimeError,
     )
 
-    __expect_error(
+    expect_error(
         source="""
         print variable
         """,
@@ -372,14 +352,14 @@ def test_variable_declaration(capsys):
 def test_variable_redefinition(capsys):
     """Handling basic variable redefinition."""
 
-    __expect_error(
+    expect_error(
         source="""
         variable = "MUSE"
         """,
         exception=RuntimeError,
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let variable = "Take"
@@ -398,7 +378,7 @@ def test_variable_redefinition(capsys):
 def test_code_blocks(capsys):
     """Handling code blocks."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let variable = "Starlight"
@@ -416,7 +396,7 @@ def test_code_blocks(capsys):
 def test_variable_scoping(capsys):
     """Handling variables within different scopes."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let variable = "Out"
@@ -434,7 +414,7 @@ def test_variable_scoping(capsys):
         expected_stdout="Out\nOut\nIn\nIn\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let variable = "Out"
@@ -452,7 +432,7 @@ def test_variable_scoping(capsys):
         expected_stdout="Out\nOut\nIn\nOut\n",
     )
 
-    __expect_error(
+    expect_error(
         source="""
         {
             let variable = "In"
@@ -463,7 +443,7 @@ def test_variable_scoping(capsys):
         exception=RuntimeError,
     )
 
-    __expect_error(
+    expect_error(
         source="""
         {
             let variable = "First"
@@ -476,7 +456,7 @@ def test_variable_scoping(capsys):
         exception=RuntimeError,
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let var1 = 1
@@ -494,7 +474,7 @@ def test_variable_scoping(capsys):
         expected_stdout="100\n2\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let variable = 1
@@ -515,7 +495,7 @@ def test_variable_scoping(capsys):
         expected_stdout="3\n3\n1\n",
     )
 
-    __expect_error(
+    expect_error(
         source="""
         if false {
             let variable = "The Dark Side"
@@ -530,7 +510,7 @@ def test_variable_scoping(capsys):
 def test_while_loop_no_runs(capsys):
     """Handling a while loop that never runs."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         while false {
@@ -544,7 +524,7 @@ def test_while_loop_no_runs(capsys):
 def test_while_loop_runs_once(capsys):
     """Handling a while loop that runs once."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let expression = true
@@ -561,7 +541,7 @@ def test_while_loop_runs_once(capsys):
 def test_while_loop_runs_twice(capsys):
     """Handling a while loop that runs twice."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let expression1 = true
@@ -580,179 +560,10 @@ def test_while_loop_runs_twice(capsys):
     )
 
 
-def test_sum_two_integers(capsys):
-    """Handling addition of two integers."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 1 + 2
-        print x
-        """,
-        expected_stdout="3\n",
-    )
-
-
-def test_sum_three_integers(capsys):
-    """Handling addition of two integers."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 1 + 2 + 3
-        print x
-        """,
-        expected_stdout="6\n",
-    )
-
-
-def test_sum_two_floats(capsys):
-    """Handling addition of two floats."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 1.125 + 2.25
-        print x
-        """,
-        expected_stdout="3.375\n",
-    )
-
-
-def test_sum_three_floats(capsys):
-    """Handling addition of two floats."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 1.125 + 2.125 + 3.25
-        print x
-        """,
-        expected_stdout="6.5\n",
-    )
-
-
-def test_sum_integer_and_float(capsys):
-    """Handling addition of an integer and a float."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 6 + 1.25
-        print x
-        """,
-        expected_stdout="7.25\n",
-    )
-
-
-def test_subtract_two_integers(capsys):
-    """Handling subtraction of two integers."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 6 - 1
-        print x
-        """,
-        expected_stdout="5\n",
-    )
-
-
-def test_subtract_two_floats(capsys):
-    """Handling subtraction of two floats."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 6.75 - 1.25
-        print x
-        """,
-        expected_stdout="5.5\n",
-    )
-
-
-def test_subtract_three_numbers(capsys):
-    """Handling subtraction of three numbers (floats/integers)."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 6 - 1 - 2.5
-        print x
-        """,
-        expected_stdout="2.5\n",
-    )
-
-
-def test_multiply_two_integers(capsys):
-    """Handling subtraction of two integers."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 6 * 2
-        print x
-        """,
-        expected_stdout="12\n",
-    )
-
-
-def test_multiply_two_floats(capsys):
-    """Handling subtraction of two floats."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 2.5 * 2.5
-        print x
-        """,
-        expected_stdout="6.25\n",
-    )
-
-
-def test_multiply_two_numbers(capsys):
-    """Handling subtraction of two numbers (floats/integers)."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 6 * 1.5
-        print x
-        """,
-        expected_stdout="9.0\n",
-    )
-
-
-def test_multiplication_has_precedence_over_addition(capsys):
-    """Handling multiplication and addition in the same expression."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 6 * 2 + 4
-        print x
-        """,
-        expected_stdout="16\n",
-    )
-
-
-def test_division_has_precedence_over_subtraction(capsys):
-    """Handling division and subtraction in the same expression."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 6 / 2 - 4
-        print x
-        """,
-        expected_stdout="-1.0\n",
-    )
-
-
 def test_string_concatenation_string_literals(capsys):
     """Handling string concatenation with two string literals."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let x = "Hello" + " World"
@@ -765,7 +576,7 @@ def test_string_concatenation_string_literals(capsys):
 def test_string_concatenation_string_literal_and_variable(capsys):
     """Handling string concatenation with two string literals."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let x = "Hi"
@@ -775,7 +586,7 @@ def test_string_concatenation_string_literal_and_variable(capsys):
         expected_stdout="Hi Dad\n",
     )
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let x = " Mum"
@@ -789,7 +600,7 @@ def test_string_concatenation_string_literal_and_variable(capsys):
 def test_string_concatenation_two_variables(capsys):
     """Handling string concatenation with two variables."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let x = "Good"
@@ -804,7 +615,7 @@ def test_string_concatenation_two_variables(capsys):
 def test_string_truncation_literal_and_variable(capsys):
     """Handling string truncation with a string literal and a variable."""
 
-    __validate_stdout(
+    validate_stdout(
         capsys,
         source="""
         let x = "AlphaBetaGamma"
@@ -818,154 +629,10 @@ def test_string_truncation_literal_and_variable(capsys):
 def test_bad_string_truncation():
     """Handling bad string truncation."""
 
-    __expect_error(
+    expect_error(
         source="""
         let x = "AlphaBetaGamma"
         let y = x - "Zeta"
         """,
         exception=RuntimeError,
-    )
-
-
-def test_equality_string_and_variable(capsys):
-    """Handling equality between a variable and a string literal."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = "Alpha"
-        let eq = x == "Alpha"
-        print eq
-        """,
-        expected_stdout="true\n",
-    )
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = "Alpha"
-        let eq = x == "Beta"
-        print eq
-        """,
-        expected_stdout="false\n",
-    )
-
-
-def test_equality_bool_and_variable(capsys):
-    """Handling equality between a variable and a boolean literal."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = true
-        let eq = x == true
-        print eq
-        """,
-        expected_stdout="true\n",
-    )
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = true
-        let eq = x == false
-        print eq
-        """,
-        expected_stdout="false\n",
-    )
-
-
-def test_equality_integer_and_variable(capsys):
-    """Handling equality between a variable and an integer literal."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 12
-        let eq = x == 12
-        print eq
-        """,
-        expected_stdout="true\n",
-    )
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 12
-        let eq = x == 4
-        print eq
-        """,
-        expected_stdout="false\n",
-    )
-
-
-def test_equality_float_and_variable(capsys):
-    """Handling equality between a variable and a float literal."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 12.3
-        let eq = x == 12.3
-        print eq
-        """,
-        expected_stdout="true\n",
-    )
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = 12.3
-        let eq = x == 9.1
-        print eq
-        """,
-        expected_stdout="false\n",
-    )
-
-
-def test_equality_two_variables(capsys):
-    """Handling equality between two variables."""
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = "Alpha"
-        let y = "Alpha"
-        let eq = x == y
-        print eq
-        """,
-        expected_stdout="true\n",
-    )
-
-    __validate_stdout(
-        capsys,
-        source="""
-        let x = "Alpha"
-        let y = "Beta"
-        let eq = x == y
-        print eq
-        """,
-        expected_stdout="false\n",
-    )
-
-
-def test_equality_two_variables_different_types():
-    """Handling equality between two variables containing different types."""
-
-    __expect_error(
-        source="""
-        let x = "Alpha"
-        let y = 7
-        let eq = x == y
-        """,
-        exception=OperationNotSupported,
-    )
-
-    __expect_error(
-        source="""
-        let x = false
-        let y = 7.8
-        let eq = x == y
-        """,
-        exception=OperationNotSupported,
     )
