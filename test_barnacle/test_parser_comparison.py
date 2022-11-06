@@ -198,3 +198,131 @@ def test_inequality_variable_and_string_literal():
             ],
         },
     )
+
+
+def test_less_than_two_variables():
+    """Handling the less-than operator between two variables."""
+
+    verify_ast(
+        source="let less = x < y",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "less",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "<",
+                        "left": {
+                            "type": "identifier",
+                            "name": "x",
+                        },
+                        "right": {
+                            "type": "identifier",
+                            "name": "y",
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_less_than_variable_and_integer_literal():
+    """Handling the less-than operator between a variable and an integer literal."""
+
+    verify_ast(
+        source='let v = ret < 3',
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "v",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "<",
+                        "left": {
+                            "type": "identifier",
+                            "name": "ret",
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 3,
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_less_than_or_equal_two_variables():
+    """Handling the less-than-or-equal operator between two variables."""
+
+    verify_ast(
+        source="let less_or_eq = x <= y",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "less_or_eq",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "<=",
+                        "left": {
+                            "type": "identifier",
+                            "name": "x",
+                        },
+                        "right": {
+                            "type": "identifier",
+                            "name": "y",
+                        },
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_less_than_or_equal_variable_and_integer_literal():
+    """Handling the less-than-or-equal operator between a variable and an integer literal."""
+
+    verify_ast(
+        source='let v = ret <= 3',
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "v",
+                    },
+                    "value": {
+                        "type": "binary_expression",
+                        "operator": "<=",
+                        "left": {
+                            "type": "identifier",
+                            "name": "ret",
+                        },
+                        "right": {
+                            "type": "numeric_literal",
+                            "value": 3,
+                        },
+                    },
+                }
+            ],
+        },
+    )
