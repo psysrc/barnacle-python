@@ -293,3 +293,54 @@ def test_inequality_two_variables_different_types():
         """,
         exception=OperationNotSupported,
     )
+
+
+def test_equality_float_and_integer(capsys):
+    """Handling equality between a float and an integer."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 1
+        let y = 1.0
+        let eq = x == y
+        print eq
+        """,
+        expected_stdout="true\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 4
+        let y = 9.9
+        let eq = x == y
+        print eq
+        """,
+        expected_stdout="false\n",
+    )
+
+def test_inequality_float_and_integer(capsys):
+    """Handling inequality between a float and an integer."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 1
+        let y = 1.0
+        let eq = x != y
+        print eq
+        """,
+        expected_stdout="false\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 4
+        let y = 9.9
+        let eq = x != y
+        print eq
+        """,
+        expected_stdout="true\n",
+    )

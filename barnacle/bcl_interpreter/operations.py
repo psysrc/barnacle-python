@@ -21,11 +21,18 @@ def calculate_binary_operation(operator: str, left: Any, right: Any) -> Any:
     # Lots of return statements here because it works well with the match-case
     # pylint: disable=too-many-return-statements
 
+    l_type = type(left)
+    r_type = type(right)
+
     match (operator, left, right):
-        case ("==", left_expr, right_expr) if type(left_expr) == type(right_expr):  # pylint: disable=C0123,E0601
+        case ("==", _, _) if l_type == r_type:
+            return left == right
+        case ("==", int() | float(), int() | float()) if l_type is not bool and r_type is not bool:
             return left == right
 
-        case ("!=", left_expr, right_expr) if type(left_expr) == type(right_expr):  # pylint: disable=C0123,E0601
+        case ("!=", _, _) if l_type == r_type:
+            return left != right
+        case ("!=", int() | float(), int() | float()) if l_type is not bool and r_type is not bool:
             return left != right
 
         case ("+", int() | float(), int() | float()):
