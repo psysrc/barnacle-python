@@ -320,6 +320,7 @@ def test_equality_float_and_integer(capsys):
         expected_stdout="false\n",
     )
 
+
 def test_inequality_float_and_integer(capsys):
     """Handling inequality between a float and an integer."""
 

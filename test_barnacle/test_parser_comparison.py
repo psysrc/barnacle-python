@@ -236,7 +236,7 @@ def test_less_than_variable_and_integer_literal():
     """Handling the less-than operator between a variable and an integer literal."""
 
     verify_ast(
-        source='let v = ret < 3',
+        source="let v = ret < 3",
         expected_ast={
             "type": "program",
             "body": [
@@ -300,7 +300,7 @@ def test_less_than_or_equal_variable_and_integer_literal():
     """Handling the less-than-or-equal operator between a variable and an integer literal."""
 
     verify_ast(
-        source='let v = ret <= 3',
+        source="let v = ret <= 3",
         expected_ast={
             "type": "program",
             "body": [
@@ -364,7 +364,7 @@ def test_more_than_variable_and_integer_literal():
     """Handling the more-than operator between a variable and an integer literal."""
 
     verify_ast(
-        source='let v = ret > 3',
+        source="let v = ret > 3",
         expected_ast={
             "type": "program",
             "body": [
@@ -428,7 +428,7 @@ def test_more_than_or_equal_variable_and_integer_literal():
     """Handling the more-than-or-equal operator between a variable and an integer literal."""
 
     verify_ast(
-        source='let v = ret >= 3',
+        source="let v = ret >= 3",
         expected_ast={
             "type": "program",
             "body": [
