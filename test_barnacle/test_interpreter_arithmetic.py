@@ -230,3 +230,22 @@ def test_multiplication_does_not_support_booleans():
         """,
         exception=OperationNotSupported,
     )
+
+def test_division_does_not_support_booleans():
+    """Handling the / operator with booleans."""
+
+    expect_error(
+        source="""
+        let x = true
+        let oof = x / 2
+        """,
+        exception=OperationNotSupported,
+    )
+
+    expect_error(
+        source="""
+        let x = false
+        let oof = 1 / x
+        """,
+        exception=OperationNotSupported,
+    )

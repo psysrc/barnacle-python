@@ -51,7 +51,7 @@ def calculate_binary_operation(operator: str, left: Any, right: Any) -> Any:
         case ("*", _, _) if l_type in [int, float] and r_type in [int, float]:
             return left * right
 
-        case ("/", int() | float(), int() | float()):
+        case ("/", _, _) if l_type in [int, float] and r_type in [int, float]:
             return left / right
 
     raise OperationNotSupported(
