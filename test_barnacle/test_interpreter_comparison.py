@@ -416,7 +416,7 @@ def test_less_than_integer_and_float_variable(capsys):
 
 
 def test_less_than_does_not_support_booleans():
-    """Handling the < operator with booleans."""
+    """Handling the less-than operator with booleans."""
 
     expect_error(
         source="""
@@ -430,6 +430,94 @@ def test_less_than_does_not_support_booleans():
         source="""
         let x = false
         let oof = 3 < x
+        """,
+        exception=OperationNotSupported,
+    )
+
+
+def test_less_than_or_equal_integer_and_integer_variable(capsys):
+    """Handling the less-than-or-equal operator between an integer literal and an integer variable."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5
+        let lt = x <= 8
+        print lt
+        """,
+        expected_stdout="true\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5
+        let lt = x <= 3
+        print lt
+        """,
+        expected_stdout="false\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5
+        let lt = x <= 5
+        print lt
+        """,
+        expected_stdout="true\n",
+    )
+
+
+def test_less_than_or_equal_integer_and_float_variable(capsys):
+    """Handling the less-than-or-equal operator between an integer literal and an float variable."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5.5
+        let lt = x <= 8
+        print lt
+        """,
+        expected_stdout="true\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5.5
+        let lt = x <= 3
+        print lt
+        """,
+        expected_stdout="false\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5.5
+        let lt = x <= 5.5
+        print lt
+        """,
+        expected_stdout="true\n",
+    )
+
+
+def test_less_than_or_equal_does_not_support_booleans():
+    """Handling the less-than-or-equal operator with booleans."""
+
+    expect_error(
+        source="""
+        let x = true
+        let oof = x <= 5
+        """,
+        exception=OperationNotSupported,
+    )
+
+    expect_error(
+        source="""
+        let x = false
+        let oof = 3 <= x
         """,
         exception=OperationNotSupported,
     )
