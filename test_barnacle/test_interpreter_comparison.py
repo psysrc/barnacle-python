@@ -412,3 +412,22 @@ def test_less_than_integer_and_float_variable(capsys):
         """,
         expected_stdout="false\n",
     )
+
+def test_less_than_does_not_support_booleans():
+    """Handling the < operator with booleans."""
+
+    expect_error(
+        source="""
+        let x = true
+        let oof = x < 5
+        """,
+        exception=OperationNotSupported,
+    )
+
+    expect_error(
+        source="""
+        let x = false
+        let oof = 3 < x
+        """,
+        exception=OperationNotSupported,
+    )
