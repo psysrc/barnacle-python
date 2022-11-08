@@ -35,6 +35,9 @@ def calculate_binary_operation(operator: str, left: Any, right: Any) -> Any:
         case ("!=", int() | float(), int() | float()) if l_type is not bool and r_type is not bool:
             return left != right
 
+        case ("<", int() | float(), int() | float()) if l_type is not bool and r_type is not bool:
+            return left < right
+
         case ("+", int() | float(), int() | float()):
             return left + right
         case ("+", str(), str()):

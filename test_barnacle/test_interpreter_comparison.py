@@ -345,3 +345,70 @@ def test_inequality_float_and_integer(capsys):
         """,
         expected_stdout="true\n",
     )
+
+def test_less_than_integer_and_integer_variable(capsys):
+    """Handling the less-than operator between an integer literal and an integer variable."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5
+        let lt = x < 8
+        print lt
+        """,
+        expected_stdout="true\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5
+        let lt = x < 3
+        print lt
+        """,
+        expected_stdout="false\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5
+        let lt = x < 5
+        print lt
+        """,
+        expected_stdout="false\n",
+    )
+
+
+def test_less_than_integer_and_float_variable(capsys):
+    """Handling the less-than operator between an integer literal and an float variable."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5.5
+        let lt = x < 8
+        print lt
+        """,
+        expected_stdout="true\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5.5
+        let lt = x < 3
+        print lt
+        """,
+        expected_stdout="false\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5.5
+        let lt = x < 5.5
+        print lt
+        """,
+        expected_stdout="false\n",
+    )
