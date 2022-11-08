@@ -2,7 +2,8 @@
 Unit tests for the arithmetic functionality of the bcl_interpreter submodule.
 """
 
-from .interpreter_helpers import validate_stdout
+from bcl_interpreter.operations import OperationNotSupported
+from .interpreter_helpers import expect_error, validate_stdout
 
 
 def test_sum_two_integers(capsys):
@@ -171,4 +172,23 @@ def test_division_has_precedence_over_subtraction(capsys):
         print x
         """,
         expected_stdout="-1.0\n",
+    )
+
+def test_addition_does_not_support_booleans():
+    """Handling the + operator with booleans."""
+
+    expect_error(
+        source="""
+        let x = true
+        let oof = x + 1
+        """,
+        exception=OperationNotSupported,
+    )
+
+    expect_error(
+        source="""
+        let x = false
+        let oof = 3 + x
+        """,
+        exception=OperationNotSupported,
     )
