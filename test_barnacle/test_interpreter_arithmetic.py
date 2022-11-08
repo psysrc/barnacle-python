@@ -192,3 +192,22 @@ def test_addition_does_not_support_booleans():
         """,
         exception=OperationNotSupported,
     )
+
+def test_subtraction_does_not_support_booleans():
+    """Handling the - operator with booleans."""
+
+    expect_error(
+        source="""
+        let x = true
+        let oof = x - 1
+        """,
+        exception=OperationNotSupported,
+    )
+
+    expect_error(
+        source="""
+        let x = false
+        let oof = 3 - x
+        """,
+        exception=OperationNotSupported,
+    )
