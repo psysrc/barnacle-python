@@ -346,6 +346,7 @@ def test_inequality_float_and_integer(capsys):
         expected_stdout="true\n",
     )
 
+
 def test_less_than_integer_and_integer_variable(capsys):
     """Handling the less-than operator between an integer literal and an integer variable."""
 
@@ -412,6 +413,7 @@ def test_less_than_integer_and_float_variable(capsys):
         """,
         expected_stdout="false\n",
     )
+
 
 def test_less_than_does_not_support_booleans():
     """Handling the < operator with booleans."""

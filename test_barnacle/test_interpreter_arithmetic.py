@@ -3,6 +3,7 @@ Unit tests for the arithmetic functionality of the bcl_interpreter submodule.
 """
 
 from bcl_interpreter.operations import OperationNotSupported
+
 from .interpreter_helpers import expect_error, validate_stdout
 
 
@@ -174,6 +175,7 @@ def test_division_has_precedence_over_subtraction(capsys):
         expected_stdout="-1.0\n",
     )
 
+
 def test_addition_does_not_support_booleans():
     """Handling the + operator with booleans."""
 
@@ -192,6 +194,7 @@ def test_addition_does_not_support_booleans():
         """,
         exception=OperationNotSupported,
     )
+
 
 def test_subtraction_does_not_support_booleans():
     """Handling the - operator with booleans."""
@@ -212,6 +215,7 @@ def test_subtraction_does_not_support_booleans():
         exception=OperationNotSupported,
     )
 
+
 def test_multiplication_does_not_support_booleans():
     """Handling the * operator with booleans."""
 
@@ -230,6 +234,7 @@ def test_multiplication_does_not_support_booleans():
         """,
         exception=OperationNotSupported,
     )
+
 
 def test_division_does_not_support_booleans():
     """Handling the / operator with booleans."""
