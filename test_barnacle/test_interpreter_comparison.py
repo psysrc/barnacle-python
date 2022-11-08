@@ -521,3 +521,91 @@ def test_less_than_or_equal_does_not_support_booleans():
         """,
         exception=OperationNotSupported,
     )
+
+
+def test_more_than_integer_and_integer_variable(capsys):
+    """Handling the more-than operator between an integer literal and an integer variable."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5
+        let lt = x > 8
+        print lt
+        """,
+        expected_stdout="false\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5
+        let lt = x > 3
+        print lt
+        """,
+        expected_stdout="true\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5
+        let lt = x > 5
+        print lt
+        """,
+        expected_stdout="false\n",
+    )
+
+
+def test_more_than_integer_and_float_variable(capsys):
+    """Handling the more-than operator between an integer literal and an float variable."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5.5
+        let lt = x > 8
+        print lt
+        """,
+        expected_stdout="false\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5.5
+        let lt = x > 3
+        print lt
+        """,
+        expected_stdout="true\n",
+    )
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 5.5
+        let lt = x > 5.5
+        print lt
+        """,
+        expected_stdout="false\n",
+    )
+
+
+def test_more_than_does_not_support_booleans():
+    """Handling the more-than operator with booleans."""
+
+    expect_error(
+        source="""
+        let x = true
+        let oof = x > 5
+        """,
+        exception=OperationNotSupported,
+    )
+
+    expect_error(
+        source="""
+        let x = false
+        let oof = 3 > x
+        """,
+        exception=OperationNotSupported,
+    )
