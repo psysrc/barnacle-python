@@ -27,12 +27,12 @@ def calculate_binary_operation(operator: str, left: Any, right: Any) -> Any:
     match (operator, left, right):
         case ("==", _, _) if l_type == r_type:
             return left == right
-        case ("==", int() | float(), int() | float()) if l_type is not bool and r_type is not bool:
+        case ("==", _, _) if l_type in [int, float] and r_type in [int, float]:
             return left == right
 
         case ("!=", _, _) if l_type == r_type:
             return left != right
-        case ("!=", int() | float(), int() | float()) if l_type is not bool and r_type is not bool:
+        case ("!=", _, _) if l_type in [int, float] and r_type in [int, float]:
             return left != right
 
         case ("<", int() | float(), int() | float()) if l_type is not bool and r_type is not bool:
