@@ -67,13 +67,13 @@ Examples:
 - v0.6.0: Scoped variable declarations, variable re-assignment
 - v0.7.0: While loops
 - v0.8.0: Mathematical expressions and operations, string concatenation and subtraction
+- v0.9.0: Comparison operators (<, >, <=, >=, !=, ==)
 
 ## Future Development
 
 Note that these are in no particular order.
 
 - Boolean logic (and, or, xor, not)
-- Comparison operators (<, >, <=, >=, !=, ==)
 - Function definitions and function calling
 - Console input
 - Do While loops
