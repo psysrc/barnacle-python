@@ -425,3 +425,39 @@ func do_nothing(value) {
             ],
         },
     )
+
+def test_basic_function_declaration_return_literal():
+    """Handling a basic function declaration which returns a literal value."""
+
+    verify_ast(
+        source="""
+func get_foo() {
+    return "foo"
+}
+""",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "func_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "get_foo",
+                    },
+                    "parameters": [],
+                    "body": {
+                        "type": "code_block",
+                        "body": [
+                            {
+                                "type": "return",
+                                "body": {
+                                    "type": "string_literal",
+                                    "value": "foo",
+                                },
+                            },
+                        ],
+                    },
+                }
+            ],
+        },
+    )
