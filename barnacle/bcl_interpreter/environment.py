@@ -89,7 +89,7 @@ class Environment:
 
         logging.debug("Adding function '%s' to environment", identifier)
 
-        if identifier in self.__functions:
+        if identifier in [func.name for func in self.__functions]:
             raise RuntimeError(f"Tried to declare function '{identifier}' which already exists")
 
         self.__functions.append(Function(name=identifier, parameters=parameters, code_block=code_block))

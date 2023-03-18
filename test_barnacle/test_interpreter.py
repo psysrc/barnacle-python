@@ -650,3 +650,20 @@ def test_function_declaration(capsys):
         """,
         expected_stdout="",
     )
+
+
+def test_function_redeclaration():
+    """Handling a basic function redeclaration, which is not allowed in the same environment."""
+
+    expect_error(
+        source="""
+        func do_nothing() {
+
+        }
+
+        func do_nothing() {
+
+        }
+        """,
+        exception=RuntimeError,
+    )
