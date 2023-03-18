@@ -383,3 +383,17 @@ def test_keyword_func():
     __verify_not_token_type("fu = nc", "FUNC")
     __verify_not_token_type("FUNC", "FUNC")
     __verify_not_token_type("fun_c", "FUNC")
+
+
+def test_keyword_return():
+    """Handling the 'return' keyword."""
+
+    __verify_token_basic("return", "RETURN")
+
+    __verify_first_token("return ", "RETURN", "return")
+    __verify_first_token("return foo", "RETURN", "return")
+
+    __verify_not_token_type("ret", "RETURN")
+    __verify_not_token_type("ret = urn", "RETURN")
+    __verify_not_token_type("RETURN", "RETURN")
+    __verify_not_token_type("re_turn", "RETURN")

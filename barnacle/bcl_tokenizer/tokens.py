@@ -25,6 +25,8 @@ TOKEN_REGEXPS = {
     r"^let\b": "LET",
     # Keyword "func"
     r"^func\b": "FUNC",
+    # Keyword "return"
+    r"^return\b": "RETURN",
     # Keyword "print"
     r"^print\b": "PRINT",
     # Keyword "if"
