@@ -206,3 +206,40 @@ def test_basic_variable_declaration():
             ],
         },
     )
+
+
+def test_basic_function_declaration():
+    """Handling a basic function declaration."""
+
+    verify_ast(
+        source="""
+func say_hello() {
+    print "Hello!"
+}
+""",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "func_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "say_hello",
+                    },
+                    "parameters": [],
+                    "body": {
+                        "type": "code_block",
+                        "body": [
+                            {
+                                "type": "print",
+                                "body": {
+                                    "type": "string_literal",
+                                    "value": "Hello!",
+                                },
+                            },
+                        ],
+                    },
+                }
+            ],
+        },
+    )
