@@ -652,7 +652,7 @@ def test_function_declaration(capsys):
     )
 
 
-def test_function_redeclaration():
+def test_function_redeclaration_same_environment_throws_error():
     """Handling a basic function redeclaration, which is not allowed in the same environment."""
 
     expect_error(
@@ -666,4 +666,24 @@ def test_function_redeclaration():
         }
         """,
         exception=RuntimeError,
+    )
+
+
+def test_function_redeclaration_different_environment_is_ok(capsys):
+    """Handling a basic function redeclaration, which is allowed between different environments."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func do_nothing() {
+
+        }
+
+        {
+            func do_nothing() {
+
+            }
+        }
+        """,
+        expected_stdout="",
     )
