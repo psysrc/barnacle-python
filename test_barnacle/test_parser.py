@@ -383,3 +383,45 @@ func three_way_adder(num1, num2, num3) {
             ],
         },
     )
+
+
+def test_basic_function_declaration_one_param_return_param():
+    """Handling a basic function declaration that has one parameter which is returned."""
+
+    verify_ast(
+        source="""
+func do_nothing(value) {
+    return value
+}
+""",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "func_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "do_nothing",
+                    },
+                    "parameters": [
+                        {
+                            "type": "identifier",
+                            "name": "value",
+                        }
+                    ],
+                    "body": {
+                        "type": "code_block",
+                        "body": [
+                            {
+                                "type": "return",
+                                "body": {
+                                    "type": "identifier",
+                                    "name": "value",
+                                },
+                            },
+                        ],
+                    },
+                }
+            ],
+        },
+    )

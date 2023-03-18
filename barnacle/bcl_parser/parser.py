@@ -98,6 +98,7 @@ class Parser:
         -   a `var_assignment` node
         -   a `code_block` node
         -   a `while` node
+        -   a `return` node
         """
 
         branches = {
@@ -108,9 +109,26 @@ class Parser:
             "IDENTIFIER": self.__node_var_assignment,
             "{": self.__node_code_block,
             "WHILE": self.__node_while_loop,
+            "RETURN": self.__node_return,
         }
 
         return self.__construct_multibranch_node("statement", branches)
+
+    def __node_return(self) -> dict:
+        """
+        Return node: Represents a 'return' statement within a function code block.
+
+        A return statement consists of the token stream `RETURN expression`,
+        where `RETURN` is a RETURN token, and `expression` is an expression node.
+        """
+
+        self.__consume_token("RETURN")
+        expression = self.__node_expression()
+
+        return {
+            "type": "return",
+            "body": expression,
+        }
 
     def __node_while_loop(self) -> dict:
         """
