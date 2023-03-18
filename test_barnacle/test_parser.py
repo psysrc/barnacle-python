@@ -208,8 +208,8 @@ def test_basic_variable_declaration():
     )
 
 
-def test_basic_function_declaration():
-    """Handling a basic function declaration."""
+def test_basic_function_declaration_no_params():
+    """Handling a basic function declaration that has no parameters."""
 
     verify_ast(
         source="""
@@ -235,6 +235,68 @@ func say_hello() {
                                 "body": {
                                     "type": "string_literal",
                                     "value": "Hello!",
+                                },
+                            },
+                        ],
+                    },
+                }
+            ],
+        },
+    )
+
+
+def test_basic_function_declaration_one_param():
+    """Handling a basic function declaration that has one parameter."""
+
+    verify_ast(
+        source="""
+func say_hello(name) {
+    let greeting = "Hello " + name
+    print greeting
+}
+""",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "func_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "say_hello",
+                    },
+                    "parameters": [
+                        {
+                            "type": "identifier",
+                            "name": "name",
+                        }
+                    ],
+                    "body": {
+                        "type": "code_block",
+                        "body": [
+                            {
+                                "type": "var_declaration",
+                                "identifier": {
+                                    "type": "identifier",
+                                    "name": "greeting",
+                                },
+                                "value": {
+                                    "type": "binary_expression",
+                                    "operator": "+",
+                                    "left": {
+                                        "type": "string_literal",
+                                        "value": "Hello ",
+                                    },
+                                    "right": {
+                                        "type": "identifier",
+                                        "name": "name",
+                                    },
+                                },
+                            },
+                            {
+                                "type": "print",
+                                "body": {
+                                    "type": "identifier",
+                                    "name": "greeting",
                                 },
                             },
                         ],
