@@ -369,3 +369,17 @@ def test_operator_more_than_or_equal():
 
     __verify_not_token_type(">", ">=")
     __verify_not_token_type("= 5 >", ">=")
+
+
+def test_keyword_func():
+    """Handling the 'func' keyword."""
+
+    __verify_token_basic("func", "FUNC")
+
+    __verify_first_token("func ", "FUNC", "func")
+    __verify_first_token("func foo", "FUNC", "func")
+
+    __verify_not_token_type("fun", "FUNC")
+    __verify_not_token_type("fu = nc", "FUNC")
+    __verify_not_token_type("FUNC", "FUNC")
+    __verify_not_token_type("fun_c", "FUNC")
