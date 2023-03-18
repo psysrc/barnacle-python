@@ -305,3 +305,81 @@ func say_hello(name) {
             ],
         },
     )
+
+
+def test_basic_function_declaration_three_params():
+    """Handling a basic function declaration that has three parameters."""
+
+    verify_ast(
+        source="""
+func three_way_adder(num1, num2, num3) {
+    let answer = num1 + num2 + num3
+    print answer
+}
+""",
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "func_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "three_way_adder",
+                    },
+                    "parameters": [
+                        {
+                            "type": "identifier",
+                            "name": "num1",
+                        },
+                        {
+                            "type": "identifier",
+                            "name": "num2",
+                        },
+                        {
+                            "type": "identifier",
+                            "name": "num3",
+                        },
+                    ],
+                    "body": {
+                        "type": "code_block",
+                        "body": [
+                            {
+                                "type": "var_declaration",
+                                "identifier": {
+                                    "type": "identifier",
+                                    "name": "answer",
+                                },
+                                "value": {
+                                    "type": "binary_expression",
+                                    "operator": "+",
+                                    "left": {
+                                        "type": "binary_expression",
+                                        "operator": "+",
+                                        "left": {
+                                            "type": "identifier",
+                                            "name": "num1",
+                                        },
+                                        "right": {
+                                            "type": "identifier",
+                                            "name": "num2",
+                                        },
+                                    },
+                                    "right": {
+                                        "type": "identifier",
+                                        "name": "num3",
+                                    },
+                                },
+                            },
+                            {
+                                "type": "print",
+                                "body": {
+                                    "type": "identifier",
+                                    "name": "answer",
+                                },
+                            },
+                        ],
+                    },
+                }
+            ],
+        },
+    )
