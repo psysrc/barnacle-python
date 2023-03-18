@@ -636,3 +636,17 @@ def test_bad_string_truncation():
         """,
         exception=RuntimeError,
     )
+
+
+def test_function_declaration(capsys):
+    """Handling a basic function declaration."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func do_nothing() {
+
+        }
+        """,
+        expected_stdout="",
+    )

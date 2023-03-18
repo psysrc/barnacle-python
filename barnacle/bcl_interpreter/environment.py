@@ -4,6 +4,8 @@ Implements the Environment class.
 
 import logging
 
+from bcl_interpreter.function import Function
+
 
 class Environment:
     """
@@ -15,6 +17,7 @@ class Environment:
 
         self.__parent: Environment = outer_environment
         self.__variables: dict = {}
+        self.__functions: list[Function] = []
 
     def new_variable(self, identifier, value):
         """
@@ -76,3 +79,17 @@ class Environment:
             return self.__parent.get_variable(identifier)
 
         raise RuntimeError(f"Tried to get variable '{identifier}' which has not been declared")
+
+    def new_function(self, identifier: str, parameters: list[str], code_block: dict):
+        """
+        Define a new function in this environment.
+
+        If the function name already exists, a RuntimeError is raised.
+        """
+
+        logging.debug("Adding function '%s' to environment", identifier)
+
+        if identifier in self.__functions:
+            raise RuntimeError(f"Tried to declare function '{identifier}' which already exists")
+
+        self.__functions.append(Function(name=identifier, parameters=parameters, code_block=code_block))

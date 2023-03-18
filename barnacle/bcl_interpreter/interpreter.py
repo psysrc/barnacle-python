@@ -74,9 +74,20 @@ class Interpreter:
             "var_assignment": self.__interpret_var_assignment,
             "code_block": self.__interpret_code_block,
             "while": self.__interpret_while_loop,
+            "func_declaration": self.__interpret_func_declaration,
         }
 
         self.__construct_multibranch_interpret(env, ast, "statement", branches)
+
+    def __interpret_func_declaration(self, env: Environment, ast: dict):
+        logging.debug("Interpreting 'func_declaration' node")
+        self.__validate_node(ast, "func_declaration", {"identifier", "parameters", "body"})
+
+        identifier = self.__interpret_identifier_node(env, ast["identifier"])
+        parameters = [self.__interpret_identifier_node(env, param_ast) for param_ast in ast["parameters"]]
+        code_block = self.__interpret_code_block(env, ast["body"])
+
+        env.new_function(identifier, parameters, code_block)
 
     def __interpret_print(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'print' node")
