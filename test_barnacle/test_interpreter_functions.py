@@ -109,6 +109,23 @@ def test_basic_function_call_as_statement_with_parameters(capsys):
     )
 
 
+def test_basic_function_call_as_statement_returning_value(capsys):
+    """Handling a basic function call as a statement that returns a value (the value can be ignored)."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func get_magic_number() {
+            return 6
+        }
+
+        get_magic_number()
+        print "OK"
+        """,
+        expected_stdout="OK\n",
+    )
+
+
 # TODO: Function returning a value (as statement)
 # TODO: Function (as expression) returning a value from an inner code block structure
 # TODO: Function not returning any value (as expression, should throw)
