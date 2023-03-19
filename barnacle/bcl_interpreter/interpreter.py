@@ -121,8 +121,7 @@ class Interpreter:
 
         func_env = Environment(outer_environment=declaring_env)
 
-        parameter_pairs = zip(declared_params, provided_params)
-        for param_name, param_value in parameter_pairs:
+        for param_name, param_value in zip(declared_params, provided_params):
             func_env.new_variable(param_name, param_value)
 
         possible_return_value = self.__interpret_code_block(func_env, function.code_block)
