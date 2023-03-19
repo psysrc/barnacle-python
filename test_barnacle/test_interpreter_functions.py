@@ -124,10 +124,24 @@ def test_basic_function_call_as_statement_returning_value(capsys):
     )
 
 
-# TODO: Function returning a value (as statement)
+def test_basic_function_call_as_expression_returning_parameter(capsys):
+    """Handling a basic function call as an expression that returns one of its parameters."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func identity(value) {
+            return value
+        }
+
+        print identity(6)
+        """,
+        expected_stdout="6\n",
+    )
+
+
 # TODO: Function (as expression) returning a value from an inner code block structure
 # TODO: Function not returning any value (as expression, should throw)
-# TODO: Function returning a parameter
 # TODO: Function returning a local variable
 # TODO: Function accessing/modifying global variables
 # TODO: Function accessing/modifying variables in outer scope (not global)
