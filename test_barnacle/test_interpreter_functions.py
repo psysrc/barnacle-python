@@ -140,9 +140,24 @@ def test_basic_function_call_as_expression_returning_parameter(capsys):
     )
 
 
+def test_basic_function_call_as_expression_returning_local_variable(capsys):
+    """Handling a basic function call as an expression that returns the value of a local variable."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func plus_one(number) {
+            return number + 1
+        }
+
+        print plus_one(5)
+        """,
+        expected_stdout="6\n",
+    )
+
+
 # TODO: Function (as expression) returning a value from an inner code block structure
 # TODO: Function not returning any value (as expression, should throw)
-# TODO: Function returning a local variable
 # TODO: Function accessing/modifying global variables
 # TODO: Function accessing/modifying variables in outer scope (not global)
 #       (i.e. inner functions) (do I want to allow this this?)
