@@ -125,9 +125,9 @@ class Interpreter:
         for param_name, param_value in parameter_pairs:
             func_env.new_variable(param_name, param_value)
 
-        flow_control = self.__interpret_code_block(func_env, function.code_block)
+        possible_return_value = self.__interpret_code_block(func_env, function.code_block)
 
-        return flow_control.value if isinstance(flow_control, Interpreter.ReturnStatement) else None
+        return possible_return_value.value if isinstance(possible_return_value, Interpreter.ReturnStatement) else None
 
     def __interpret_func_declaration(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'func_declaration' node")
