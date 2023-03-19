@@ -101,6 +101,17 @@ class Interpreter:
 
         return Interpreter.ReturnStatement(value=return_value)
 
+    def __interpret_func_call_as_expression(self, env: Environment, ast: dict):
+        logging.debug("Interpreting 'func_call' node as part of an 'expression' node")
+
+        return_value = self.__interpret_func_call(env, ast)
+
+        if return_value is None:
+            func_name = self.__interpret_identifier_node(env, ast["identifier"])
+            raise RuntimeError(f"Function '{func_name}' used in expression but did not return a value")
+
+        return return_value
+
     def __interpret_func_call(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'func_call' node")
         self.__validate_node(ast, "func_call", {"identifier", "parameters"})
@@ -176,7 +187,7 @@ class Interpreter:
             "boolean_literal": self.__interpret_boolean_literal,
             "identifier": self.__interpret_variable,
             "binary_expression": self.__interpret_binary_expression,
-            "func_call": self.__interpret_func_call,
+            "func_call": self.__interpret_func_call_as_expression,
         }
 
         return self.__construct_multibranch_interpret(env, ast, "expression", branches)

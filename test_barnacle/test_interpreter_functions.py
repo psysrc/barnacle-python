@@ -242,8 +242,21 @@ def test_function_call_with_embedded_return_statement_in_while_statement(capsys)
     )
 
 
-# TODO: Function (as expression) returning a value from an inner code block structure
-# TODO: Function not returning any value (as expression, should throw)
+def test_function_call_as_expression_without_returning_any_value():
+    """Handling a function call as an expression, when a return value is not provided during function execution."""
+
+    expect_error(
+        source="""
+        func no_return() {
+
+        }
+
+        let s = no_return()
+        """,
+        exception=RuntimeError,
+    )
+
+
 # TODO: Function accessing/modifying global variables
 # TODO: Function accessing/modifying variables in outer scope (not global)
 #       (i.e. inner functions) (do I want to allow this this?)
