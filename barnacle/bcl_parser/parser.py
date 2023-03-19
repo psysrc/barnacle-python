@@ -332,10 +332,23 @@ class Parser:
             "STRING": self.__node_string_literal,
             "NUMBER": self.__node_numeric_literal,
             "BOOLEAN": self.__node_boolean_literal,
-            "IDENTIFIER": self.__node_identifier,
+            "IDENTIFIER": self.__ambiguous_node_identifier_or_func_call,
         }
 
         return self.__construct_multibranch_node("value", branches)
+
+    def __ambiguous_node_identifier_or_func_call(self) -> dict:
+        """
+        An ambiguous node which is either an identifier or a function call.
+        Both nodes begin with an `IDENTIFIER` token.
+        """
+
+        identifier = self.__node_identifier()
+
+        if self.token_lookahead is not None and self.token_lookahead["type"] == "(":
+            return self.__node_func_call(identifier)
+
+        return identifier
 
     def __node_binary_expression(self, operator_tokens: List[str], sub_expression_parser: Callable) -> dict:
         """

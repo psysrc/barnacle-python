@@ -566,3 +566,137 @@ def test_complex_function_call_as_statement():
             ],
         },
     )
+
+
+def test_basic_function_call_as_expression():
+    """Handling a basic function call via an expression."""
+
+    verify_ast(
+        source="""
+        func empty_string() {
+            return ""
+        }
+
+        let e = empty_string()
+        """,
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "func_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "empty_string",
+                    },
+                    "parameters": [],
+                    "body": {
+                        "type": "code_block",
+                        "body": [
+                            {
+                                "type": "return",
+                                "body": {
+                                    "type": "string_literal",
+                                    "value": "",
+                                },
+                            },
+                        ],
+                    },
+                },
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "e",
+                    },
+                    "value": {
+                        "type": "func_call",
+                        "identifier": {
+                            "type": "identifier",
+                            "name": "empty_string",
+                        },
+                        "parameters": [],
+                    }
+                },
+            ],
+        },
+    )
+
+
+def test_complex_function_call_as_expression():
+    """Handling a complex function call (many params) via an expression."""
+
+    verify_ast(
+        source="""
+        func empty_string(param1, param2, param3) {
+            return ""
+        }
+
+        let e = empty_string(1, -6, "soul")
+        """,
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "func_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "empty_string",
+                    },
+                    "parameters": [
+                        {
+                            "type": "identifier",
+                            "name": "param1",
+                        },
+                        {
+                            "type": "identifier",
+                            "name": "param2",
+                        },
+                        {
+                            "type": "identifier",
+                            "name": "param3",
+                        },
+                    ],
+                    "body": {
+                        "type": "code_block",
+                        "body": [
+                            {
+                                "type": "return",
+                                "body": {
+                                    "type": "string_literal",
+                                    "value": "",
+                                },
+                            },
+                        ],
+                    },
+                },
+                {
+                    "type": "var_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "e",
+                    },
+                    "value": {
+                        "type": "func_call",
+                        "identifier": {
+                            "type": "identifier",
+                            "name": "empty_string",
+                        },
+                        "parameters": [
+                            {
+                                "type": "numeric_literal",
+                                "value": 1,
+                            },
+                            {
+                                "type": "numeric_literal",
+                                "value": -6,
+                            },
+                            {
+                                "type": "string_literal",
+                                "value": "soul",
+                            },
+                        ],
+                    }
+                },
+            ],
+        },
+    )
