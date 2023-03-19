@@ -14,7 +14,9 @@ def validate_stdout(capsys, *, source: str, expected_stdout: str):
 
     actual_stdout, _ = capsys.readouterr()
 
-    assert actual_stdout == expected_stdout
+    assert (
+        actual_stdout == expected_stdout
+    ), f"\nExpected output:\n{expected_stdout}\n\nActual output:\n{actual_stdout}"
 
 
 def expect_error(*, source: str, exception: type[Exception]):
