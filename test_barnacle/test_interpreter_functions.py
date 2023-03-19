@@ -2,8 +2,6 @@
 Unit tests for function capabilities of the bcl_interpreter submodule.
 """
 
-from bcl_interpreter import interpreter as itp
-
 from .interpreter_helpers import expect_error, validate_stdout
 
 
