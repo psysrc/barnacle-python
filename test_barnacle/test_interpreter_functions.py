@@ -6,7 +6,7 @@ from .interpreter_helpers import expect_error, validate_stdout
 
 
 def test_function_declaration(capsys):
-    """Handling a basic function declaration."""
+    """Handling a function declaration."""
 
     validate_stdout(
         capsys,
@@ -20,7 +20,7 @@ def test_function_declaration(capsys):
 
 
 def test_function_redeclaration_same_environment_throws_error():
-    """Handling a basic function redeclaration, which is not allowed in the same environment."""
+    """Handling a function redeclaration, which is not allowed in the same environment."""
 
     expect_error(
         source="""
@@ -37,7 +37,7 @@ def test_function_redeclaration_same_environment_throws_error():
 
 
 def test_function_redeclaration_different_environment_is_ok(capsys):
-    """Handling a basic function redeclaration, which is allowed between different environments."""
+    """Handling a function redeclaration, which is allowed between different environments."""
 
     validate_stdout(
         capsys,
@@ -56,8 +56,8 @@ def test_function_redeclaration_different_environment_is_ok(capsys):
     )
 
 
-def test_basic_function_call_as_statement(capsys):
-    """Handling a basic function call as a statement."""
+def test_function_call_as_statement(capsys):
+    """Handling a function call as a statement."""
 
     validate_stdout(
         capsys,
@@ -73,8 +73,8 @@ def test_basic_function_call_as_statement(capsys):
     )
 
 
-def test_basic_function_call_as_expression(capsys):
-    """Handling a basic function call as an expression."""
+def test_function_call_as_expression(capsys):
+    """Handling a function call as an expression."""
 
     validate_stdout(
         capsys,
@@ -91,8 +91,8 @@ def test_basic_function_call_as_expression(capsys):
     )
 
 
-def test_basic_function_call_as_statement_with_parameters(capsys):
-    """Handling a basic function call as a statement with two parameters."""
+def test_function_call_as_statement_with_parameters(capsys):
+    """Handling a function call as a statement with two parameters."""
 
     validate_stdout(
         capsys,
@@ -107,8 +107,8 @@ def test_basic_function_call_as_statement_with_parameters(capsys):
     )
 
 
-def test_basic_function_call_as_statement_returning_value(capsys):
-    """Handling a basic function call as a statement that returns a value (the value can be ignored)."""
+def test_function_call_as_statement_returning_value(capsys):
+    """Handling a function call as a statement that returns a value (the value can be ignored)."""
 
     validate_stdout(
         capsys,
@@ -124,8 +124,8 @@ def test_basic_function_call_as_statement_returning_value(capsys):
     )
 
 
-def test_basic_function_call_as_expression_returning_parameter(capsys):
-    """Handling a basic function call as an expression that returns one of its parameters."""
+def test_function_call_as_expression_returning_parameter(capsys):
+    """Handling a function call as an expression that returns one of its parameters."""
 
     validate_stdout(
         capsys,
@@ -140,8 +140,8 @@ def test_basic_function_call_as_expression_returning_parameter(capsys):
     )
 
 
-def test_basic_function_call_as_expression_returning_local_variable(capsys):
-    """Handling a basic function call as an expression that returns the value of a local variable."""
+def test_function_call_as_expression_returning_local_variable(capsys):
+    """Handling a function call as an expression that returns the value of a local variable."""
 
     validate_stdout(
         capsys,
