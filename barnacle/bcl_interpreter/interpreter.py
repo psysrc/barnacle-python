@@ -269,12 +269,18 @@ class Interpreter:
 
         return env.get_variable(variable_name)
 
-    def __interpret_while_loop(self, env: Environment, ast: dict):
+    def __interpret_while_loop(self, env: Environment, ast: dict) -> FlowControlType | None:
         logging.debug("Interpreting 'while' node")
         self.__validate_node(ast, "while", {"expression", "body"})
 
         conditional_value = self.__interpret_expression(env, ast["expression"])
 
         while conditional_value:
-            self.__interpret_code_block(env, ast["body"])
+            flow_interrupt = self.__interpret_code_block(env, ast["body"])
+
+            if flow_interrupt:
+                return flow_interrupt
+
             conditional_value = self.__interpret_expression(env, ast["expression"])
+
+        return None
