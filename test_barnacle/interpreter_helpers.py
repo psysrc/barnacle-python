@@ -17,7 +17,7 @@ def validate_stdout(capsys, *, source: str, expected_stdout: str):
     assert actual_stdout == expected_stdout
 
 
-def expect_error(*, source: str, exception: Exception):
+def expect_error(*, source: str, exception: type[Exception]):
     """Validates that the provided source causes a specific exception."""
 
     interpreter = itp.Interpreter(source)
