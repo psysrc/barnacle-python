@@ -257,8 +257,31 @@ def test_function_call_as_expression_without_returning_any_value():
     )
 
 
+def test_function_call_recursively_calling_itself(capsys):
+    """Handling a function call that recursively calls itself."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func fibonacci(number) {
+            if number == 0 {
+                return 0
+            }
+
+            if number == 1 {
+                return 1
+            }
+
+            return fibonacci(number - 1) + fibonacci(number - 2)
+        }
+
+        print fibonacci(7)
+        """,
+        expected_stdout="13\n",
+    )
+
+
 # TODO: Function accessing/modifying global variables
 # TODO: Function accessing/modifying variables in outer scope (not global)
 #       (i.e. inner functions) (do I want to allow this this?)
 # TODO: Function with complex parameters (sub-function call, maths expression, etc)
-# TODO: Recursive function
