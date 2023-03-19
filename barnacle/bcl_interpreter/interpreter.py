@@ -3,6 +3,8 @@ Implements the Interpreter class.
 """
 
 import logging
+from dataclasses import dataclass
+from typing import Any, Optional
 
 from bcl_interpreter.environment import Environment
 from bcl_parser import parser as prs
@@ -14,6 +16,16 @@ class Interpreter:
     """
     The Barnacle Interpreter.
     """
+
+    @dataclass
+    class FlowControlType:
+        """Internal type representing a change of program flow."""
+
+    @dataclass
+    class ReturnStatement(FlowControlType):
+        """An internal value when a `return` statement is used."""
+
+        value: Any
 
     def __init__(self, source: str):
         self.__ast = prs.Parser(source).parse()
@@ -64,7 +76,7 @@ class Interpreter:
         for statement in ast["body"]:
             self.__interpret_statement(env, statement)
 
-    def __interpret_statement(self, env: Environment, ast: dict):
+    def __interpret_statement(self, env: Environment, ast: dict) -> Optional[FlowControlType]:
         logging.debug("Interpreting 'statement' node")
 
         branches = {
@@ -76,9 +88,18 @@ class Interpreter:
             "while": self.__interpret_while_loop,
             "func_declaration": self.__interpret_func_declaration,
             "func_call": self.__interpret_func_call,
+            "return": self.__interpret_return,
         }
 
-        self.__construct_multibranch_interpret(env, ast, "statement", branches)
+        return self.__construct_multibranch_interpret(env, ast, "statement", branches)
+
+    def __interpret_return(self, env: Environment, ast: dict) -> ReturnStatement:
+        logging.debug("Interpreting 'return' node")
+        self.__validate_node(ast, "return", {"body"})
+
+        return_value = self.__interpret_expression(env, ast["body"])
+
+        return Interpreter.ReturnStatement(value=return_value)
 
     def __interpret_func_call(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'func_call' node")
@@ -104,7 +125,9 @@ class Interpreter:
         for param_name, param_value in parameter_pairs:
             func_env.new_variable(param_name, param_value)
 
-        self.__interpret_code_block(func_env, function.code_block)
+        flow_control = self.__interpret_code_block(func_env, function.code_block)
+
+        return flow_control.value if isinstance(flow_control, Interpreter.ReturnStatement) else None
 
     def __interpret_func_declaration(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'func_declaration' node")
@@ -154,6 +177,7 @@ class Interpreter:
             "boolean_literal": self.__interpret_boolean_literal,
             "identifier": self.__interpret_variable,
             "binary_expression": self.__interpret_binary_expression,
+            "func_call": self.__interpret_func_call,
         }
 
         return self.__construct_multibranch_interpret(env, ast, "expression", branches)
@@ -198,14 +222,19 @@ class Interpreter:
             else:
                 self.__interpret_code_block(env, on_false_ast)
 
-    def __interpret_code_block(self, env: Environment, ast: dict):
+    def __interpret_code_block(self, env: Environment, ast: dict) -> Optional[FlowControlType]:
         logging.debug("Interpreting 'code_block' node")
         self.__validate_node(ast, "code_block", {"body"})
 
         new_env = Environment(env)
 
         for statement in ast["body"]:
-            self.__interpret_statement(new_env, statement)
+            flow_interrupt = self.__interpret_statement(new_env, statement)
+
+            if flow_interrupt:
+                return flow_interrupt
+
+        return None
 
     def __interpret_var_declaration(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'var_declaration' node")

@@ -706,12 +706,31 @@ def test_basic_function_call_as_statement(capsys):
     )
 
 
+def test_basic_function_call_as_expression(capsys):
+    """Handling a basic function call as an expression."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func get_message() {
+            return "Hello Return!"
+            return "Goodbye..."
+        }
+
+        let x = get_message()
+        print x
+        """,
+        expected_stdout="Hello Return!\n",
+    )
+
+
 # TODO: Function with parameters
 # TODO: Function returning a value (as statement)
-# TODO: Function returning a value (as expression)
+# TODO: Function (as expression) returning a value from an inner code block structure
 # TODO: Function not returning any value (as expression, should throw)
 # TODO: Function returning a parameter
 # TODO: Function returning a local variable
 # TODO: Function accessing/modifying global variables
-# TODO: Function accessing/modifying variables in outer scope (not global) (i.e. inner functions) (do I want to allow this this?)
+# TODO: Function accessing/modifying variables in outer scope (not global)
+#       (i.e. inner functions) (do I want to allow this this?)
 # TODO: Function with complex parameters (sub-function call, maths expression, etc)
