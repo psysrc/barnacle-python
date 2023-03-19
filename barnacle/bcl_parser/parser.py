@@ -99,6 +99,7 @@ class Parser:
         -   a `code_block` node
         -   a `while` node
         -   a `return` node
+        -   a `func_call` node
         """
 
         branches = {
@@ -106,13 +107,56 @@ class Parser:
             "LET": self.__node_var_declaration,
             "FUNC": self.__node_func_declaration,
             "IF": self.__node_conditional,
-            "IDENTIFIER": self.__node_var_assignment,
+            "IDENTIFIER": self.__ambiguous_node_var_assignment_or_func_call,
             "{": self.__node_code_block,
             "WHILE": self.__node_while_loop,
             "RETURN": self.__node_return,
         }
 
         return self.__construct_multibranch_node("statement", branches)
+
+    def __ambiguous_node_var_assignment_or_func_call(self) -> dict:
+        """
+        An ambiguous node which is either a variable assignment or a function call.
+        Both nodes begin with an `IDENTIFIER` token.
+        """
+
+        identifier = self.__node_identifier()
+
+        if self.token_lookahead["type"] == "=":
+            return self.__node_var_assignment(identifier)
+
+        return self.__node_func_call(identifier)
+
+    def __node_func_call(self, identifier: dict | None = None) -> dict:
+        """
+        Represents a function call.
+
+        A function call consists of the token stream `identifier ( ... )`,
+        where `(` and `)` are tokens, `identifier` is a node,
+        and `...` consists of 0 or more `identifier` nodes separated by `,` tokens.
+        """
+
+        if identifier is None:
+            identifier = self.__node_identifier()
+
+        self.__consume_token("(")
+
+        parameters = []
+        if self.token_lookahead["type"] != ")":
+            parameters.append(self.__node_expression())
+
+            while self.token_lookahead["type"] == ",":
+                self.__consume_token(",")
+                parameters.append(self.__node_expression())
+
+        self.__consume_token(")")
+
+        return {
+            "type": "func_call",
+            "identifier": identifier,
+            "parameters": parameters,
+        }
 
     def __node_return(self) -> dict:
         """
@@ -239,7 +283,7 @@ class Parser:
             "value": expression,
         }
 
-    def __node_var_assignment(self) -> dict:
+    def __node_var_assignment(self, identifier: dict | None = None) -> dict:
         """
         Variable Assignment node: Represents a variable assignment.
 
@@ -247,7 +291,9 @@ class Parser:
         where `identifier` and `expression` are nodes.
         """
 
-        identifier = self.__node_identifier()
+        if identifier is None:
+            identifier = self.__node_identifier()
+
         self.__consume_token("=")
         expression = self.__node_expression()
 

@@ -426,6 +426,7 @@ func do_nothing(value) {
         },
     )
 
+
 def test_basic_function_declaration_return_literal():
     """Handling a basic function declaration which returns a literal value."""
 
@@ -458,6 +459,110 @@ func get_foo() {
                         ],
                     },
                 }
+            ],
+        },
+    )
+
+
+def test_basic_function_call_as_statement():
+    """Handling a basic function call via a standalone statement."""
+
+    verify_ast(
+        source="""
+        func do_nothing() {
+
+        }
+
+        do_nothing()
+        """,
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "func_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "do_nothing",
+                    },
+                    "parameters": [],
+                    "body": {
+                        "type": "code_block",
+                        "body": [],
+                    },
+                },
+                {
+                    "type": "func_call",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "do_nothing",
+                    },
+                    "parameters": [],
+                },
+            ],
+        },
+    )
+
+
+def test_complex_function_call_as_statement():
+    """Handling a complex function call (many params) via a standalone statement."""
+
+    verify_ast(
+        source="""
+        func do_nothing(param1, param2, param3) {
+
+        }
+
+        do_nothing("hi", 4, -0.2)
+        """,
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "func_declaration",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "do_nothing",
+                    },
+                    "parameters": [
+                        {
+                            "type": "identifier",
+                            "name": "param1",
+                        },
+                        {
+                            "type": "identifier",
+                            "name": "param2",
+                        },
+                        {
+                            "type": "identifier",
+                            "name": "param3",
+                        },
+                    ],
+                    "body": {
+                        "type": "code_block",
+                        "body": [],
+                    },
+                },
+                {
+                    "type": "func_call",
+                    "identifier": {
+                        "type": "identifier",
+                        "name": "do_nothing",
+                    },
+                    "parameters": [
+                        {
+                            "type": "string_literal",
+                            "value": "hi",
+                        },
+                        {
+                            "type": "numeric_literal",
+                            "value": 4,
+                        },
+                        {
+                            "type": "numeric_literal",
+                            "value": -0.2,
+                        },
+                    ],
+                },
             ],
         },
     )
