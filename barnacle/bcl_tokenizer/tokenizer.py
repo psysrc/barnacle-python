@@ -24,13 +24,16 @@ class Tokenizer:
         """
         Find and return the next token in the source stream.
 
-        When the end of the stream is reached, None is returned.
+        When the end of the stream is reached, a sentinel `PROGRAM_END` token is returned.
 
-        If no token can be found, a SyntaxError is raised.
+        If no valid token can be found, a SyntaxError is raised.
         """
 
         if self.end_of_stream():
-            return None
+            return {
+                "type": "PROGRAM_END",
+                "value": None,
+            }
 
         for regexp, token_type in tokens.TOKEN_REGEXPS.items():
             match = re.search(regexp, self.source)
@@ -55,7 +58,7 @@ class Tokenizer:
         """
         Returns whether the end of the stream has been reached.
 
-        If this returns True, `next_token()` will always return None.
+        If this returns True, `next_token()` will always return a `PROGRAM_END` token.
         Note that `next_token()` can still return None even if this method returns False.
         """
 

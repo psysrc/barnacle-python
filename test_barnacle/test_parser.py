@@ -615,7 +615,7 @@ def test_basic_function_call_as_expression():
                             "name": "empty_string",
                         },
                         "parameters": [],
-                    }
+                    },
                 },
             ],
         },
@@ -695,7 +695,7 @@ def test_complex_function_call_as_expression():
                                 "value": "soul",
                             },
                         ],
-                    }
+                    },
                 },
             ],
         },

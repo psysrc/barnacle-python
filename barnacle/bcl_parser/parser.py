@@ -36,12 +36,9 @@ class Parser:
         If the token type does not match the provided token_type, an exception is raised.
         """
 
-        if self.token_lookahead is None:
-            raise SyntaxError(f"Unexpected end of program, expected '{expected_token}' token")
-
         if self.token_lookahead["type"] != expected_token:
             actual_token_type = self.token_lookahead["type"]
-            raise RuntimeError(f"Unexpected token (expected '{expected_token}', got '{actual_token_type}')")
+            raise SyntaxError(f"Unexpected token (expected '{expected_token}', got '{actual_token_type}')")
 
         token = self.token_lookahead
         self.token_lookahead = self.tokenizer.next_token()
@@ -56,7 +53,7 @@ class Parser:
 
         statements = []
 
-        while self.token_lookahead is not None:
+        while self.token_lookahead["type"] != "PROGRAM_END":
             statements.append(self.__node_statement())
 
         return {
@@ -345,7 +342,7 @@ class Parser:
 
         identifier = self.__node_identifier()
 
-        if self.token_lookahead is not None and self.token_lookahead["type"] == "(":
+        if self.token_lookahead["type"] == "(":
             return self.__node_func_call(identifier)
 
         return identifier
@@ -359,8 +356,8 @@ class Parser:
 
         this_expression = sub_expression_parser()
 
-        while (next_token := self.token_lookahead) is not None and next_token["type"] in operator_tokens:
-            operator = self.__consume_token(next_token["type"])["value"]
+        while self.token_lookahead["type"] in operator_tokens:
+            operator = self.__consume_token(self.token_lookahead["type"])["value"]
 
             right_operand = sub_expression_parser()
 
@@ -428,7 +425,7 @@ class Parser:
         on_true_block = self.__node_code_block()
 
         on_false_block = None
-        if self.token_lookahead is not None and self.token_lookahead["type"] == "ELSE":
+        if self.token_lookahead["type"] == "ELSE":
             self.__consume_token("ELSE")
 
             if self.token_lookahead["type"] == "IF":

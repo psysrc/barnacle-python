@@ -26,7 +26,6 @@ def __verify_token(source: str, expected_token: dict):
     actual_token = tokenizer.next_token()
 
     assert tokenizer.end_of_stream()
-    assert tokenizer.next_token() is None
 
     assert actual_token == expected_token
 
@@ -48,7 +47,7 @@ def __verify_not_token_type(source: str, unexpected_token_type: str):
     tokenizer = tkn.Tokenizer(source)
 
     try:
-        while token := tokenizer.next_token():
+        while (token := tokenizer.next_token())["type"] != "PROGRAM_END":
             assert token["type"] != unexpected_token_type, token
 
     except SyntaxError:
@@ -61,7 +60,7 @@ def test_empty():
     tokenizer = tkn.Tokenizer("")
 
     assert tokenizer.end_of_stream()
-    assert tokenizer.next_token() is None
+    assert tokenizer.next_token() == {"type": "PROGRAM_END", "value": None}
 
 
 def test_whitespace():
@@ -69,7 +68,7 @@ def test_whitespace():
 
     source = "         \n      \n\n\t\n \n \r\n \r      \r\n\r \t     \t \t\r\t\r\n"
 
-    __verify_token(source, None)
+    __verify_token(source, {"type": "PROGRAM_END", "value": None})
 
 
 def test_comments():
@@ -94,7 +93,7 @@ def test_comments():
 // Block comment inside a single-line comment /* hello */
 """
 
-    __verify_token(source, None)
+    __verify_token(source, {"type": "PROGRAM_END", "value": None})
 
 
 def test_number_literals():
