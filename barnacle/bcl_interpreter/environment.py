@@ -17,7 +17,7 @@ class Environment:
 
         self.__parent: Environment = outer_environment
         self.__variables: dict = {}
-        self.__functions: list[Function] = []
+        self.__functions: dict[str, Function] = {}
 
     def new_variable(self, identifier, value):
         """
@@ -89,7 +89,24 @@ class Environment:
 
         logging.debug("Adding function '%s' to environment", identifier)
 
-        if identifier in [func.name for func in self.__functions]:
+        if identifier in self.__functions:
             raise RuntimeError(f"Tried to declare function '{identifier}' which already exists")
 
-        self.__functions.append(Function(name=identifier, parameters=parameters, code_block=code_block))
+        self.__functions[identifier] = Function(name=identifier, parameters=parameters, code_block=code_block)
+
+    def get_function(self, identifier: str) -> tuple[Function, "Environment"]:
+        """
+        Return the named function along with the environment that it was declared in.
+
+        If the function does not exist, a RuntimeError is raised.
+        """
+
+        logging.debug("Getting function '%s' from environment", identifier)
+
+        if identifier in self.__functions:
+            return (self.__functions[identifier], self)
+
+        if self.__parent is not None:
+            return self.__parent.get_function(identifier)
+
+        raise RuntimeError(f"Tried to get function '{identifier}' which has not been declared")

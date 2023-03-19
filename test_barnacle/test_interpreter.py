@@ -687,3 +687,19 @@ def test_function_redeclaration_different_environment_is_ok(capsys):
         """,
         expected_stdout="",
     )
+
+
+def test_basic_function_call_as_statement(capsys):
+    """Handling a basic function call."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func do_nothing() {
+
+        }
+
+        do_nothing()
+        """,
+        expected_stdout="",
+    )

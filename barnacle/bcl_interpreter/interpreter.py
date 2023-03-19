@@ -75,9 +75,36 @@ class Interpreter:
             "code_block": self.__interpret_code_block,
             "while": self.__interpret_while_loop,
             "func_declaration": self.__interpret_func_declaration,
+            "func_call": self.__interpret_func_call,
         }
 
         self.__construct_multibranch_interpret(env, ast, "statement", branches)
+
+    def __interpret_func_call(self, env: Environment, ast: dict):
+        logging.debug("Interpreting 'func_call' node")
+        self.__validate_node(ast, "func_call", {"identifier", "parameters"})
+
+        identifier = self.__interpret_identifier_node(env, ast["identifier"])
+        function, declaring_env = env.get_function(identifier)
+
+        declared_params = function.parameters
+        provided_params = ast["parameters"]
+
+        if len(provided_params) != len(declared_params):
+            raise RuntimeError(
+                f"Tried to call function {identifier} with incorrect number of parameters"
+                f"(expected {len(declared_params)}, got {len(provided_params)})"
+            )
+
+        provided_params = [self.__interpret_expression(env, param) for param in provided_params]
+
+        func_env = Environment(outer_environment=declaring_env)
+
+        parameter_pairs = zip(declared_params, provided_params)
+        for param_name, param_value in parameter_pairs:
+            func_env.new_variable(param_name, param_value)
+
+        self.__interpret_code_block(func_env, function.code_block)
 
     def __interpret_func_declaration(self, env: Environment, ast: dict):
         logging.debug("Interpreting 'func_declaration' node")
@@ -85,7 +112,7 @@ class Interpreter:
 
         identifier = self.__interpret_identifier_node(env, ast["identifier"])
         parameters = [self.__interpret_identifier_node(env, param_ast) for param_ast in ast["parameters"]]
-        code_block = self.__interpret_code_block(env, ast["body"])
+        code_block = ast["body"]
 
         env.new_function(identifier, parameters, code_block)
 
