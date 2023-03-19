@@ -93,7 +93,22 @@ def test_basic_function_call_as_expression(capsys):
     )
 
 
-# TODO: Function with parameters
+def test_basic_function_call_as_statement_with_parameters(capsys):
+    """Handling a basic function call as a statement with two parameters."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func say_hello(first_name, last_name) {
+            print "Hello " + first_name + " " + last_name + "!"
+        }
+
+        say_hello("Robert", "Alfreddos")
+        """,
+        expected_stdout="Hello Robert Alfreddos!\n",
+    )
+
+
 # TODO: Function returning a value (as statement)
 # TODO: Function (as expression) returning a value from an inner code block structure
 # TODO: Function not returning any value (as expression, should throw)
