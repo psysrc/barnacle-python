@@ -690,16 +690,28 @@ def test_function_redeclaration_different_environment_is_ok(capsys):
 
 
 def test_basic_function_call_as_statement(capsys):
-    """Handling a basic function call."""
+    """Handling a basic function call as a statement."""
 
     validate_stdout(
         capsys,
         source="""
-        func do_nothing() {
-
+        func say_hello() {
+            print "Hello World!"
         }
 
-        do_nothing()
+        say_hello()
+        say_hello()
         """,
-        expected_stdout="",
+        expected_stdout="Hello World!\nHello World!\n",
     )
+
+
+# TODO: Function with parameters
+# TODO: Function returning a value (as statement)
+# TODO: Function returning a value (as expression)
+# TODO: Function not returning any value (as expression, should throw)
+# TODO: Function returning a parameter
+# TODO: Function returning a local variable
+# TODO: Function accessing/modifying global variables
+# TODO: Function accessing/modifying variables in outer scope (not global) (i.e. inner functions) (do I want to allow this this?)
+# TODO: Function with complex parameters (sub-function call, maths expression, etc)
