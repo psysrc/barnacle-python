@@ -6,6 +6,8 @@ Aptly named because barnacles don't do a lot, are rough around the edges, and wi
 
 ## Build
 
+This codebase makes use of Python 3.10 features.
+
 ### Standard build
 
 1. Create a Python3 virtual environment with `python3 -m venv <venv name>`.

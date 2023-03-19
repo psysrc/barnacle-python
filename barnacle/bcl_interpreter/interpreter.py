@@ -4,7 +4,7 @@ Implements the Interpreter class.
 
 import logging
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any
 
 from bcl_interpreter.environment import Environment
 from bcl_parser import parser as prs
@@ -76,7 +76,7 @@ class Interpreter:
         for statement in ast["body"]:
             self.__interpret_statement(env, statement)
 
-    def __interpret_statement(self, env: Environment, ast: dict) -> Optional[FlowControlType]:
+    def __interpret_statement(self, env: Environment, ast: dict) -> FlowControlType | None:
         logging.debug("Interpreting 'statement' node")
 
         branches = {
@@ -204,7 +204,7 @@ class Interpreter:
         logging.debug("Unexpected node type while interpreting '%s' node: %s", interpret_name, ast)
         raise RuntimeError(f"Unexpected node type '{node_type}' while interpreting '{interpret_name}'")
 
-    def __interpret_conditional(self, env: Environment, ast: dict):
+    def __interpret_conditional(self, env: Environment, ast: dict) -> FlowControlType | None:
         logging.debug("Interpreting 'conditional' node")
         self.__validate_node(ast, "conditional", {"expression", "on_true", "on_false"})
 
@@ -212,17 +212,19 @@ class Interpreter:
 
         if bool(expression):
             logging.debug("Interpreting conditional 'on_true' node")
-            self.__interpret_code_block(env, ast["on_true"])
+            return self.__interpret_code_block(env, ast["on_true"])
         elif (on_false_ast := ast["on_false"]) is not None:
             logging.debug("Interpreting conditional 'on_false' node")
             self.__validate_node_has_type(on_false_ast)
 
             if on_false_ast["type"] == "conditional":
-                self.__interpret_conditional(env, on_false_ast)
+                return self.__interpret_conditional(env, on_false_ast)
             else:
-                self.__interpret_code_block(env, on_false_ast)
+                return self.__interpret_code_block(env, on_false_ast)
 
-    def __interpret_code_block(self, env: Environment, ast: dict) -> Optional[FlowControlType]:
+        return None
+
+    def __interpret_code_block(self, env: Environment, ast: dict) -> FlowControlType | None:
         logging.debug("Interpreting 'code_block' node")
         self.__validate_node(ast, "code_block", {"body"})
 

@@ -176,6 +176,50 @@ def test_function_call_with_embedded_return_statement_in_code_block(capsys):
     )
 
 
+def test_function_call_with_embedded_return_statement_in_if_statements_on_true(capsys):
+    """Handling a function call that has a nested return statement within an if-statement's truth block."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func get_foo() {
+            if true {
+                return "foo"
+            } else {
+                return "bar"
+            }
+
+            return "baz"
+        }
+
+        print get_foo()
+        """,
+        expected_stdout="foo\n",
+    )
+
+
+def test_function_call_with_embedded_return_statement_in_if_statements_on_else(capsys):
+    """Handling a function call that has a nested return statement within an if-statement's else block."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func get_bar() {
+            if false {
+                return "foo"
+            } else {
+                return "bar"
+            }
+
+            return "baz"
+        }
+
+        print get_bar()
+        """,
+        expected_stdout="bar\n",
+    )
+
+
 # TODO: Function (as expression) returning a value from an inner code block structure
 # TODO: Function not returning any value (as expression, should throw)
 # TODO: Function accessing/modifying global variables
