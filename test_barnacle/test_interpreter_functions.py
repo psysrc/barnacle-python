@@ -156,9 +156,30 @@ def test_function_call_as_expression_returning_local_variable(capsys):
     )
 
 
+def test_function_call_with_embedded_return_statement_in_code_block(capsys):
+    """Handling a function call that has a nested return statement within a code block."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func get_foo() {
+            {
+                return "foo"
+            }
+
+            return "bar"
+        }
+
+        print get_foo()
+        """,
+        expected_stdout="foo\n",
+    )
+
+
 # TODO: Function (as expression) returning a value from an inner code block structure
 # TODO: Function not returning any value (as expression, should throw)
 # TODO: Function accessing/modifying global variables
 # TODO: Function accessing/modifying variables in outer scope (not global)
 #       (i.e. inner functions) (do I want to allow this this?)
 # TODO: Function with complex parameters (sub-function call, maths expression, etc)
+# TODO: Recursive function
