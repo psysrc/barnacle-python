@@ -40,8 +40,8 @@ def output_tokens(source: str):
 
     tokenizer = tkn.Tokenizer(source)
 
-    while token := tokenizer.next_token():
-        print(token)
+    while not tokenizer.end_of_stream():
+        print(tokenizer.next_token())
 
     logging.info("🐚 Tokenizer End 🐚")
 

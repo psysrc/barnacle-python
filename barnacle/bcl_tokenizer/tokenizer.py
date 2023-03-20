@@ -24,7 +24,7 @@ class Tokenizer:
         """
         Find and return the next token in the source stream.
 
-        When the end of the stream is reached, a sentinel `PROGRAM_END` token is returned.
+        When the end of the stream is reached (end_of_stream() == True), a sentinel `PROGRAM_END` token is returned.
 
         If no valid token can be found, a SyntaxError is raised.
         """
@@ -55,11 +55,6 @@ class Tokenizer:
         raise SyntaxError(f"Unknown syntax near characters '{self.source[:10]}'")
 
     def end_of_stream(self) -> bool:
-        """
-        Returns whether the end of the stream has been reached.
-
-        If this returns True, `next_token()` will always return a `PROGRAM_END` token.
-        Note that `next_token()` can still return None even if this method returns False.
-        """
+        """Returns whether the end of the stream has been reached."""
 
         return not bool(self.source)
