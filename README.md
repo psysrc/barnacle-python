@@ -70,13 +70,13 @@ Examples:
 - v0.7.0: While loops
 - v0.8.0: Mathematical expressions and operations, string concatenation and subtraction
 - v0.9.0: Comparison operators (<, >, <=, >=, !=, ==)
+- v0.10.0: Function declaration and function calling
 
 ## Future Development
 
 Note that these are in no particular order.
 
 - Boolean logic (and, or, xor, not)
-- Function definitions and function calling
 - Console input
 - Do While loops
 - For loops
