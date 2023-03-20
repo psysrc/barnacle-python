@@ -223,14 +223,15 @@ class Interpreter:
         if bool(expression):
             logging.debug("Interpreting conditional 'on_true' node")
             return self.__interpret_code_block(env, ast["on_true"])
-        elif (on_false_ast := ast["on_false"]) is not None:
+
+        if (on_false_ast := ast["on_false"]) is not None:
             logging.debug("Interpreting conditional 'on_false' node")
             self.__validate_node_has_type(on_false_ast)
 
             if on_false_ast["type"] == "conditional":
                 return self.__interpret_conditional(env, on_false_ast)
-            else:
-                return self.__interpret_code_block(env, on_false_ast)
+
+            return self.__interpret_code_block(env, on_false_ast)
 
         return None
 
