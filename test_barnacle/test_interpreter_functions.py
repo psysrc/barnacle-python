@@ -281,7 +281,29 @@ def test_function_call_recursively_calling_itself(capsys):
     )
 
 
+def test_complex_function_call(capsys):
+    """Handling a function call that involves resolving several parameters of complex expressions."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func plus_one(number) {
+            return number + 1
+        }
+
+        func print_times(message, times) {
+            while times > 0 {
+                print message
+                times = times - 1
+            }
+        }
+
+        print_times("LWR" - ("W" + "R"), plus_one(1 + plus_one(3 - 2)) - (-2 + 4))
+        """,
+        expected_stdout="L\nL\n",
+    )
+
+
 # TODO: Function accessing/modifying global variables
 # TODO: Function accessing/modifying variables in outer scope (not global)
 #       (i.e. inner functions) (do I want to allow this this?)
-# TODO: Function with complex parameters (sub-function call, maths expression, etc)
