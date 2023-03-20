@@ -304,6 +304,42 @@ def test_complex_function_call(capsys):
     )
 
 
-# TODO: Function accessing/modifying global variables
+def test_function_call_accessing_global_variables(capsys):
+    """Handling a function call that accesses global variables."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let g = "Global"
+
+        func print_g() {
+            print g
+        }
+
+        print_g()
+        """,
+        expected_stdout="Global\n",
+    )
+
+
+def test_function_call_modifying_global_variables(capsys):
+    """Handling a function call that modifies global variables."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let g = "Global"
+
+        func change_g() {
+            g = "GLOBAL"
+        }
+
+        change_g()
+        print g
+        """,
+        expected_stdout="GLOBAL\n",
+    )
+
+
 # TODO: Function accessing/modifying variables in outer scope (not global)
 #       (i.e. inner functions) (do I want to allow this this?)
