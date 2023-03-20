@@ -21,13 +21,10 @@ def __verify_token(source: str, expected_token: dict):
 
     tokenizer = tkn.Tokenizer(source)
 
-    assert not tokenizer.end_of_stream()
-
     actual_token = tokenizer.next_token()
 
-    assert tokenizer.end_of_stream()
-
     assert actual_token == expected_token
+    assert tokenizer.end_of_stream()
 
 
 def __verify_token_basic(source: str, expected_token_type: str):
@@ -44,10 +41,11 @@ def __verify_token_basic(source: str, expected_token_type: str):
 def __verify_not_token_type(source: str, unexpected_token_type: str):
     """Verify that the source does NOT produce the provided token type when tokenized."""
 
-    tokenizer = tkn.Tokenizer(source)
-
     try:
-        while (token := tokenizer.next_token())["type"] != "PROGRAM_END":
+        tokenizer = tkn.Tokenizer(source)
+
+        while not tokenizer.end_of_stream():
+            token = tokenizer.next_token()
             assert token["type"] != unexpected_token_type, token
 
     except SyntaxError:

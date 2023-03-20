@@ -20,16 +20,26 @@ class Tokenizer:
         self.source = source
         logging.debug("Tokenizer initialised")
 
+        self.current_token = self.__get_next_token_from_stream()
+
     def next_token(self) -> dict:
         """
-        Find and return the next token in the source stream.
+        Return the next token in the source stream.
 
-        When the end of the stream is reached (end_of_stream() == True), a sentinel `PROGRAM_END` token is returned.
+        If `end_of_stream() == True`, a sentinel `PROGRAM_END` token is returned.
 
         If no valid token can be found, a SyntaxError is raised.
         """
 
-        if self.end_of_stream():
+        token_to_return = self.current_token
+
+        self.current_token = self.__get_next_token_from_stream()
+
+        return token_to_return
+
+    def __get_next_token_from_stream(self) -> dict:
+
+        if self.__source_is_empty():
             return {
                 "type": "PROGRAM_END",
                 "value": None,
@@ -50,11 +60,14 @@ class Tokenizer:
                         "value": token_value,
                     }
 
-                return self.next_token()
+                return self.__get_next_token_from_stream()
 
         raise SyntaxError(f"Unknown syntax near characters '{self.source[:10]}'")
 
     def end_of_stream(self) -> bool:
         """Returns whether the end of the stream has been reached."""
 
+        return self.current_token["type"] == "PROGRAM_END"
+
+    def __source_is_empty(self) -> bool:
         return not bool(self.source)
