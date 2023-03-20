@@ -341,5 +341,46 @@ def test_function_call_modifying_global_variables(capsys):
     )
 
 
-# TODO: Function accessing/modifying variables in outer scope (not global)
-#       (i.e. inner functions) (do I want to allow this this?)
+def test_function_call_accessing_outer_scope_variables(capsys):
+    """Handling a function call that accesses variables in an outer (non-global) scope."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func outer() {
+            let o = "Outer"
+
+            func inner() {
+                print o
+            }
+
+            inner()
+        }
+
+        outer()
+        """,
+        expected_stdout="Outer\n",
+    )
+
+
+def test_function_call_modifying_outer_scope_variables(capsys):
+    """Handling a function call that modifies variables in an outer (non-global) scope."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func outer() {
+            let o = "Outer"
+
+            func inner() {
+                o = "Inner"
+            }
+
+            inner()
+            print o
+        }
+
+        outer()
+        """,
+        expected_stdout="Inner\n",
+    )
