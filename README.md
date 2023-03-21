@@ -71,6 +71,7 @@ Examples:
 - v0.8.0: Mathematical expressions and operations, string concatenation and subtraction
 - v0.9.0: Comparison operators (<, >, <=, >=, !=, ==)
 - v0.10.0: Function declaration and function calling
+- v0.11.0: Do-While loops
 
 ## Future Development
 
@@ -78,7 +79,6 @@ Note that these are in no particular order.
 
 - Boolean logic (and, or, xor, not)
 - Console input
-- Do While loops
 - For loops
 - File I/O
 
