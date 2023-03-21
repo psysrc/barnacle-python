@@ -394,3 +394,16 @@ def test_keyword_return():
     __verify_not_token_type("ret = urn", "RETURN")
     __verify_not_token_type("RETURN", "RETURN")
     __verify_not_token_type("re_turn", "RETURN")
+
+
+def test_keyword_do():
+    """Handling the 'do' keyword."""
+
+    __verify_token_basic("do", "DO")
+
+    __verify_first_token("do ", "DO", "do")
+    __verify_first_token("do foo", "DO", "do")
+
+    __verify_not_token_type("doo", "DO")
+    __verify_not_token_type("d = o", "DO")
+    __verify_not_token_type("DO", "DO")

@@ -33,6 +33,8 @@ TOKEN_REGEXPS = {
     r"^if\b": "IF",
     # Keyword "else"
     r"^else\b": "ELSE",
+    # Keyword "do"
+    r"^do\b": "DO",
     # Keyword "while"
     r"^while\b": "WHILE",
     # ==================== Operators ====================
