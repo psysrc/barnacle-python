@@ -700,3 +700,39 @@ def test_complex_function_call_as_expression():
             ],
         },
     )
+
+
+def test_do_while_print():
+    """Handling DO-WHILE statements."""
+
+    verify_ast(
+        source="""
+            do {
+                print "Do While True"
+            } while true
+            """,
+        expected_ast={
+            "type": "program",
+            "body": [
+                {
+                    "type": "do_while",
+                    "expression": {
+                        "type": "boolean_literal",
+                        "value": True,
+                    },
+                    "body": {
+                        "type": "code_block",
+                        "body": [
+                            {
+                                "type": "print",
+                                "body": {
+                                    "type": "string_literal",
+                                    "value": "Do While True",
+                                },
+                            },
+                        ],
+                    },
+                },
+            ],
+        },
+    )

@@ -95,6 +95,7 @@ class Parser:
         -   a `var_assignment` node
         -   a `code_block` node
         -   a `while` node
+        -   a `do_while` node
         -   a `return` node
         -   a `func_call` node
         """
@@ -107,10 +108,29 @@ class Parser:
             "IDENTIFIER": self.__ambiguous_node_var_assignment_or_func_call,
             "{": self.__node_code_block,
             "WHILE": self.__node_while_loop,
+            "DO": self.__node_do_while_loop,
             "RETURN": self.__node_return,
         }
 
         return self.__construct_multibranch_node("statement", branches)
+
+    def __node_do_while_loop(self) -> dict:
+        """
+        Do While loop node: Represents a 'do-while' loop.
+
+        A do-while loop consists of the 'DO' token, a code block, a 'WHILE' token and an expression.
+        """
+
+        self.__consume_token("DO")
+        body = self.__node_code_block()
+        self.__consume_token("WHILE")
+        expression = self.__node_expression()
+
+        return {
+            "type": "do_while",
+            "expression": expression,
+            "body": body,
+        }
 
     def __ambiguous_node_var_assignment_or_func_call(self) -> dict:
         """
