@@ -636,3 +636,35 @@ def test_bad_string_truncation():
         """,
         exception=RuntimeError,
     )
+
+
+def test_do_while_loop_runs_once(capsys):
+    """Handling a do-while loop that runs once."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        do {
+            print "Run"
+        } while false
+        """,
+        expected_stdout="Run\n",
+    )
+
+
+def test_do_while_loop_runs_twice(capsys):
+    """Handling a do-while loop that runs twice."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        let x = 2
+
+        do {
+            print "Run"
+            x = x - 1
+        } while x > 0
+        """,
+        expected_stdout="Run\nRun\n",
+    )
+

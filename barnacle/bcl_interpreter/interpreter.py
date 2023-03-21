@@ -86,12 +86,29 @@ class Interpreter:
             "var_assignment": self.__interpret_var_assignment,
             "code_block": self.__interpret_code_block,
             "while": self.__interpret_while_loop,
+            "do_while": self.__interpret_do_while_loop,
             "func_declaration": self.__interpret_func_declaration,
             "func_call": self.__interpret_func_call,
             "return": self.__interpret_return,
         }
 
         return self.__construct_multibranch_interpret(env, ast, "statement", branches)
+
+    def __interpret_do_while_loop(self, env: Environment, ast: dict) -> FlowControlType | None:
+        logging.debug("Interpreting 'do_while' node")
+        self.__validate_node(ast, "do_while", {"expression", "body"})
+
+        conditional_value = True
+
+        while conditional_value:
+            flow_interrupt = self.__interpret_code_block(env, ast["body"])
+
+            if flow_interrupt:
+                return flow_interrupt
+
+            conditional_value = self.__interpret_expression(env, ast["expression"])
+
+        return None
 
     def __interpret_return(self, env: Environment, ast: dict) -> ReturnStatement:
         logging.debug("Interpreting 'return' node")

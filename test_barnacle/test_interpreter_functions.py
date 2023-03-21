@@ -242,6 +242,28 @@ def test_function_call_with_embedded_return_statement_in_while_statement(capsys)
     )
 
 
+def test_function_call_with_embedded_return_statement_in_do_while_statement(capsys):
+    """Handling a function call that has a nested return statement within a do-while loop."""
+
+    validate_stdout(
+        capsys,
+        source="""
+        func get_foo() {
+            let n = 3
+            do {
+                n = n - 1
+                return "foo"
+            } while n > 0
+
+            return "bar"
+        }
+
+        print get_foo()
+        """,
+        expected_stdout="foo\n",
+    )
+
+
 def test_function_call_as_expression_without_returning_any_value():
     """Handling a function call as an expression, when a return value is not provided during function execution."""
 
